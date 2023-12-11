@@ -1,6 +1,6 @@
 // this is router
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Player from "./components/audioplayer/Player";
 
 function App() {
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<HomePage />} /> */}
+        <Route path="/" element={<Player />} />
       </Routes>
     </BrowserRouter>
   );
