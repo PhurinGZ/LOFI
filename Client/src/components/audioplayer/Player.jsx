@@ -1,15 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ReactAudioPlayer from 'react-audio-player';
 import sleepPlaylist from '../../data/songData';
+import './Player.scss';
+import Time from '../time/Time';
+import { IoPlayCircleOutline } from "react-icons/io5";
+import { CgPlayPauseO } from "react-icons/cg";
+import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
+import { FaVolumeLow } from "react-icons/fa6";
 
 function Player() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volumeValue, setVolumeValue] = useState(50);
+  const [isVolumeHidden, setIsVolumeHidden] = useState(true);
 
   const playNextSong = () => {
-    const nextIndex = (currentSongIndex + 1) % sleepPlaylist.length;
-    setCurrentSongIndex(nextIndex);
+    setCurrentSongIndex((currentSongIndex + 1) % sleepPlaylist.length);
   };
 
   const playPreviousSong = () => {
@@ -18,76 +23,131 @@ function Player() {
   };
 
   const togglePlayPause = () => {
-    const isPlayingNow = isPlaying;
-    setIsPlaying(!isPlayingNow);
+    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
   };
 
   const audioElement = useRef(new Audio());
+  const [isInitialSetup, setIsInitialSetup] = useState(true);
+
   useEffect(() => {
     const audio = audioElement.current;
-  
+
     const handleEnded = () => {
-      // เรียกฟังก์ชันเล่นเพลงถัดไป
+      audio.currentTime = 0;
       playNextSong();
     };
-  
-    if (isPlaying) {
-      // เพิ่ม Event Listener สำหรับเหตุการณ์เพลงจบ
-      audio.addEventListener('ended', handleEnded);
-  
-      // แก้ปัญหาการที่ต้องกดหยุดหลายครั้งเพื่อหยุด
-      audio.pause();
-      audio.currentTime = 0;
-  
-      // ตั้งค่า URL เพลงและปรับระดับเสียง
-      audio.src = sleepPlaylist[currentSongIndex].src;
-      audio.volume = volumeValue / 100;
-  
-      // เริ่มเล่นเพลง
-      const playPromise = audio.play();
-  
-      if (playPromise) {
-        playPromise
-          .then(() => {})
-          .catch(error => {
-            console.error('Play Error:', error);
-          });
+
+    const handleCanPlayThrough = () => {
+      if (isPlaying && !isInitialSetup) {
+        audio.play().catch((error) => {
+          console.error('Play Error:', error);
+        });
       }
-    } else {
-      // หยุดเล่นเพลง
-      audio.pause();
-      audio.removeEventListener('ended', handleEnded);
-    }
-  
-    // Cleanup Function
-    return () => {
-      audio.pause();
-      audio.removeEventListener('ended', handleEnded);
     };
-  }, [isPlaying, currentSongIndex, volumeValue]);
-  
+
+    const handleVolumeChange = () => {
+      if (isPlaying) {
+        audio.volume = volumeValue / 100;
+      }
+    };
+
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('canplaythrough', handleCanPlayThrough);
+    audio.addEventListener('volumechange', handleVolumeChange);
+
+    if (isPlaying) {
+      if (
+        audio.src !== sleepPlaylist[currentSongIndex].src ||
+        audio.volume !== volumeValue / 100
+      ) {
+        audio.src = sleepPlaylist[currentSongIndex].src;
+        audio.volume = volumeValue / 100;
+        setIsInitialSetup(false);
+      }
+    }
+
+    return () => {
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('canplaythrough', handleCanPlayThrough);
+      audio.removeEventListener('volumechange', handleVolumeChange);
+      audio.pause();
+    };
+  }, [isPlaying, currentSongIndex, volumeValue, isInitialSetup]);
+
+  const handleVolumeChange = (event) => {
+    const newVolumeValue = event.target.value;
+    setVolumeValue(newVolumeValue);
+  };
+
+  useEffect(() => {
+    if (isPlaying) {
+      audioElement.current.volume = volumeValue / 100;
+    }
+  }, [volumeValue, isPlaying]);
+
+  const handleLabelClick = () => {
+    setIsVolumeHidden(!isVolumeHidden);
+    setTimeout(() => {
+      setIsVolumeHidden(true);
+    }, 15000); // 15,000 milliseconds
+  };
 
   return (
-    <div>
+    <div className="borderBG-audio">
       <div>
-        <ReactAudioPlayer
+        <audio
+          loop
+          ref={audioElement}
           src={sleepPlaylist[currentSongIndex].src}
-          autoPlay={isPlaying}
-          controls={(false)}
+          controls={false}
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
           onEnded={playNextSong}
         />
-
-        <p>{isPlaying ? 'กำลังเล่น' : 'หยุด'}</p>
-        <p>ชื่อเพลง: {sleepPlaylist[currentSongIndex].name}</p>
       </div>
-      <div>
-        <button onClick={playPreviousSong}>
-          พลงก่อนหน้านี้
+{/* เวลา */}
+      <div className="time"> <Time /> </div>
+{/* เส้นแนวตั่ง */}
+      <div className="line"></div>
+{/* audio-play */}
+      <div className="audio-player">
+        <button className="btn-skrip" onClick={playPreviousSong}>
+          <i className="icon" style={{width:'25px'}}> <TbPlayerSkipBackFilled /> </i>
         </button>
-        <button onClick={togglePlayPause}>{isPlaying ? 'หยุด' : 'เล่น'}</button>
-        <button onClick={playNextSong}>เพลงถัดไป</button>
+        <button className="btn-play" onClick={togglePlayPause}>
+          {isPlaying ? (
+            <i className="icon"> <CgPlayPauseO /> </i>
+          ) : (
+            <i className='icon'> <IoPlayCircleOutline /> </i>
+          )}
+        </button>
+        <button className="btn-skrip" onClick={playNextSong}>
+          <i className="icon" style={{width:'25px'}}> <TbPlayerSkipForwardFilled /> </i>
+        </button>
+      </div>
+{/* volume */}
+      <div className='custom-volume'>
+        <button className='btn-play' htmlFor="volume" onClick={handleLabelClick}>
+          <i className="icon" style={{width:'20px'}} > <FaVolumeLow /> </i>
+        </button>
+        {!isVolumeHidden && (
+          <input
+            type="range"
+            id="volume"
+            name="volume"
+            min="0"
+            max="100"
+            value={volumeValue}
+            onChange={handleVolumeChange}
+            className="custom-range"
+          />
+        )}
+      </div>
+{/* เส้นแนวตั่ง */}
+      <div className="line"></div>
+{/* ชื่อเพลง */}
+      <div className="namemusic">
+        <p>ชื่อเพลง: {sleepPlaylist[currentSongIndex].name}</p>
       </div>
     </div>
   );
