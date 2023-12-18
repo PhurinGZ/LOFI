@@ -13,11 +13,11 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 // #endregion ------------ ICONS ---------
 
 // #region ------- another -------------------------------------------------------
-import sleepPlaylist from "../../data/songData";
+import {chil} from "../../data/songData";
 import Time from "../time/Time";
 import "./Player.scss";
 // #endregion ---------------------------------------------------------------
-const Playlist = sleepPlaylist;
+const Playlist = chil;
 
 export default function Demo() {
   const audioPlayer = useRef();
@@ -205,7 +205,7 @@ export default function Demo() {
       {/* เส้นแนวตั่ง-----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
       <div className="line"></div>
       <div className="namemusic">
-        <p style={{ color: "#FFF" }}>ชื่อเพลง: {sleepPlaylist[index].name}</p>
+        <p style={{ color: "#FFF" }}>ชื่อเพลง: {chil[index].name}</p>
       </div>
     </div>
   );
