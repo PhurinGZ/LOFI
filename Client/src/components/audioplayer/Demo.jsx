@@ -2,14 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { styled, Slider, Paper, Stack, Box } from "@mui/material";
 
 // #region ------------ ICONS ---------
-import PauseIcon from "@mui/icons-material/Pause";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import VolumeMuteIcon from "@mui/icons-material/VolumeMute";
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 // #endregion ------------ ICONS ---------
 
 // #region ------- another -------------------------------------------------------
@@ -19,7 +19,7 @@ import "./Player.scss";
 // #endregion ---------------------------------------------------------------
 const Playlist = sleepPlaylist;
 
-export default function Player() {
+export default function Demo() {
   const audioPlayer = useRef();
 
   const [index, setIndex] = useState(0);
@@ -139,13 +139,13 @@ export default function Player() {
       <div>
         <audio src={Playlist[index].src} ref={audioPlayer} />
       </div>
-      {/* เวลา */}
+      {/* เวลา -----------------------------------------------------------------------------------------------------เวลา */}
       <div className="time">
         <Time />
       </div>
-      {/* เส้นแนวตั่ง */}
+      {/* เส้นแนวตั่ง -----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
       <div className="line"></div>
-      {/* audio-play */}
+      {/* audio-play ----------------------------------------------------------------------------------------------------- audio-play*/}
       <div className="audio-player">
         <SkipPreviousIcon
           fontSize={"large"}
@@ -156,7 +156,7 @@ export default function Player() {
           onClick={toggleSkipBackward}
         />
         {!isPlaying ? (
-          <PlayArrowIcon
+          <PlayCircleOutlineIcon
             fontSize={"large"}
             sx={{
               color: "#FFF",
@@ -165,7 +165,7 @@ export default function Player() {
             onClick={togglePlay}
           />
         ) : (
-          <PauseIcon
+          <PauseCircleOutlineIcon
             fontSize={"large"}
             sx={{
               color: "#FFF",
@@ -182,25 +182,27 @@ export default function Player() {
           }}
           onClick={toggleSkipForward}
         />
-        {/* volume */}
+        {/* volume -----------------------------------------------------------------------------------------------------volume */}
+        <div className="costom-volume">
+          <VolumeBtns onClick={handleLabelClick} />
+          {!isVolumeHidden && (
+            <Slider
+              value={volume}
+              onChange={(e, newValue) => setVolume(newValue)}
+              aria-labelledby="continuous-slider"
+              sx={{
+                color: "#FFF",
+                marginLeft: "10px",
+                marginRight: "10px",
+                width: "100px",
+              }}
+            />
+          )}
 
-        <VolumeBtns onClick={handleLabelClick} />
-        {isVolumeHidden && (
-          <Slider
-            value={volume}
-            onChange={(e, newValue) => setVolume(newValue)}
-            aria-labelledby="continuous-slider"
-            sx={{
-              color: "#FFF",
-              marginLeft: "10px",
-              marginRight: "10px",
-              width: "100px",
-            }}
-          />
-        )}
+        </div>
       </div>
 
-      {/* เส้นแนวตั่ง */}
+      {/* เส้นแนวตั่ง-----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
       <div className="line"></div>
       <div className="namemusic">
         <p style={{ color: "#FFF" }}>ชื่อเพลง: {sleepPlaylist[index].name}</p>
@@ -208,3 +210,4 @@ export default function Player() {
     </div>
   );
 }
+
