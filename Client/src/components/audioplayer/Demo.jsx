@@ -205,7 +205,7 @@ export default function Demo() {
       {/* เส้นแนวตั่ง-----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
       <div className="line"></div>
       <div className="namemusic">
-        <p style={{ color: "#FFF" }}>ชื่อเพลง: {chil[index].name}</p>
+        <p style={{ color: "#FFF" }}><strong > Music :</strong>  {chil[index].name} &nbsp; &nbsp;  <strong >  By : </strong> {chil[index].music_by }</p>
       </div>
     </div>
   );
