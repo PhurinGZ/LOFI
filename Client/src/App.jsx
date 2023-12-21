@@ -2,7 +2,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Demo from "./components/audioplayer/Demo";
 import Home from "./components/Home/Home";
-import Header from "./layout/header/head";
+import Sidebar from "./layout/sideBar/sidebar";
 
 function App() {
 
@@ -12,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/demo" element={<Demo />} />
+        <Route path="/sidebar" element={<Sidebar />} />
       </Routes>
     </BrowserRouter>
   );
