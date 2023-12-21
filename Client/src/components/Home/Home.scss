@@ -6,8 +6,6 @@
 body{
     
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
     min-height: 100vh; /* ทำให้ body มีความสูงอย่างน้อย 100% ของ viewport */
     overflow: hidden; /* ไม่ให้มีการสกอเม้า */
 }

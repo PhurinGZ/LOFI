@@ -1,7 +1,8 @@
 // this is router
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Demo from "./components/audioplayer/Demo";
+import Cat from "./components/catagory/catagory";
 import Home from "./components/Home/Home";
+import Demo from "./components/audioplayer/Demo";
 
 function App() {
 
@@ -10,7 +11,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/demo" element={<Demo />} />
+        <Route path="/catagory" element={<Cat />} />
       </Routes>
     </BrowserRouter>
   );

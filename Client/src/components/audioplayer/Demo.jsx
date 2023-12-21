@@ -15,7 +15,7 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 // #region ------- another -------------------------------------------------------
 import {chil} from "../../data/songData";
 import Time from "../time/Time";
-import "./Player.scss";
+import "./player.scss";
 // #endregion ---------------------------------------------------------------
 const Playlist = chil;
 

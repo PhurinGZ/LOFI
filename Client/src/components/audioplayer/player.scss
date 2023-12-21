@@ -1,38 +1,39 @@
-div,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-header,
-html,
-i,
-img,
-label,
-li,
-nav,
-p,
-small,
-span,
-ul {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: none;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent;
-  /* text-decoration: none; */
-}
-body {
-    background-color: rgba(61, 61, 61, 1);
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    min-height: 100vh; /* ทำให้ body มีความสูงอย่างน้อย 100% ของ viewport */
-    overflow: hidden; /* ไม่ให้มีการสกอเม้า */
-  }
+// div,
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6,
+// header,
+// html,
+// i,
+// img,
+// label,
+// li,
+// nav,
+// p,
+// small,
+// span,
+// ul {
+//   margin: 0;
+//   padding: 0;
+//   border: 0;
+//   outline: none;
+//   font-size: 100%;
+//   vertical-align: baseline;
+//   background: transparent;
+//   /* text-decoration: none; */
+// }
+// body {
+//     background-color: rgba(61, 61, 61, 1);
+//     display: flex;
+//     justify-content: center;
+//     align-items: flex-end;
+//     min-height: 100vh; /* ทำให้ body มีความสูงอย่างน้อย 100% ของ viewport */
+//     overflow: hidden; /* ไม่ให้มีการสกอเม้า */
+//   }
+
 .borderBG-audio{
     width: 864px;
     height: 50px;

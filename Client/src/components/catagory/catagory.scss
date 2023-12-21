@@ -1,0 +1,18 @@
+.card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; // Set the height of the container to 100% of the viewport height
+    margin: 0; // Remove default margin
+  }
+
+.border{
+    border: 1px solid;
+    border-bottom-left-radius: 20px;
+    background-color: #BB98FF;
+    box-shadow: 0 100px 100px rgba(59, 59, 59, 0.1); 
+}
