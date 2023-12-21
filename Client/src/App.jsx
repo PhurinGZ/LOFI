@@ -2,7 +2,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Demo from "./components/audioplayer/Demo";
 import Home from "./components/Home/Home";
-import Sidebar from "./layout/sideBar/sidebar";
+import Header from "./layout/header/head";
+import Cat from "./components/catagory/catagory";
+
 
 function App() {
 
@@ -12,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/demo" element={<Demo />} />
-        <Route path="/sidebar" element={<Sidebar />} />
+        <Route path="/category" element={<Cat/>}/>
       </Routes>
     </BrowserRouter>
   );
