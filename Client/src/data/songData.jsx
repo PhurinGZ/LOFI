@@ -492,7 +492,7 @@ const work = [
 const path = [
   {
     id: 0,
-    src: "./public/assets/video/video.mp4",
+    src: "./assets/video/video.mp4",
   },
 ];
 
