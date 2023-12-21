@@ -1,5 +1,6 @@
 // this is router
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Demo from "./components/audioplayer/Demo";
 import Home from "./components/Home/Home";
 import Header from "./layout/header/head";
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/demo" element={<Demo />} />
         <Route path="/category" element={<Cat/>}/>
+        <SpeedInsights />
       </Routes>
     </BrowserRouter>
   );
