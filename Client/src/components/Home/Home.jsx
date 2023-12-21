@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Demo from "../audioplayer/Demo";
 import "./Home.scss";
 import Header from "../../layout/header/head";
@@ -14,6 +15,7 @@ function Home() {
           <Demo />
         </div>
       </div>
+      <SpeedInsights />
     </div>
   );
 }
