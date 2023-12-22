@@ -169,7 +169,7 @@ function Catagory() {
   return (
     <div className="Category-Modal">
       <button onClick={handleOpen} className="img-icon-category">
-        <img src="../../../public/assets/icons/open-menu.png" alt="" />
+        <img src="/assets/icons/open-menu.png" alt="" />
       </button>
       <Modal
         open={open}
@@ -211,7 +211,7 @@ function Catagory() {
                 <div className="card">
                   <div className="cards-image">
                     <img
-                      src="../../../public/assets/icons/sunbathing (1).png"
+                      src="/assets/icons/sunbathing (1).png"
                       className="image-slide"
                     />
                   </div>
@@ -237,7 +237,7 @@ function Catagory() {
                 <div className="card">
                   <div className="cards-image">
                     <img
-                      src="../../../public/assets/icons/sleep.png"
+                      src="/assets/icons/sleep.png"
                       className="image-slide"
                     />
                   </div>
@@ -250,7 +250,7 @@ function Catagory() {
                 <div className="card">
                   <div className="cards-image">
                     <img
-                      src="../../../public/assets/icons/yoga.png"
+                      src="/assets/icons/yoga.png"
                       className="image-slide"
                     />
                   </div>
@@ -263,7 +263,7 @@ function Catagory() {
                 <div className="card">
                   <div className="cards-image">
                     <img
-                      src="../../../public/assets/icons/jazz.png"
+                      src="/assets/icons/jazz.png"
                       className="image-slide"
                     />
                   </div>

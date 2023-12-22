@@ -12,7 +12,7 @@ function Sidebar() {
     return (
         <>
             <div className="sidebar">
-                <div  className="barIcon" >  <img  src='../../../public/assets/icons/drop-down.png' alt=''  onClick={handleBarIconClick}/> </div>
+                <div  className="barIcon" >  <img  src='/assets/icons/drop-down.png' alt=''  onClick={handleBarIconClick}/> </div>
                 {isMenuOpen && (
                 <div className="menuBar">
                     <ul>
@@ -28,35 +28,35 @@ function Sidebar() {
                         <li>
                             <a href='#'>
                                 <Tooltip title="Calendar" placement="right-start">
-                                    <img src='../../../public/assets/icons/timetable.png' alt='' />
+                                    <img src='/assets/icons/timetable.png' alt='' />
                                 </Tooltip>
                             </a>
                         </li>
                         <li>
                             <a href='#'>
                                 <Tooltip title="Notes" placement="right-start">
-                                    <img src='../../../public/assets/icons/notes.png' alt='' />
+                                    <img src='/assets/icons/notes.png' alt='' />
                                 </Tooltip>
                             </a>
                         </li>
                         <li>
                             <a href='#'>
                                 <Tooltip title="Mixer" placement="right-start">
-                                    <img src='../../../public/assets/icons/turntable.png' alt='' />
+                                    <img src='assets/icons/turntable.png' alt='' />
                                 </Tooltip>
                             </a>
                         </li>
                         <li style={{ marginTop: "100px" }}>
                             <a href='#'>
                                 <Tooltip title="Settings" placement="right-start">
-                                    <img src='../../../public/assets/icons/setting.png' alt='' />
+                                    <img src='/assets/icons/setting.png' alt='' />
                                 </Tooltip>
                             </a>
                         </li>
                         <li>
                             <a href='#'>
                                 <Tooltip title="Login" placement="right-start">
-                                    <img src='../../../public/assets/icons/user.png' alt='' />
+                                    <img src='/assets/icons/user.png' alt='' />
                                 </Tooltip>
                             </a>
                         </li>
