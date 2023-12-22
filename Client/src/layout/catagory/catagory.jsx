@@ -224,7 +224,7 @@ function Catagory() {
                 <div className="card">
                   <div className="cards-image">
                     <img
-                      src="../../../public/assets/icons/man-working-on-a-laptop-from-side-view.png"
+                      src="/assets/icons/man-working-on-a-laptop-from-side-view.png"
                       className="image-slide"
                     />
                   </div>
