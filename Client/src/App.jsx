@@ -4,6 +4,7 @@ import Demo from "./components/audioplayer/Demo";
 import Home from "./components/Home/Home";
 import Header from "./layout/header/head";
 import Cat from "./components/catagory/catagory";
+import Sidebar from "./layout/sideBar/sidebar";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/demo" element={<Demo />} />
         <Route path="/category" element={<Cat/>}/>
+        <Route path="/sidebar" element={<Sidebar />}/>
       </Routes>
     </BrowserRouter>
   );

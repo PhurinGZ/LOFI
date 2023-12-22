@@ -9,6 +9,9 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 
+
+
+
 function Catagory() {
   const [open, setOpen] = useState(false);
 
@@ -22,29 +25,48 @@ function Catagory() {
 
   // Custom arrow components
   const NextArrow = (props) => {
-    const { onClick } = props;
+    const { onClick, currentSlide, slideCount } = props;
     return (
-      <div className="custom-slick-next" onClick={onClick}>
-        <ArrowForwardIosIcon />
-      </div>
+      <>
+        {currentSlide < slideCount -1  ? (
+          <div className="custom-slick-next" onClick={onClick}>
+            <div className="nextarrow">
+              <ArrowForwardIosIcon />
+            </div>
+          </div>
+        ) : null}
+      </>
     );
   };
 
   const PrevArrow = (props) => {
-    const { onClick } = props;
+    const { onClick, currentSlide } = props;
     return (
-      <div className="custom-slick-prev" onClick={onClick}>
-        <ArrowBackIosNewIcon />
-      </div>
+      <>
+        {currentSlide > 0 ? (
+          <div className="custom-slick-prev" onClick={onClick}>
+            <div className="prevarrow">
+              <ArrowBackIosNewIcon />
+            </div>
+          </div>
+        ) : null}
+
+      </>
     );
   };
 
-  const sliderSettings = {
+
+
+
+  //---------------------------------------------------------------------------------------------------firstSliderSettings
+  const firstSliderSettings = {
     dots: false,
     infinite: false,
     speed: 300,
     slidesToShow: 3,
     slidesToScroll: 3,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
@@ -70,9 +92,47 @@ function Catagory() {
         },
       },
     ],
+  
+  };
+
+
+  //----------------------------------------------------------------------------------secondSliderSettings
+  const secondSliderSettings = {
+    dots: false,
+    infinite: false,
+    speed: 300,
+    slidesToShow: 2,
+    slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
+
+
 
   return (
     <div className="Category-Modal">
@@ -83,18 +143,19 @@ function Catagory() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
+        {/* ---------------------------------------------------------------------------------------------modal-container */}
         <Box className="category-modal-container">
           <div className="category-modal-title">
-            <CloseIcon onClick={handleClose} className="button-close" />
-
             <div
               id="modal-modal-title"
               className="category-title"
-              style={{ marginLeft: "15px", position: "relative", top: "-2rem" }}
             >
-              <Typography variant="h6" component="h2" >
-                Category
+              <Typography variant="h5" component="h2" >
+                <span> Category </span>
               </Typography>
+            </div>
+            <div className="button-close">
+              <CloseIcon onClick={handleClose} />
             </div>
           </div>
           <Typography
@@ -109,49 +170,75 @@ function Catagory() {
             component={"div"}
             className="Slider"
           >
-            <Slider {...sliderSettings}>
+
+            {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
+            <Slider {...firstSliderSettings}>
               <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slide"
-                />
+                <div className="card">
+                  <div className="cards-image">
+                    <img
+                      src="../../../public/assets/icons/sunbathing (1).png"
+                      className="image-slide"
+                    />
+                  </div>
+                  <div className="cardtext">
+                    <b>Chill</b>
+                  </div>
+                </div>
               </Link>
               <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slide"
-                />
+                <div className="card">
+                  <div className="cards-image">
+                    <img
+                      src="../../../public/assets/icons/man-working-on-a-laptop-from-side-view.png"
+                      className="image-slide"
+                    />
+                  </div>
+                  <div className="cardtext">
+                    <b>Work</b>
+                  </div>
+                </div>
               </Link>
               <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slide"
-                />
+                <div className="card">
+                  <div className="cards-image">
+                    <img
+                      src="../../../public/assets/icons/sleep.png"
+                      className="image-slide"
+                    />
+                  </div>
+                  <div className="cardtext">
+                    <b>Sleep</b>
+                  </div>
+                </div>
               </Link>
               <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slide"
-                />
+                <div className="card">
+                  <div className="cards-image">
+                    <img
+                      src="../../../public/assets/icons/yoga.png"
+                      className="image-slide"
+                    />
+                  </div>
+                  <div className="cardtext">
+                    <b>Relax</b>
+                  </div>
+                </div>
               </Link>
               <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slide"
-                />
+                <div className="card">
+                  <div className="cards-image">
+                    <img
+                      src="../../../public/assets/icons/jazz.png"
+                      className="image-slide"
+                    />
+                  </div>
+                  <div className="cardtext">
+                    <b>Jazz</b>
+                  </div>
+                </div>
               </Link>
-              <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slide"
-                />
-              </Link>
-              <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slide"
-                />
-              </Link>
+
             </Slider>
           </Typography>
           <div className="category-modal-title-second">
@@ -161,9 +248,14 @@ function Catagory() {
               component="h2"
               style={{ marginLeft: "15px" }}
             >
-              Choose picture
+              <span>
+                Choose picture
+              </span>
             </Typography>
           </div>
+
+          {/* ---------------------------------------------------------------------------------------------image-slide-ImageMode */}
+
           <Typography
             id="modal-modal-description"
             style={{
@@ -174,48 +266,23 @@ function Catagory() {
             }}
             className="Slider Slider-second"
           >
-            <Slider {...sliderSettings}>
+            <Slider {...secondSliderSettings}>
               <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slider-second"
-                />
+                <div className="card-image">
+                    
+                </div>
               </Link>
+
               <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slider-second"
-                />
+                <div className="card-image">
+
+                </div>
               </Link>
+
               <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slider-second"
-                />
-              </Link>
-              <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slider-second"
-                />
-              </Link>
-              <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slider-second"
-                />
-              </Link>
-              <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slider-second"
-                />
-              </Link>
-              <Link style={{ backgroundColor: "purple" }}>
-                <img
-                  src="https://picsum.photos/seed/picsum/200/200"
-                  className="image-slider-second"
-                />
+                <div className="card-image">
+
+                </div>
               </Link>
             </Slider>
           </Typography>
