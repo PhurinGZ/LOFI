@@ -28,13 +28,13 @@ function Catagory() {
     const { onClick, currentSlide, slideCount } = props;
     return (
       <>
-        {currentSlide < slideCount -1  ? (
+        {currentSlide < slideCount -2 ? (
           <div className="custom-slick-next" onClick={onClick}>
             <div className="nextarrow">
               <ArrowForwardIosIcon />
             </div>
           </div>
-        ) : null}
+        ) : <></>}
       </>
     );
   };
@@ -49,7 +49,39 @@ function Catagory() {
               <ArrowBackIosNewIcon />
             </div>
           </div>
-        ) : null}
+        ) : <></>}
+
+      </>
+    );
+  };
+
+  // Custom arrow components 2
+  const NextArrow2 = (props) => {
+    const { onClick, currentSlide, slideCount } = props;
+    return (
+      <>
+        {currentSlide < slideCount -3 ? (
+          <div className="custom-slick-next" onClick={onClick}>
+            <div className="nextarrow">
+              <ArrowForwardIosIcon />
+            </div>
+          </div>
+        ) : <></>}
+      </>
+    );
+  };
+
+  const PrevArrow2 = (props) => {
+    const { onClick, currentSlide } = props;
+    return (
+      <>
+        {currentSlide > 0 ? (
+          <div className="custom-slick-prev" onClick={onClick}>
+            <div className="prevarrow">
+              <ArrowBackIosNewIcon />
+            </div>
+          </div>
+        ) : <></>}
 
       </>
     );
@@ -64,9 +96,9 @@ function Catagory() {
     infinite: false,
     speed: 300,
     slidesToShow: 3,
-    slidesToScroll: 3,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow2 />,
+    prevArrow: <PrevArrow2 />,
     responsive: [
       {
         breakpoint: 1024,
@@ -136,7 +168,9 @@ function Catagory() {
 
   return (
     <div className="Category-Modal">
-      <Button onClick={handleOpen}>Category</Button>
+      <button onClick={handleOpen} className="img-icon-category">
+        <img src="../../../public/assets/icons/open-menu.png" alt="" />
+      </button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -173,7 +207,7 @@ function Catagory() {
 
             {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
             <Slider {...firstSliderSettings}>
-              <Link style={{ backgroundColor: "purple" }}>
+              <Link style={{ backgroundColor: "purple" }} >
                 <div className="card">
                   <div className="cards-image">
                     <img

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import "./styles.scss"
 import Tooltip from '@mui/material/Tooltip';
+import Catagory from '../catagory/catagory';
 
 function Sidebar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,7 +19,9 @@ function Sidebar() {
                         <li>
                             <a href='#'>
                                 <Tooltip title="Category" placement="right-start">
-                                    <img src='../../../public/assets/icons/open-menu.png' alt='' />
+                                    <span>
+                                        <Catagory />
+                                    </span>
                                 </Tooltip>
                             </a>
                         </li>

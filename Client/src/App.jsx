@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Demo from "./components/audioplayer/Demo";
 import Home from "./components/Home/Home";
 import Header from "./layout/header/head";
-import Cat from "./components/catagory/catagory";
+import Cat from "./layout/catagory/catagory";
 import Sidebar from "./layout/sideBar/sidebar";
 
 
