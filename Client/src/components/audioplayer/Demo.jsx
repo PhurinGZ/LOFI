@@ -13,7 +13,7 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 // #endregion ------------ ICONS ---------
 
 // #region ------- another -------------------------------------------------------
-import {chil} from "../../data/songData";
+import { chil } from "../../data/songData";
 import Time from "../time/Time";
 import "./player.scss";
 // #endregion ---------------------------------------------------------------
@@ -135,77 +135,79 @@ export default function Demo() {
   };
 
   return (
-    <div className="borderBG-audio">
-      <div>
-        <audio src={Playlist[index].src} ref={audioPlayer} />
-      </div>
-      {/* เวลา -----------------------------------------------------------------------------------------------------เวลา */}
-      <div className="time">
-        <Time />
-      </div>
-      {/* เส้นแนวตั่ง -----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
-      <div className="line"></div>
-      {/* audio-play ----------------------------------------------------------------------------------------------------- audio-play*/}
-      <div className="audio-player">
-        <SkipPreviousIcon
-          fontSize={"large"}
-          sx={{
-            color: "#FFF",
-            "&:hover": { transform: "scale(1.2)" },
-          }}
-          onClick={toggleSkipBackward}
-        />
-        {!isPlaying ? (
-          <PlayCircleOutlineIcon
+    <div className="audio-main">
+      <div className="borderBG-audio">
+        <div>
+          <audio src={Playlist[index].src} ref={audioPlayer} />
+        </div>
+        {/* เวลา -----------------------------------------------------------------------------------------------------เวลา */}
+        <div className="time">
+          <Time />
+        </div>
+        {/* เส้นแนวตั่ง -----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
+        <div className="line"></div>
+        {/* audio-play ----------------------------------------------------------------------------------------------------- audio-play*/}
+        <div className="audio-player">
+          <SkipPreviousIcon
             fontSize={"large"}
             sx={{
               color: "#FFF",
               "&:hover": { transform: "scale(1.2)" },
             }}
-            onClick={togglePlay}
+            onClick={toggleSkipBackward}
           />
-        ) : (
-          <PauseCircleOutlineIcon
-            fontSize={"large"}
-            sx={{
-              color: "#FFF",
-              "&:hover": { transform: "scale(1.2)" },
-            }}
-            onClick={togglePlay}
-          />
-        )}
-        <SkipNextIcon
-          fontSize={"large"}
-          sx={{
-            color: "#FFF",
-            "&:hover": { transform: "scale(1.2)" },
-          }}
-          onClick={toggleSkipForward}
-        />
-        {/* volume -----------------------------------------------------------------------------------------------------volume */}
-        <div className="costom-volume">
-          <VolumeBtns onClick={handleLabelClick} />
-          {!isVolumeHidden && (
-            <Slider
-              value={volume}
-              onChange={(e, newValue) => setVolume(newValue)}
-              aria-labelledby="continuous-slider"
+          {!isPlaying ? (
+            <PlayCircleOutlineIcon
+              fontSize={"large"}
               sx={{
                 color: "#FFF",
-                marginLeft: "10px",
-                marginRight: "10px",
-                width: "100px",
+                "&:hover": { transform: "scale(1.2)" },
               }}
+              onClick={togglePlay}
+            />
+          ) : (
+            <PauseCircleOutlineIcon
+              fontSize={"large"}
+              sx={{
+                color: "#FFF",
+                "&:hover": { transform: "scale(1.2)" },
+              }}
+              onClick={togglePlay}
             />
           )}
+          <SkipNextIcon
+            fontSize={"large"}
+            sx={{
+              color: "#FFF",
+              "&:hover": { transform: "scale(1.2)" },
+            }}
+            onClick={toggleSkipForward}
+          />
+          {/* volume -----------------------------------------------------------------------------------------------------volume */}
+          <div className="costom-volume">
+            <VolumeBtns onClick={handleLabelClick} />
+            {!isVolumeHidden && (
+              <Slider
+                value={volume}
+                onChange={(e, newValue) => setVolume(newValue)}
+                aria-labelledby="continuous-slider"
+                sx={{
+                  color: "#FFF",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                  width: "100px",
+                }}
+              />
+            )}
 
+          </div>
         </div>
-      </div>
 
-      {/* เส้นแนวตั่ง-----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
-      <div className="line"></div>
-      <div className="namemusic">
-        <p style={{ color: "#FFF" }}><strong > Music :</strong>  {chil[index].name} &nbsp; &nbsp;  <strong >  By : </strong> {chil[index].music_by }</p>
+        {/* เส้นแนวตั่ง-----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
+        <div className="line"></div>
+        <div className="namemusic">
+          <p style={{ color: "#FFF" }}><strong > Music :</strong>  {chil[index].name} &nbsp; &nbsp;  <strong >  By : </strong> {chil[index].music_by}</p>
+        </div>
       </div>
     </div>
   );

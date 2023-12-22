@@ -1,93 +1,100 @@
+.audio-main {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: flex-end;
+}
 
-.borderBG-audio{
+.borderBG-audio {
   width: 864px;
   height: 50px;
   flex-shrink: 0;
   border-radius: 5px;
-  border: 0.5px solid rgba(255, 255, 255, .2);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
   background: transparent;
-  backdrop-filter: blur(5px); 
+  backdrop-filter: blur(5px);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   margin-bottom: 50px;
 }
+
 .time {
-    color: #FFF;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    font-family: Inter;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin: 20px 20px; /* 20px ทั้งทางซ้ายและขวา */
+  color: #fff;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 20px 20px; /* 20px ทั้งทางซ้ายและขวา */
 }
 
-.audio-player{
-    margin-left: 20px;
-    margin-right: 20px;
-    display: flex;
-    flex-direction: row;
-    
+.audio-player {
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: row;
 }
 
-  .btn-play {
-    background: none;
-    border: none;
-    cursor: pointer;
-    overflow: hidden;
-
+.btn-play {
+  background: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
 }
 
-
-.btn-skrip{
-    background: none;
-    border: none;
-    cursor: pointer;
+.btn-skrip {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
-  
-  .icon {
-    font-size: 30px; /* ปรับขนาดไอคอนตามต้องการ */
-    color: #FFF; /* สีของไอคอน */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
-  .custom-volume{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-right: 20px;
-  }
-  .custom-range {
-    -webkit-appearance: none;
-    width: 60%;
-    background: red;
-    border-radius: 5px;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-  }
-  
-  .custom-range:hover {
+.icon {
+  font-size: 30px; /* ปรับขนาดไอคอนตามต้องการ */
+  color: #fff; /* สีของไอคอน */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-volume {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.custom-range {
+  -webkit-appearance: none;
+  width: 60%;
+  background: red;
+  border-radius: 5px;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+
+  &:hover {
     opacity: 1;
   }
-  
-  .custom-range::-webkit-slider-thumb {
+
+  &::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 15px;
     height: 15px;
-    background: #FFF;
+    background: #fff;
     border-radius: 50%;
     border: none;
     cursor: pointer;
     margin-top: -6px;
   }
-  
-  .custom-range::-moz-range-thumb {
+
+  &::-moz-range-thumb {
     width: 20px;
     height: 20px;
     background: #3498db;
@@ -95,28 +102,36 @@
     border: 2px solid red;
     cursor: pointer;
   }
-  
-  .custom-range::-webkit-slider-runnable-track {
+
+  &::-webkit-slider-runnable-track {
     height: 5px;
-    background: #BB98FF; /* สีของ track */
+    background: #bb98ff; /* สีของ track */
     border-radius: 5px;
   }
-  
-  .custom-range::-moz-range-track {
+
+  &::-moz-range-track {
     width: 100%;
     height: 10px;
     background: red; /* สีของ track */
     border-radius: 5px;
   }
-  
-.namemusic{
-    color: #FFF;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    margin: 20px;
 }
-.line{
-    height: 45px;
-    border-left: 2px solid rgba(255, 255, 255, 1);
-    border-radius: 50px;
+
+.namemusic {
+  color: #fff;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin: 20px;
 }
-  
+
+.line {
+  height: 45px;
+  border-left: 2px solid rgba(255, 255, 255, 1);
+  border-radius: 50px;
+}
+@media (max-width: 768px) {
+  .borderBG-audio {
+    width: 100%;
+    
+  }
+}
+
