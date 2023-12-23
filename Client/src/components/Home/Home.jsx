@@ -2,9 +2,9 @@
 import Demo from "../audioplayer/Demo";
 import "./Home.scss";
 import Header from "../../layout/header/head";
-import { path,chil,jazz,relax,sleep,work } from "../../data/songData";
+import { path, chil, jazz, relax, sleep, work } from "../../data/songData";
 import Sidebar from "../../layout/sideBar/sidebar";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useMode } from "../../layout/catagory/modeContext";
 
 function Home() {
@@ -36,12 +36,9 @@ function Home() {
       <div>
         <Sidebar />
       </div>
-      <video src={path[0].src} autoPlay loop muted />
-      <div className="content">
       <span className="audioplayer">
-          <Demo mode={selectedMode}/>
-        </span>
-      </div>
+        <Demo mode={selectedMode} />
+      </span>
       <video src={path[0].src} autoPlay loop muted />
     </div>
   );
