@@ -243,7 +243,7 @@ function Catagory() {
                   </Button>
                   <Button
                     style={{ backgroundColor: "purple" }}
-                    onClick={() => handleButtonClick("work")}
+                    onClick={() => handleButtonClick("sexy")}
                   >
                     <div className="card">
                       <div className="cards-image">
@@ -253,13 +253,13 @@ function Catagory() {
                         />
                       </div>
                       <div className="cardtext">
-                        <b>Work</b>
+                        <b>Sexy</b>
                       </div>
                     </div>
                   </Button>
                   <Button
                     style={{ backgroundColor: "purple" }}
-                    onClick={() => handleButtonClick("sleep")}
+                    onClick={() => handleButtonClick("happy")}
                   >
                     <div className="card">
                       <div className="cards-image">
@@ -269,13 +269,13 @@ function Catagory() {
                         />
                       </div>
                       <div className="cardtext">
-                        <b>Sleep</b>
+                        <b>Happy</b>
                       </div>
                     </div>
                   </Button>
                   <Button
                     style={{ backgroundColor: "purple" }}
-                    onClick={() => handleButtonClick("relax")}
+                    onClick={() => handleButtonClick("romantic")}
                   >
                     <div className="card">
                       <div className="cards-image">
@@ -285,13 +285,13 @@ function Catagory() {
                         />
                       </div>
                       <div className="cardtext">
-                        <b>Relax</b>
+                        <b>Romantic</b>
                       </div>
                     </div>
                   </Button>
                   <Button
                     style={{ backgroundColor: "purple" }}
-                    onClick={() => handleButtonClick("jazz")}
+                    onClick={() => handleButtonClick("sad")}
                   >
                     <div className="card">
                       <div className="cards-image">
@@ -301,7 +301,7 @@ function Catagory() {
                         />
                       </div>
                       <div className="cardtext">
-                        <b>Jazz</b>
+                        <b>Sad</b>
                       </div>
                     </div>
                   </Button>
