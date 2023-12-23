@@ -1,6 +1,7 @@
 //demo.jsx
 import { useState, useEffect, useRef } from "react";
 import { styled, Slider, Paper, Stack, Box } from "@mui/material";
+import Draggable from 'react-draggable';
 
 // #region ------------ ICONS ---------
 import SkipNextIcon from "@mui/icons-material/SkipNext";

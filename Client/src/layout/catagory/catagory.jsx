@@ -8,6 +8,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import { useMode } from "./modeContext";
+import Draggable from "react-draggable";
 
 function Catagory() {
   const { mode, toggleMode } = useMode();
@@ -173,153 +174,161 @@ function Catagory() {
       <button onClick={handleOpen} className="img-icon-category">
         <img src="/assets/icons/open-menu.png" alt="" />
       </button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        {/* ---------------------------------------------------------------------------------------------modal-container */}
-        <Box className="category-modal-container">
-          <div className="category-modal-title">
-            <div id="modal-modal-title" className="category-title">
-              <Typography variant="h5" component="h2">
-                <span> Category </span>
+      <Draggable>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          {/* ---------------------------------------------------------------------------------------------modal-container */}
+          <Box className="category-modal-container">
+            <div className="category-modal-title">
+              <div id="modal-modal-title" className="category-title">
+                <Typography variant="h5" component="h2">
+                  <span> Category </span>
+                </Typography>
+              </div>
+              <div className="button-close">
+                <CloseIcon onClick={handleClose} />
+              </div>
+            </div>
+            <Typography
+              id="modal-modal-description"
+              style={{
+                marginTop: "16px",
+                marginBottom: "16px",
+                marginLeft: "30px",
+                marginRight: "16px",
+                padding: "10px",
+              }}
+              component={"div"}
+              className="Slider"
+            >
+              {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
+              <Slider {...firstSliderSettings}>
+                <Button
+                  style={{ backgroundColor: "purple" }}
+                  onClick={() => handleButtonClick("chill")}
+                >
+                  <div className="card">
+                    <div className="cards-image">
+                      <img
+                        src="/assets/icons/sunbathing (1).png"
+                        className="image-slide"
+                      />
+                    </div>
+                    <div className="cardtext">
+                      <b>Chill</b>
+                    </div>
+                  </div>
+                </Button>
+                <Button
+                  style={{ backgroundColor: "purple" }}
+                  onClick={() => handleButtonClick("work")}
+                >
+                  <div className="card">
+                    <div className="cards-image">
+                      <img
+                        src="/assets/icons/man-working-on-a-laptop-from-side-view.png"
+                        className="image-slide"
+                      />
+                    </div>
+                    <div className="cardtext">
+                      <b>Work</b>
+                    </div>
+                  </div>
+                </Button>
+                <Button
+                  style={{ backgroundColor: "purple" }}
+                  onClick={() => handleButtonClick("sleep")}
+                >
+                  <div className="card">
+                    <div className="cards-image">
+                      <img
+                        src="/assets/icons/sleep.png"
+                        className="image-slide"
+                      />
+                    </div>
+                    <div className="cardtext">
+                      <b>Sleep</b>
+                    </div>
+                  </div>
+                </Button>
+                <Button
+                  style={{ backgroundColor: "purple" }}
+                  onClick={() => handleButtonClick("relax")}
+                >
+                  <div className="card">
+                    <div className="cards-image">
+                      <img
+                        src="/assets/icons/yoga.png"
+                        className="image-slide"
+                      />
+                    </div>
+                    <div className="cardtext">
+                      <b>Relax</b>
+                    </div>
+                  </div>
+                </Button>
+                <Button
+                  style={{ backgroundColor: "purple" }}
+                  onClick={() => handleButtonClick("jazz")}
+                >
+                  <div className="card">
+                    <div className="cards-image">
+                      <img
+                        src="/assets/icons/jazz.png"
+                        className="image-slide"
+                      />
+                    </div>
+                    <div className="cardtext">
+                      <b>Jazz</b>
+                    </div>
+                  </div>
+                </Button>
+              </Slider>
+            </Typography>
+            <div className="category-modal-title-second">
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+                style={{ marginLeft: "15px" }}
+              >
+                <span>Choose picture</span>
               </Typography>
             </div>
-            <div className="button-close">
-              <CloseIcon onClick={handleClose} />
-            </div>
-          </div>
-          <Typography
-            id="modal-modal-description"
-            style={{
-              marginTop: "16px",
-              marginBottom: "16px",
-              marginLeft: "30px",
-              marginRight: "16px",
-              padding: "10px",
-            }}
-            component={"div"}
-            className="Slider"
-          >
-            {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
-            <Slider {...firstSliderSettings}>
-              <Button
-                style={{ backgroundColor: "purple" }}
-                onClick={() => handleButtonClick("chill")}
-              >
-                <div className="card">
-                  <div className="cards-image">
-                    <img
-                      src="/assets/icons/sunbathing (1).png"
-                      className="image-slide"
-                    />
-                  </div>
-                  <div className="cardtext">
-                    <b>Chill</b>
-                  </div>
-                </div>
-              </Button>
-              <Button
-                style={{ backgroundColor: "purple" }}
-                onClick={() => handleButtonClick("work")}
-              >
-                <div className="card">
-                  <div className="cards-image">
-                    <img
-                      src="/assets/icons/man-working-on-a-laptop-from-side-view.png"
-                      className="image-slide"
-                    />
-                  </div>
-                  <div className="cardtext">
-                    <b>Work</b>
-                  </div>
-                </div>
-              </Button>
-              <Button
-                style={{ backgroundColor: "purple" }}
-                onClick={() => handleButtonClick("sleep")}
-              >
-                <div className="card">
-                  <div className="cards-image">
-                    <img
-                      src="/assets/icons/sleep.png"
-                      className="image-slide"
-                    />
-                  </div>
-                  <div className="cardtext">
-                    <b>Sleep</b>
-                  </div>
-                </div>
-              </Button>
-              <Button
-                style={{ backgroundColor: "purple" }}
-                onClick={() => handleButtonClick("relax")}
-              >
-                <div className="card">
-                  <div className="cards-image">
-                    <img src="/assets/icons/yoga.png" className="image-slide" />
-                  </div>
-                  <div className="cardtext">
-                    <b>Relax</b>
-                  </div>
-                </div>
-              </Button>
-              <Button
-                style={{ backgroundColor: "purple" }}
-                onClick={() => handleButtonClick("jazz")}
-              >
-                <div className="card">
-                  <div className="cards-image">
-                    <img src="/assets/icons/jazz.png" className="image-slide" />
-                  </div>
-                  <div className="cardtext">
-                    <b>Jazz</b>
-                  </div>
-                </div>
-              </Button>
-            </Slider>
-          </Typography>
-          <div className="category-modal-title-second">
+
+            {/* ---------------------------------------------------------------------------------------------image-slide-ImageMode */}
+
             <Typography
-              id="modal-modal-title"
-              variant="h6"
-              component="h2"
-              style={{ marginLeft: "15px" }}
+              id="modal-modal-description"
+              style={{
+                marginBottom: "16px",
+                marginLeft: "30px",
+                marginRight: "16px",
+                padding: "10px",
+              }}
+              className="Slider Slider-second"
             >
-              <span>Choose picture</span>
+              <Slider {...secondSliderSettings}>
+                <Button style={{ backgroundColor: "purple" }}>
+                  <div className="card-image"></div>
+                </Button>
+
+                <Button style={{ backgroundColor: "purple" }}>
+                  <div className="card-image"></div>
+                </Button>
+
+                <Button style={{ backgroundColor: "purple" }}>
+                  <div className="card-image"></div>
+                </Button>
+              </Slider>
             </Typography>
-          </div>
-
-          {/* ---------------------------------------------------------------------------------------------image-slide-ImageMode */}
-
-          <Typography
-            id="modal-modal-description"
-            style={{
-              marginBottom: "16px",
-              marginLeft: "30px",
-              marginRight: "16px",
-              padding: "10px",
-            }}
-            className="Slider Slider-second"
-          >
-            <Slider {...secondSliderSettings}>
-              <Button style={{ backgroundColor: "purple" }}>
-                <div className="card-image"></div>
-              </Button>
-
-              <Button style={{ backgroundColor: "purple" }}>
-                <div className="card-image"></div>
-              </Button>
-
-              <Button style={{ backgroundColor: "purple" }}>
-                <div className="card-image"></div>
-              </Button>
-            </Slider>
-          </Typography>
-        </Box>
-      </Modal>
+          </Box>
+        </Modal>
+      </Draggable>
     </div>
   );
 }
