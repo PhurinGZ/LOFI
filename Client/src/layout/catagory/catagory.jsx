@@ -248,7 +248,7 @@ function Catagory() {
                     <div className="card">
                       <div className="cards-image">
                         <img
-                          src="/assets/icons/man-working-on-a-laptop-from-side-view.png"
+                          src="/assets/icons/woman.png"
                           className="image-slide"
                         />
                       </div>
@@ -264,7 +264,7 @@ function Catagory() {
                     <div className="card">
                       <div className="cards-image">
                         <img
-                          src="/assets/icons/sleep.png"
+                          src="/assets/icons/jumping-man.png"
                           className="image-slide"
                         />
                       </div>
@@ -280,7 +280,7 @@ function Catagory() {
                     <div className="card">
                       <div className="cards-image">
                         <img
-                          src="/assets/icons/yoga.png"
+                          src="/assets/icons/drinks.png"
                           className="image-slide"
                         />
                       </div>
@@ -296,7 +296,7 @@ function Catagory() {
                     <div className="card">
                       <div className="cards-image">
                         <img
-                          src="/assets/icons/jazz.png"
+                          src="/assets/icons/abused.png"
                           className="image-slide"
                         />
                       </div>

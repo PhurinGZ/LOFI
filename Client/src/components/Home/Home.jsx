@@ -2,7 +2,7 @@
 import Demo from "../audioplayer/Demo";
 import "./Home.scss";
 import Header from "../../layout/header/head";
-import { path, chil, Romantic, Sad, sleep, work } from "../../data/songData";
+import { Romantic, chil, Sad, happy, sexy,path } from "../../data/songData";
 import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect } from "react";
 import { useMode } from "../../layout/catagory/modeContext";
@@ -19,10 +19,10 @@ function Home() {
       setSelectedMode(Romantic);
     } else if (mode === "sad") {
       setSelectedMode(Sad);
-    } else if (mode === "saxy") {
-      setSelectedMode(sleep);
+    } else if (mode === "sexy") {
+      setSelectedMode(sexy);
     } else if (mode === "Happy") {
-      setSelectedMode(work);
+      setSelectedMode(happy);
     } else {
       setSelectedMode(chil);
     }
