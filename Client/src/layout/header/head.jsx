@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <nav className="nav-bar">
-      <Link to='#' style={{ textDecoration: 'none'}}>
+      <Link to='#' style={{ textDecoration: 'none',paddingLeft:"10px"}}>
         <h1 style={{color:'#fff',fontSize:'1.5rem', }}>LOFI</h1>
       </Link>
       <div className="nav-menu"></div>

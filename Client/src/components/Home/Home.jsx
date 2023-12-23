@@ -33,15 +33,16 @@ function Home() {
   return (
     <div className="main">
       <Header />
-      <div style={{position:"relative", top:"150px"}}>
+      <div>
         <Sidebar />
       </div>
       <video src={path[0].src} autoPlay loop muted />
       <div className="content">
-        <span className="audioplayer">
+      <span className="audioplayer">
           <Demo mode={selectedMode}/>
         </span>
       </div>
+      <video src={path[0].src} autoPlay loop muted />
     </div>
   );
 }

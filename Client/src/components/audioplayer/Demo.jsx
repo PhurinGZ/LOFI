@@ -14,7 +14,7 @@ import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
 // #endregion ------------ ICONS ---------
 
 // #region ------- another -------------------------------------------------------
-import { chil, jazz, relax, sleep, work } from "../../data/songData";
+import {chil} from "../../data/songData";
 import Time from "../time/Time";
 import "./player.scss";
 // #endregion ---------------------------------------------------------------
@@ -204,16 +204,14 @@ const Demo = ({ mode }) => {
               }}
             />
           )}
+
         </div>
       </div>
 
       {/* เส้นแนวตั่ง-----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
       <div className="line"></div>
       <div className="namemusic">
-        <p style={{ color: "#FFF" }}>
-          <strong> Music :</strong> {Playlist[index].name} &nbsp; &nbsp;{" "}
-          <strong> By : </strong> {Playlist[index].music_by}
-        </p>
+        <p style={{ color: "#FFF" }}><strong > Music :</strong>  {Playlist[index].name} &nbsp; &nbsp;  <strong >  By : </strong> {Playlist[index].music_by }</p>
       </div>
     </div>
   );

@@ -93,61 +93,63 @@ function Player() {
   };
 
   return (
-    <div className="borderBG-audio">
-      <div>
-        <audio
-          loop
-          ref={audioElement}
-          src={sleepPlaylist[currentSongIndex].src}
-          controls={false}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          onEnded={playNextSong}
-        />
-      </div>
-{/* เวลา */}
-      <div className="time"> <Time /> </div>
-{/* เส้นแนวตั่ง */}
-      <div className="line"></div>
-{/* audio-play */}
-      <div className="audio-player">
-        <button className="btn-skrip" onClick={playPreviousSong}>
-          <i className="icon" style={{width:'25px'}}> <TbPlayerSkipBackFilled /> </i>
-        </button>
-        <button className="btn-play" onClick={togglePlayPause}>
-          {isPlaying ? (
-            <i className="icon"> <CgPlayPauseO /> </i>
-          ) : (
-            <i className='icon'> <IoPlayCircleOutline /> </i>
-          )}
-        </button>
-        <button className="btn-skrip" onClick={playNextSong}>
-          <i className="icon" style={{width:'25px'}}> <TbPlayerSkipForwardFilled /> </i>
-        </button>
-      </div>
-{/* volume */}
-      <div className='custom-volume'>
-        <button className='btn-play' htmlFor="volume" onClick={handleLabelClick}>
-          <i className="icon" style={{width:'20px'}} > <FaVolumeLow /> </i>
-        </button>
-        {!isVolumeHidden && (
-          <input
-            type="range"
-            id="volume"
-            name="volume"
-            min="0"
-            max="100"
-            value={volumeValue}
-            onChange={handleVolumeChange}
-            className="custom-range"
+    <div className="audio-main">
+      <div className="borderBG-audio">
+        <div>
+          <audio
+            loop
+            ref={audioElement}
+            src={sleepPlaylist[currentSongIndex].src}
+            controls={false}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onEnded={playNextSong}
           />
-        )}
-      </div>
-{/* เส้นแนวตั่ง */}
-      <div className="line"></div>
-{/* ชื่อเพลง */}
-      <div className="namemusic">
-        <p>ชื่อเพลง: {sleepPlaylist[currentSongIndex].name}</p>
+        </div>
+        {/* เวลา */}
+        <div className="time"> <Time /> </div>
+        {/* เส้นแนวตั่ง */}
+        <div className="line"></div>
+        {/* audio-play */}
+        <div className="audio-player">
+          <button className="btn-skrip" onClick={playPreviousSong}>
+            <i className="icon" style={{ width: '25px' }}> <TbPlayerSkipBackFilled /> </i>
+          </button>
+          <button className="btn-play" onClick={togglePlayPause}>
+            {isPlaying ? (
+              <i className="icon"> <CgPlayPauseO /> </i>
+            ) : (
+              <i className='icon'> <IoPlayCircleOutline /> </i>
+            )}
+          </button>
+          <button className="btn-skrip" onClick={playNextSong}>
+            <i className="icon" style={{ width: '25px' }}> <TbPlayerSkipForwardFilled /> </i>
+          </button>
+        </div>
+        {/* volume */}
+        <div className='custom-volume'>
+          <button className='btn-play' htmlFor="volume" onClick={handleLabelClick}>
+            <i className="icon" style={{ width: '20px' }} > <FaVolumeLow /> </i>
+          </button>
+          {!isVolumeHidden && (
+            <input
+              type="range"
+              id="volume"
+              name="volume"
+              min="0"
+              max="100"
+              value={volumeValue}
+              onChange={handleVolumeChange}
+              className="custom-range"
+            />
+          )}
+        </div>
+        {/* เส้นแนวตั่ง */}
+        <div className="line"></div>
+        {/* ชื่อเพลง */}
+        <div className="namemusic">
+          <p>ชื่อเพลง: {sleepPlaylist[currentSongIndex].name}</p>
+        </div>
       </div>
     </div>
   );

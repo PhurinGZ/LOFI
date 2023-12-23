@@ -8,11 +8,14 @@ function Sidebar() {
 
     const handleBarIconClick = () => {
         setIsMenuOpen(!isMenuOpen);
-    }
+    };
+
     return (
         <>
-            <div className="sidebar">
-                <div  className="barIcon" >  <img  src='/assets/icons/drop-down.png' alt=''  onClick={handleBarIconClick}/> </div>
+            <div className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
+                <div className="barIcon" onClick={handleBarIconClick}>
+                    <img src={isMenuOpen ? '/assets/icons/drop-down.png' : '/assets/icons/drop-down.png'} alt='' />
+                </div>
                 {isMenuOpen && (
                 <div className="menuBar">
                     <ul>

@@ -1,13 +1,18 @@
-.content{
-    
-    
-}
+/* Home.scss */
 
-.audioplayer{
-    position: absolute;
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* 100% of the viewport height */
+  }
+  
+  .audioplayer {
+    flex-grow: 1; /* Expand and fill the available space */
+  }
+  
+  video {
     width: 100%;
     height: 100%;
-    top: 90%;
-    display: flex;
-    justify-content: center;
-}
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+  }
+  
