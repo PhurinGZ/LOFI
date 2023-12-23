@@ -1,3 +1,4 @@
+//demo.jsx
 import { useState, useEffect, useRef } from "react";
 import { styled, Slider, Paper, Stack, Box } from "@mui/material";
 
@@ -8,25 +9,28 @@ import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import VolumeMuteIcon from "@mui/icons-material/VolumeMute";
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
 // #endregion ------------ ICONS ---------
 
 // #region ------- another -------------------------------------------------------
-import {chil} from "../../data/songData";
+import { chil, jazz, relax, sleep, work } from "../../data/songData";
 import Time from "../time/Time";
 import "./player.scss";
 // #endregion ---------------------------------------------------------------
-const Playlist = chil;
 
-export default function Demo() {
+const Demo = ({ mode }) => {
   const audioPlayer = useRef();
 
   const [index, setIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(30);
   const [isVolumeHidden, setIsVolumeHidden] = useState(false);
+ 
 
+  const Playlist = mode
+  console.log("In demo"+Playlist)
+  
   useEffect(() => {
     if (audioPlayer.current) {
       audioPlayer.current.volume = volume / 100;
@@ -37,12 +41,14 @@ export default function Demo() {
     if (audioPlayer.current) {
       audioPlayer.current.src = Playlist[index].src;
       if (isPlaying) {
-        audioPlayer.current.play();
+        audioPlayer.current.play()
       } else {
         audioPlayer.current.pause();
       }
     }
   }, [index, isPlaying]);
+
+  
 
   useEffect(() => {
     if (audioPlayer.current) {
@@ -198,16 +204,19 @@ export default function Demo() {
               }}
             />
           )}
-
         </div>
       </div>
 
       {/* เส้นแนวตั่ง-----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
       <div className="line"></div>
       <div className="namemusic">
-        <p style={{ color: "#FFF" }}><strong > Music :</strong>  {chil[index].name} &nbsp; &nbsp;  <strong >  By : </strong> {chil[index].music_by }</p>
+        <p style={{ color: "#FFF" }}>
+          <strong> Music :</strong> {Playlist[index].name} &nbsp; &nbsp;{" "}
+          <strong> By : </strong> {Playlist[index].music_by}
+        </p>
       </div>
     </div>
   );
-}
+};
 
+export default Demo;

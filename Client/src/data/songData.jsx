@@ -496,4 +496,4 @@ const path = [
   },
 ];
 
-export { chil, jazz, relax, sleep, work, path };
+export { jazz, chil, relax, sleep, work, path };

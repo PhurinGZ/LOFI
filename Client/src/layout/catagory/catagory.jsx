@@ -1,20 +1,19 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import { Button, Modal, Box, Typography, IconButton } from "@mui/material";
 import Slider from "react-slick";
-import { Link } from "react-router-dom";
 import "./catagory.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
-
-
-
+import { useMode } from "./modeContext";
 
 function Catagory() {
+  const { mode, toggleMode } = useMode();
   const [open, setOpen] = useState(false);
 
+  console.log(mode);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -28,13 +27,15 @@ function Catagory() {
     const { onClick, currentSlide, slideCount } = props;
     return (
       <>
-        {currentSlide < slideCount -2 ? (
+        {currentSlide < slideCount - 2 ? (
           <div className="custom-slick-next" onClick={onClick}>
             <div className="nextarrow">
               <ArrowForwardIosIcon />
             </div>
           </div>
-        ) : <></>}
+        ) : (
+          <></>
+        )}
       </>
     );
   };
@@ -49,8 +50,9 @@ function Catagory() {
               <ArrowBackIosNewIcon />
             </div>
           </div>
-        ) : <></>}
-
+        ) : (
+          <></>
+        )}
       </>
     );
   };
@@ -60,13 +62,15 @@ function Catagory() {
     const { onClick, currentSlide, slideCount } = props;
     return (
       <>
-        {currentSlide < slideCount -3 ? (
+        {currentSlide < slideCount - 3 ? (
           <div className="custom-slick-next" onClick={onClick}>
             <div className="nextarrow">
               <ArrowForwardIosIcon />
             </div>
           </div>
-        ) : <></>}
+        ) : (
+          <></>
+        )}
       </>
     );
   };
@@ -81,14 +85,16 @@ function Catagory() {
               <ArrowBackIosNewIcon />
             </div>
           </div>
-        ) : <></>}
-
+        ) : (
+          <></>
+        )}
       </>
     );
   };
 
-
-
+  const handleButtonClick = (selectedMode) => {
+    toggleMode(selectedMode);
+  };
 
   //---------------------------------------------------------------------------------------------------firstSliderSettings
   const firstSliderSettings = {
@@ -124,9 +130,7 @@ function Catagory() {
         },
       },
     ],
-  
   };
-
 
   //----------------------------------------------------------------------------------secondSliderSettings
   const secondSliderSettings = {
@@ -164,8 +168,6 @@ function Catagory() {
     ],
   };
 
-
-
   return (
     <div className="Category-Modal">
       <button onClick={handleOpen} className="img-icon-category">
@@ -180,11 +182,8 @@ function Catagory() {
         {/* ---------------------------------------------------------------------------------------------modal-container */}
         <Box className="category-modal-container">
           <div className="category-modal-title">
-            <div
-              id="modal-modal-title"
-              className="category-title"
-            >
-              <Typography variant="h5" component="h2" >
+            <div id="modal-modal-title" className="category-title">
+              <Typography variant="h5" component="h2">
                 <span> Category </span>
               </Typography>
             </div>
@@ -204,10 +203,12 @@ function Catagory() {
             component={"div"}
             className="Slider"
           >
-
             {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
             <Slider {...firstSliderSettings}>
-              <Link style={{ backgroundColor: "purple" }} >
+              <Button
+                style={{ backgroundColor: "purple" }}
+                onClick={() => handleButtonClick("chill")}
+              >
                 <div className="card">
                   <div className="cards-image">
                     <img
@@ -219,8 +220,11 @@ function Catagory() {
                     <b>Chill</b>
                   </div>
                 </div>
-              </Link>
-              <Link style={{ backgroundColor: "purple" }}>
+              </Button>
+              <Button
+                style={{ backgroundColor: "purple" }}
+                onClick={() => handleButtonClick("work")}
+              >
                 <div className="card">
                   <div className="cards-image">
                     <img
@@ -232,8 +236,11 @@ function Catagory() {
                     <b>Work</b>
                   </div>
                 </div>
-              </Link>
-              <Link style={{ backgroundColor: "purple" }}>
+              </Button>
+              <Button
+                style={{ backgroundColor: "purple" }}
+                onClick={() => handleButtonClick("sleep")}
+              >
                 <div className="card">
                   <div className="cards-image">
                     <img
@@ -245,34 +252,33 @@ function Catagory() {
                     <b>Sleep</b>
                   </div>
                 </div>
-              </Link>
-              <Link style={{ backgroundColor: "purple" }}>
+              </Button>
+              <Button
+                style={{ backgroundColor: "purple" }}
+                onClick={() => handleButtonClick("relax")}
+              >
                 <div className="card">
                   <div className="cards-image">
-                    <img
-                      src="/assets/icons/yoga.png"
-                      className="image-slide"
-                    />
+                    <img src="/assets/icons/yoga.png" className="image-slide" />
                   </div>
                   <div className="cardtext">
                     <b>Relax</b>
                   </div>
                 </div>
-              </Link>
-              <Link style={{ backgroundColor: "purple" }}>
+              </Button>
+              <Button
+                style={{ backgroundColor: "purple" }}
+                onClick={() => handleButtonClick("jazz")}
+              >
                 <div className="card">
                   <div className="cards-image">
-                    <img
-                      src="/assets/icons/jazz.png"
-                      className="image-slide"
-                    />
+                    <img src="/assets/icons/jazz.png" className="image-slide" />
                   </div>
                   <div className="cardtext">
                     <b>Jazz</b>
                   </div>
                 </div>
-              </Link>
-
+              </Button>
             </Slider>
           </Typography>
           <div className="category-modal-title-second">
@@ -282,9 +288,7 @@ function Catagory() {
               component="h2"
               style={{ marginLeft: "15px" }}
             >
-              <span>
-                Choose picture
-              </span>
+              <span>Choose picture</span>
             </Typography>
           </div>
 
@@ -301,23 +305,17 @@ function Catagory() {
             className="Slider Slider-second"
           >
             <Slider {...secondSliderSettings}>
-              <Link style={{ backgroundColor: "purple" }}>
-                <div className="card-image">
-                    
-                </div>
-              </Link>
+              <Button style={{ backgroundColor: "purple" }}>
+                <div className="card-image"></div>
+              </Button>
 
-              <Link style={{ backgroundColor: "purple" }}>
-                <div className="card-image">
+              <Button style={{ backgroundColor: "purple" }}>
+                <div className="card-image"></div>
+              </Button>
 
-                </div>
-              </Link>
-
-              <Link style={{ backgroundColor: "purple" }}>
-                <div className="card-image">
-
-                </div>
-              </Link>
+              <Button style={{ backgroundColor: "purple" }}>
+                <div className="card-image"></div>
+              </Button>
             </Slider>
           </Typography>
         </Box>
