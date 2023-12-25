@@ -36,7 +36,7 @@ function Home() {
       setSelectedMode(Sad);
     } else if (mode === "sexy") {
       setSelectedMode(sexy);
-    } else if (mode === "Happy") {
+    } else if (mode === "happy") {
       setSelectedMode(happy);
     } else {
       setSelectedMode(chil);
