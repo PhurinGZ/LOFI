@@ -12,7 +12,7 @@ import {
 } from "../../data/songData";
 import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect } from "react";
-import { useMode } from "../../layout/catagory/modeContext";
+import { useMode } from "../../context/modeContext";
 
 function Home() {
 

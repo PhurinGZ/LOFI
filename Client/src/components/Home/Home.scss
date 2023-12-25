@@ -22,6 +22,7 @@
 
 .audioplayer {
   flex-grow: 1; /* Expand and fill the available space */
+  z-index: 2;
 
 video {
   width: 100%;
