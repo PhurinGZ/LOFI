@@ -210,8 +210,8 @@ const Demo = ({ mode }) => {
         <div className="line"></div>
         <div className="namemusic">
           <p style={{ color: "#FFF" }}>
-            <strong> Music :</strong> {Playlist[index].name} &nbsp; &nbsp;{" "}
-            <strong> By : </strong> {Playlist[index].music_by}
+            <strong> Music :</strong> {Playlist[index].name.length <= 12 ? Playlist[index].name : Playlist[index].name.substr(0, 12) + "..."} &nbsp; &nbsp;{" "}
+            <strong> By : </strong> {Playlist[index].music_by.length <= 9 ? Playlist[index].music_by : Playlist[index].music_by.substr(0, 9) + "..."}
           </p>
         </div>
       </div>

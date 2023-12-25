@@ -502,11 +502,15 @@ const sexy =[
 
 ]
 
-const path = [
+const pathLofi1 = [
   {
     id: 0,
-    src: "./assets/video/video.mp4",
+    src: "../../public/assets/video/lofi-video/lofi-day1.mp4",
   },
+  {
+    id: 1,
+    src: "../../public/assets/video/lofi-video/lofi-night1.mp4"
+  }
 ];
 
-export { Romantic, chil, Sad, happy, sexy, path };
+export { Romantic, chil, Sad, happy, sexy, pathLofi1 };

@@ -2,7 +2,14 @@
 import Demo from "../audioplayer/Demo";
 import "./Home.scss";
 import Header from "../../layout/header/head";
-import { Romantic, chil, Sad, happy, sexy,path } from "../../data/songData";
+import {
+  Romantic,
+  chil,
+  Sad,
+  happy,
+  sexy,
+  pathLofi1,
+} from "../../data/songData";
 import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect } from "react";
 import { useMode } from "../../layout/catagory/modeContext";
@@ -10,6 +17,9 @@ import { useMode } from "../../layout/catagory/modeContext";
 function Home() {
   const { mode } = useMode(); // Destructure `mode` instead of `cat`
   const [selectedMode, setSelectedMode] = useState(chil);
+  const {dayNight} = useMode()
+
+  // console.log(selectedMode[0].mode)
 
   useEffect(() => {
     // console.log("Mode changed:", mode);
@@ -39,7 +49,8 @@ function Home() {
       <span className="audioplayer">
         <Demo mode={selectedMode} />
       </span>
-      <video src={path[0].src} autoPlay loop muted />
+      {dayNight === "day" ? <video src={pathLofi1[0].src} autoPlay loop muted /> : (dayNight === "night" ? <video src={pathLofi1[1].src} autoPlay loop muted /> : <></>)}
+      
     </div>
   );
 }
