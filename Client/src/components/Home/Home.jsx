@@ -28,7 +28,7 @@ function Home() {
     }
   }, [mode]);
 
-  console.log(mode);
+  // console.log(mode);
 
   return (
     <div className="main">

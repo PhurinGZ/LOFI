@@ -29,7 +29,7 @@ const Demo = ({ mode }) => {
   const [isVolumeHidden, setIsVolumeHidden] = useState(false);
 
   const Playlist = mode;
-  console.log("In demo" + Playlist);
+  // console.log("In demo" + Playlist);
 
   useEffect(() => {
     if (audioPlayer.current) {
