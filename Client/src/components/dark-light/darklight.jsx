@@ -59,8 +59,8 @@ const DarkLightSwitch = ({ theme }) => {
   // console.log(mode);
 
   const toggleMode = () => {
-    setMode((prevMode) => (prevMode === 'day' ? 'night' : 'day'));
-    setDayNight((prevMode) => (prevMode === 'day' ? 'night' : 'day'))
+    setMode((prevMode) => (prevMode === 'night' ? 'day' : 'night'));
+    setDayNight((prevMode) => (prevMode === 'night' ? 'day' : 'night'))
   };
 
   return (

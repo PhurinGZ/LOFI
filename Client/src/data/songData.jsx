@@ -415,11 +415,11 @@ const sexy =[
 const pathLofi1 = [
   {
     id: 0,
-    src: "../../public/assets/video/lofi-video/lofi-day1.mp4",
+    src: "./assets/video/lofi-video/lofi-day1.mp4",
   },
   {
     id: 1,
-    src: "../../public/assets/video/lofi-video/lofi-night1.mp4"
+    src: "./assets/video/lofi-video/lofi-night1.mp4"
   }
 ];
 
