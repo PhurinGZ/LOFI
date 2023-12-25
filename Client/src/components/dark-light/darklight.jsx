@@ -3,6 +3,7 @@ import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { styled } from "@mui/system";
 import PropTypes from "prop-types";
+import { useMode } from "../../layout/catagory/modeContext";
 
 const DarkLightSwitch = ({ theme }) => {
   const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -53,9 +54,13 @@ const DarkLightSwitch = ({ theme }) => {
   }));
 
   const [mode, setMode] = useState('night');
+  const {dayNight,setDayNight} = useMode()
+
+  // console.log(mode);
 
   const toggleMode = () => {
     setMode((prevMode) => (prevMode === 'day' ? 'night' : 'day'));
+    setDayNight((prevMode) => (prevMode === 'day' ? 'night' : 'day'))
   };
 
   return (
