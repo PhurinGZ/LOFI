@@ -8,7 +8,7 @@ export const useMode = () => {
   if (!context) {
     throw new Error("useMode must be used within a ModeProvider");
   }
-  console.log(context)
+  // console.log(context)
   return context; // Returning the entire context object
 };
 

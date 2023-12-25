@@ -1,12 +1,5 @@
 import { useState, createContext, useRef } from "react";
-import {
-  Button,
-  Modal,
-  Box,
-  Typography,
-  IconButton,
-  Backdrop,
-} from "@mui/material";
+import { Button, Modal, Box, Typography, Backdrop } from "@mui/material";
 import Slider from "react-slick";
 import "./catagory.scss";
 import "slick-carousel/slick/slick.css";
@@ -28,7 +21,7 @@ function Catagory() {
   const [open, setOpen] = useState(false);
   const modalRef = useRef(null);
 
-  console.log(mode);
+  // console.log(mode);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -36,6 +29,9 @@ function Catagory() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [selectedMode, setSelectedMode] = useState("");
+  // console.log(selectedMode)
 
   // Custom arrow components
   const NextArrow = (props) => {
@@ -109,6 +105,7 @@ function Catagory() {
 
   const handleButtonClick = (selectedMode) => {
     toggleMode(selectedMode);
+    setSelectedMode(selectedMode);
   };
 
   //---------------------------------------------------------------------------------------------------firstSliderSettings
@@ -117,7 +114,7 @@ function Catagory() {
     infinite: false,
     speed: 300,
     slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
     nextArrow: <NextArrow2 />,
     prevArrow: <PrevArrow2 />,
     responsive: [
@@ -226,10 +223,16 @@ function Catagory() {
                 {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
                 <Slider {...firstSliderSettings}>
                   <Button
-                    style={{ backgroundColor: "purple" }}
                     onClick={() => handleButtonClick("chill")}
                   >
-                    <div className="card">
+                    <div
+                      className="card"
+                      style={{
+                        border: selectedMode === "chill" ? "2px solid #BB98FF" : "none",
+                        width: selectedMode === "chill" ? "90px" : "",
+                        height: selectedMode === "chill" ? "96px" : ""
+                      }}
+                    >
                       <div className="cards-image">
                         <img
                           src="/assets/icons/sunbathing (1).png"
@@ -241,11 +244,12 @@ function Catagory() {
                       </div>
                     </div>
                   </Button>
-                  <Button
-                    style={{ backgroundColor: "purple" }}
-                    onClick={() => handleButtonClick("sexy")}
-                  >
-                    <div className="card">
+                  <Button onClick={() => handleButtonClick("sexy")}>
+                    <div className="card" style={{
+                        border: selectedMode === "sexy" ? "2px solid #BB98FF" : "none",
+                        width: selectedMode === "sexy" ? "90px" : "",
+                        height: selectedMode === "sexy" ? "96px" : ""
+                      }}>
                       <div className="cards-image">
                         <img
                           src="/assets/icons/woman.png"
@@ -257,11 +261,12 @@ function Catagory() {
                       </div>
                     </div>
                   </Button>
-                  <Button
-                    style={{ backgroundColor: "purple" }}
-                    onClick={() => handleButtonClick("happy")}
-                  >
-                    <div className="card">
+                  <Button onClick={() => handleButtonClick("happy")}>
+                    <div className="card" style={{
+                        border: selectedMode === "happy" ? "2px solid #BB98FF" : "none",
+                        width: selectedMode === "happy" ? "90px" : "",
+                        height: selectedMode === "happy" ? "96px" : ""
+                      }}>
                       <div className="cards-image">
                         <img
                           src="/assets/icons/jumping-man.png"
@@ -273,27 +278,29 @@ function Catagory() {
                       </div>
                     </div>
                   </Button>
-                  <Button
-                    style={{ backgroundColor: "purple" }}
-                    onClick={() => handleButtonClick("romantic")}
-                  >
-                    <div className="card">
+                  <Button onClick={() => handleButtonClick("romantic")}>
+                    <div className="card" style={{
+                        border: selectedMode === "romantic" ? "2px solid #BB98FF" : "none",
+                        width: selectedMode === "romantic" ? "90px" : "",
+                        height: selectedMode === "romantic" ? "96px" : ""
+                      }}>
                       <div className="cards-image">
                         <img
                           src="/assets/icons/drinks.png"
                           className="image-slide"
                         />
                       </div>
-                      <div className="cardtext">
+                      <div className="cardtext" >
                         <b>Romantic</b>
                       </div>
                     </div>
                   </Button>
-                  <Button
-                    style={{ backgroundColor: "purple" }}
-                    onClick={() => handleButtonClick("sad")}
-                  >
-                    <div className="card">
+                  <Button onClick={() => handleButtonClick("sad")}>
+                    <div className="card" style={{
+                        border: selectedMode === "sad" ? "2px solid #BB98FF" : "none",
+                        width: selectedMode === "sad" ? "90px" : "",
+                        height: selectedMode === "sad" ? "96px" : ""
+                      }}>
                       <div className="cards-image">
                         <img
                           src="/assets/icons/abused.png"
@@ -331,15 +338,15 @@ function Catagory() {
                 className="Slider Slider-second"
               >
                 <Slider {...secondSliderSettings}>
-                  <Button style={{ backgroundColor: "purple" }}>
+                  <Button>
                     <div className="card-image"></div>
                   </Button>
 
-                  <Button style={{ backgroundColor: "purple" }}>
+                  <Button>
                     <div className="card-image"></div>
                   </Button>
 
-                  <Button style={{ backgroundColor: "purple" }}>
+                  <Button>
                     <div className="card-image"></div>
                   </Button>
                 </Slider>
