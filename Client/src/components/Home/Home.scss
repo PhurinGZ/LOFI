@@ -4,6 +4,18 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* 100% of the viewport height */
+  .modeName{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+    min-height: 100%;
+    p{
+      margin-bottom: 60px;
+      margin-right: 50px;
+    }
+  }
 }
 
 .audioplayer {
@@ -24,4 +36,5 @@ video {
     height: 100%;
     object-fit: cover; /* Maintain aspect ratio and cover the container */
   }
+
   

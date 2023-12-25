@@ -28,7 +28,7 @@ function Home() {
     }
   }, [mode]);
 
-  // console.log(mode);
+  console.log(mode);
 
   return (
     <div className="main">
@@ -39,6 +39,9 @@ function Home() {
       <span className="audioplayer">
         <Demo mode={selectedMode} />
       </span>
+      <div className="modeName">
+        <p>Name mode : {selectedMode[0].mode}</p>
+      </div>
       <video src={path[0].src} autoPlay loop muted />
     </div>
   );
