@@ -12,7 +12,7 @@ import {
 } from "../../data/songData";
 import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect } from "react";
-import { useMode } from "../../layout/catagory/modeContext";
+import { useMode } from "../../context/modeContext";
 
 function Home() {
   const { mode } = useMode(); // Destructure `mode` instead of `cat`
@@ -20,6 +20,8 @@ function Home() {
   const {dayNight} = useMode()
 
   // console.log(selectedMode[0].mode)
+
+
 
   useEffect(() => {
     // console.log("Mode changed:", mode);
@@ -38,7 +40,7 @@ function Home() {
     }
   }, [mode]);
 
-  console.log(mode);
+  // console.log(mode);
 
   return (
     <div className="main">
