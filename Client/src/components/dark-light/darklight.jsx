@@ -3,7 +3,7 @@ import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { styled } from "@mui/system";
 import PropTypes from "prop-types";
-import { useMode } from "../../layout/catagory/modeContext";
+import { useMode } from "../../context/modeContext";
 
 const DarkLightSwitch = ({ theme }) => {
   const MaterialUISwitch = styled(Switch)(({ theme }) => ({

@@ -29,7 +29,7 @@ const Demo = ({ mode }) => {
   const [isVolumeHidden, setIsVolumeHidden] = useState(false);
 
   const Playlist = mode;
-  // console.log("In demo" + Playlist);
+   // console.log("In demo" + Playlist);
 
   useEffect(() => {
     if (audioPlayer.current) {
@@ -46,7 +46,7 @@ const Demo = ({ mode }) => {
         audioPlayer.current.pause();
       }
     }
-  }, [index, isPlaying]);
+  }, [index, isPlaying, mode]);
 
   useEffect(() => {
     if (audioPlayer.current) {
@@ -55,7 +55,7 @@ const Demo = ({ mode }) => {
         audioPlayer.current.removeEventListener("ended", handleAudioEnded);
       };
     }
-  }, [index, isPlaying]);
+  }, [index, isPlaying, mode]);
 
   const handleAudioEnded = () => {
     setIndex((prevIndex) => (prevIndex + 1) % Playlist.length);
@@ -94,7 +94,7 @@ const Demo = ({ mode }) => {
           color: "#FFF",
           "&:hover": {
             opacity: 1,
-            transform: "scale(1.2)", // Increase the size on hover
+            transform: "scale(1.2)",
           },
         }}
         onClick={onClick}
@@ -106,7 +106,7 @@ const Demo = ({ mode }) => {
           color: "#FFF",
           "&:hover": {
             opacity: 1,
-            transform: "scale(1.2)", // Increase the size on hover
+            transform: "scale(1.2)",
           },
         }}
         onClick={onClick}
@@ -118,7 +118,7 @@ const Demo = ({ mode }) => {
           color: "#FFF",
           "&:hover": {
             opacity: 1,
-            transform: "scale(1.2)", // Increase the size on hover
+            transform: "scale(1.2)",
           },
         }}
         onClick={onClick}
@@ -130,7 +130,7 @@ const Demo = ({ mode }) => {
           color: "#FFF",
           "&:hover": {
             opacity: 1,
-            transform: "scale(1.2)", // Increase the size on hover
+            transform: "scale(1.2)",
           },
         }}
         onClick={onClick}
@@ -144,7 +144,7 @@ const Demo = ({ mode }) => {
         <div>
           <audio src={Playlist[index].src} ref={audioPlayer} />
         </div>
-        {/* เวลา -----------------------------------------------------------------------------------------------------เวลา */}
+         {/* เวลา -----------------------------------------------------------------------------------------------------เวลา */}
         <div className="time">
           <Time />
         </div>
@@ -187,7 +187,7 @@ const Demo = ({ mode }) => {
             }}
             onClick={toggleSkipForward}
           />
-          {/* volume -----------------------------------------------------------------------------------------------------volume */}
+            {/* volume -----------------------------------------------------------------------------------------------------volume */}
           <div className="costom-volume">
             <VolumeBtns onClick={handleLabelClick} />
             {!isVolumeHidden && (
@@ -205,7 +205,6 @@ const Demo = ({ mode }) => {
             )}
           </div>
         </div>
-
         {/* เส้นแนวตั่ง-----------------------------------------------------------------------------------------------------เส้นแนวตั่ง */}
         <div className="line"></div>
         <div className="namemusic">

@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
-import { useMode } from "./modeContext";
+import { useMode } from "../../context/modeContext";
 import Draggable from "react-draggable";
 
 function CustomBackdrop(props) {
