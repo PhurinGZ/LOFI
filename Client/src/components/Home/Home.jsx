@@ -15,8 +15,6 @@ function Home() {
   const [nextPath, setNextPath] = useState("");
   const [currentPath, setCurrentPath] = useState("");
   const [isCurrentPath, setIsCurrentPath] = useState(false);
-  const [currentMOde, setCurrentMode] = useState("day");
-  const [nextMode, setNextMode] = useState("");
 
   const { mode } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
@@ -66,12 +64,12 @@ function Home() {
           setCurrentVideoOpacity(0);
           setNextPath(pathLofi.src);
         } else if (pathLofi.mode === "day-rain") {
-          setNextVideoOpacity(1);
-          setCurrentVideoOpacity(0);
-          setCurrentPath(pathLofi.src);
-        } else if (pathLofi.mode === "night-rain") {
           setNextVideoOpacity(0);
           setCurrentVideoOpacity(1);
+          setCurrentPath(pathLofi.src);
+        } else if (pathLofi.mode === "night-rain") {
+          setNextVideoOpacity(1);
+          setCurrentVideoOpacity(0);
           setNextPath(pathLofi.src);
         }
       }
