@@ -9,6 +9,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import { useMode } from "../../context/modeContext";
 import Draggable from "react-draggable";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 function CustomBackdrop(props) {
   return (
@@ -28,6 +29,20 @@ function Catagory() {
     { id: 3, mode: "romantic", src: "/assets/icons/drinks.png" },
     { id: 4, mode: "sad", src: "/assets/icons/abused.png" },
   ];
+  // ------------------------------------------------------------------------------clickchangslide
+
+  const [isSliderSecondVisiblechang, setIsSliderSecondVisiblechang] =
+    useState(true);
+
+  const handleButtonClickchang = () => {
+    setIsSliderSecondVisiblechang(!isSliderSecondVisiblechang);
+  };
+
+  const handback = () => {
+    if (isSliderSecondVisiblechang === "true") {
+      setIsSliderSecondVisiblechang(false);
+    }
+  };
 
   // console.log(mode);
   const handleOpen = () => {
@@ -274,30 +289,80 @@ function Catagory() {
 
               {/* ---------------------------------------------------------------------------------------------image-slide-ImageMode */}
 
-              <Typography
-                id="modal-modal-description"
-                style={{
-                  marginBottom: "16px",
-                  marginLeft: "30px",
-                  marginRight: "16px",
-                  padding: "10px",
-                }}
-                className="Slider Slider-second"
-              >
-                <Slider {...secondSliderSettings}>
-                  <Button>
-                    <div className="card-image"></div>
-                  </Button>
+              <div className="silde-grop">
+                {isSliderSecondVisiblechang ? (
+                  <Typography
+                    id="modal-modal-description"
+                    style={{
+                      marginBottom: "16px",
+                      marginLeft: "30px",
+                      marginRight: "16px",
+                      padding: "10px",
+                    }}
+                    className="Slider Slider-second"
+                  >
+                    <Slider {...secondSliderSettings}>
+                      <Button onClick={handleButtonClickchang}>
+                        <div className="card-image" style={{ color: "#000" }}>
+                          1
+                        </div>
+                      </Button>
 
-                  <Button>
-                    <div className="card-image"></div>
-                  </Button>
+                      <Button>
+                        <div className="card-image"></div>
+                      </Button>
 
-                  <Button>
-                    <div className="card-image"></div>
-                  </Button>
-                </Slider>
-              </Typography>
+                      <Button>
+                        <div className="card-image"></div>
+                      </Button>
+                    </Slider>
+                  </Typography>
+                ) : (
+                  <Typography
+                    id="modal-modal-description"
+                    style={{
+                      marginBottom: "16px",
+                      marginLeft: "30px",
+                      marginRight: "16px",
+                      padding: "0px 10px 0px 0px",
+                    }}
+                    className="Slider Slider-third"
+                  >
+                    <p
+                      style={{
+                        display: "flex",
+                        cursor: "pointer",
+                        color: "rgba(138, 43, 226, 1)",
+                        borderRadius:'50px',
+                        borderBottom:'1px solid rgba(61, 61, 61, 1)'
+                  
+                      }}
+                      onClick={handleButtonClickchang}
+                    >
+                      <ChevronLeftIcon /> LOFI
+                    </p>
+
+                    <Slider {...secondSliderSettings}>
+                      <Button>
+                        <div
+                          className="card-image-third"
+                          style={{ color: "#000" }}
+                        >
+                          2
+                        </div>
+                      </Button>
+
+                      <Button>
+                        <div className="card-image-third"></div>
+                      </Button>
+
+                      <Button>
+                        <div className="card-image-third"></div>
+                      </Button>
+                    </Slider>
+                  </Typography>
+                )}
+              </div>
             </Box>
           </Draggable>
         </div>
