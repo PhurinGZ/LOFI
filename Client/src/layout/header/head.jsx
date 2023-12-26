@@ -1,3 +1,4 @@
+// head.jsx
 import React, { useState } from 'react';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import { Link } from "react-router-dom";
