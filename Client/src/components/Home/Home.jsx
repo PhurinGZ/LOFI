@@ -2,29 +2,27 @@
 import Demo from "../audioplayer/Demo";
 import "./Home.scss";
 import Header from "../../layout/header/head";
-import {
-  Romantic,
-  chil,
-  Sad,
-  happy,
-  sexy,
-  pathLofi1,
-} from "../../data/songData";
+import { Romantic, chil, Sad, happy, sexy } from "../../data/songData";
+import { pathLofi1 } from "../../data/videoBackgroundData";
 import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect } from "react";
 import { useMode } from "../../context/modeContext";
+import AtmosphereButton from "../atmosphereIcons/atmosphere";
 
 function Home() {
-
   const [currentVideoOpacity, setCurrentVideoOpacity] = useState(1);
   const [nextVideoOpacity, setNextVideoOpacity] = useState(0);
+  const [nextPath, setNextPath] = useState("");
+  const [currentPath, setCurrentPath] = useState("");
+  const [isCurrentPath, setIsCurrentPath] = useState(false);
 
-
-  const { mode } = useMode(); // Destructure `mode` instead of `cat`
+  const { mode } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
-  const { dayNight } = useMode()
+  const { dayNight, atmosphere } = useMode();
+  const mergMode = dayNight + "-" + atmosphere;
 
   // console.log(selectedMode[0].mode)
+  // console.log("Outside"+atmosphere);
 
   useEffect(() => {
     // console.log("Mode changed:", mode);
@@ -44,22 +42,41 @@ function Home() {
   }, [mode]);
 
   useEffect(() => {
-    // ตรวจสอบ dayNight และปรับ Opacity
-    if (dayNight === "day") {
-      setCurrentVideoOpacity(1);
-      setNextVideoOpacity(0)
- 
-    } else if (dayNight === "night"){
-      setNextVideoOpacity(1)
-      setCurrentVideoOpacity(0);
+    pathLofi1.map((pathLofi) => {
+      // console.log("inner" + atmosphere);
+  
+      if (dayNight === pathLofi.mode || (atmosphere === "rain" && mergMode === pathLofi.mode)) {
+        // console.log("currentPath" + currentPath);
+        // console.log("nextPath" + nextPath);
+        if (currentPath !== pathLofi.src) {
+          setNextVideoOpacity(1);
+          setCurrentVideoOpacity(0);
+          setNextPath(pathLofi.src);
+        } else if (nextPath !== pathLofi.src) {
+          setNextVideoOpacity(0);
+          setCurrentVideoOpacity(1);
+          setCurrentPath(pathLofi.src);
+        }
+      }
+    });
+  
+    if (currentPath === "") {
+      pathLofi1.map((pathLofi) => {
+        if (pathLofi.mode === "day") {
+          setCurrentPath(pathLofi.src);
+          console.log(pathLofi.src);
+        }
+      });
     }
-  }, [dayNight]);
-  console.log("currentVideoOpacity", currentVideoOpacity)
-  console.log("currentVideoOpacity", nextVideoOpacity)
+  
+    if (currentPath) {
+      setIsCurrentPath(true);
+    }
+  }, [dayNight, atmosphere]);
+  // console.log("currentVideoOpacity", currentVideoOpacity);
+  // console.log("currentVideoOpacity", nextVideoOpacity);
 
-
-
-  console.log(dayNight);
+  // console.log(dayNight);
 
   return (
     <div className="main">
@@ -68,31 +85,44 @@ function Home() {
         <Sidebar />
       </div>
       <span className="audioplayer">
+        <div
+          style={{
+            position: "relative",
+            top: "300px",
+            zIndex: 2,
+            left: "150px",
+          }}
+        >
+          <AtmosphereButton />
+        </div>
         <Demo mode={selectedMode} />
       </span>
       <div className="modeName">
         <p>Music Mode - {selectedMode[0].mode}</p>
       </div>
-      
+
       {/* {dayNight === "day" ? <video src={pathLofi1[0].src} autoPlay loop muted /> : (dayNight === "night" ? <video src={pathLofi1[1].src} autoPlay loop muted /> : <></>)} */}
 
-      <video className="videofirst"
-        src={pathLofi1[0].src}
+      <video
+        className="videofirst"
+        src={currentPath}
         autoPlay
         loop
         muted
-        style={{opacity:currentVideoOpacity}}
+        style={{ opacity: currentVideoOpacity }}
       />
-
-      <video className="videosecond"
-        src={pathLofi1[1].src}
-        autoPlay
-        loop
-        muted
-        style={{opacity:nextVideoOpacity}}
-      />
-
-
+      {isCurrentPath ? (
+        <video
+          className="videosecond"
+          src={nextPath}
+          autoPlay
+          loop
+          muted
+          style={{ opacity: nextVideoOpacity }}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

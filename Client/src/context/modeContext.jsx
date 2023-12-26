@@ -15,6 +15,7 @@ export const useMode = () => {
 export const ModeProvider = ({ children }) => {
   const [mode, setMode] = useState();
   const [dayNight, setDayNight] = useState();
+  const [atmosphere, setAtmosphere] = useState();
 
   const toggleMode = (selectedMode) => {
     setMode(selectedMode);
@@ -23,8 +24,10 @@ export const ModeProvider = ({ children }) => {
   const value = {
     mode,
     dayNight,
+    atmosphere,
     setDayNight,
     toggleMode,
+    setAtmosphere,
   };
 
   return (

@@ -21,6 +21,14 @@ function Catagory() {
   const [open, setOpen] = useState(false);
   const modalRef = useRef(null);
 
+  const cate = [
+    { id: 0, mode: "chill", src: "/assets/icons/sunbathing (1).png" },
+    { id: 1, mode: "sexy", src: "/assets/icons/woman.png" },
+    { id: 2, mode: "happy", src: "/assets/icons/jumping-man.png" },
+    { id: 3, mode: "romantic", src: "/assets/icons/drinks.png" },
+    { id: 4, mode: "sad", src: "/assets/icons/abused.png" },
+  ];
+
   // console.log(mode);
   const handleOpen = () => {
     setOpen(true);
@@ -31,7 +39,7 @@ function Catagory() {
   };
 
   const [selectedMode, setSelectedMode] = useState("");
-  // console.log(selectedMode)
+  // console.log("SelcetedMode" + selectedMode);
 
   // Custom arrow components
   const NextArrow = (props) => {
@@ -222,96 +230,35 @@ function Catagory() {
               >
                 {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
                 <Slider {...firstSliderSettings}>
-                  <Button
-                    onClick={() => handleButtonClick("chill")}
-                  >
-                    <div
-                      className="card"
-                      style={{
-                        border: selectedMode === "chill" ? "2px solid #BB98FF" : "none",
-                        width: selectedMode === "chill" ? "90px" : "",
-                        height: selectedMode === "chill" ? "96px" : ""
-                      }}
+                  {cate.map((cates) => (
+                    <Button
+                      onClick={() => handleButtonClick(cates.mode)}
+                      key={cates.id}
                     >
-                      <div className="cards-image">
-                        <img
-                          src="/assets/icons/sunbathing (1).png"
-                          className="image-slide"
-                        />
+                      <div
+                        className="card"
+                        style={{
+                          border:
+                            selectedMode === cates.mode
+                              ? "2px solid #BB98FF"
+                              : "none",
+                          width: selectedMode === cates.mode ? "90px" : "",
+                          height: selectedMode === cates.mode ? "96px" : "",
+                        }}
+                      >
+                        <div className="cards-image">
+                          <img
+                            src={cates.src}
+                            className="image-slide"
+                            alt={cates.mode}
+                          />
+                        </div>
+                        <div className="cardtext">
+                          <b>{cates.mode}</b>
+                        </div>
                       </div>
-                      <div className="cardtext">
-                        <b>Chill</b>
-                      </div>
-                    </div>
-                  </Button>
-                  <Button onClick={() => handleButtonClick("sexy")}>
-                    <div className="card" style={{
-                        border: selectedMode === "sexy" ? "2px solid #BB98FF" : "none",
-                        width: selectedMode === "sexy" ? "90px" : "",
-                        height: selectedMode === "sexy" ? "96px" : ""
-                      }}>
-                      <div className="cards-image">
-                        <img
-                          src="/assets/icons/woman.png"
-                          className="image-slide"
-                        />
-                      </div>
-                      <div className="cardtext">
-                        <b>Sexy</b>
-                      </div>
-                    </div>
-                  </Button>
-                  <Button onClick={() => handleButtonClick("happy")}>
-                    <div className="card" style={{
-                        border: selectedMode === "happy" ? "2px solid #BB98FF" : "none",
-                        width: selectedMode === "happy" ? "90px" : "",
-                        height: selectedMode === "happy" ? "96px" : ""
-                      }}>
-                      <div className="cards-image">
-                        <img
-                          src="/assets/icons/jumping-man.png"
-                          className="image-slide"
-                        />
-                      </div>
-                      <div className="cardtext">
-                        <b>Happy</b>
-                      </div>
-                    </div>
-                  </Button>
-                  <Button onClick={() => handleButtonClick("romantic")}>
-                    <div className="card" style={{
-                        border: selectedMode === "romantic" ? "2px solid #BB98FF" : "none",
-                        width: selectedMode === "romantic" ? "90px" : "",
-                        height: selectedMode === "romantic" ? "96px" : ""
-                      }}>
-                      <div className="cards-image">
-                        <img
-                          src="/assets/icons/drinks.png"
-                          className="image-slide"
-                        />
-                      </div>
-                      <div className="cardtext" >
-                        <b>Romantic</b>
-                      </div>
-                    </div>
-                  </Button>
-                  <Button onClick={() => handleButtonClick("sad")}>
-                    <div className="card" style={{
-                        border: selectedMode === "sad" ? "2px solid #BB98FF" : "none",
-                        width: selectedMode === "sad" ? "90px" : "",
-                        height: selectedMode === "sad" ? "96px" : ""
-                      }}>
-                      <div className="cards-image">
-                        <img
-                          src="/assets/icons/abused.png"
-                          className="image-slide"
-                        />
-                      </div>
-                      <div className="cardtext">
-                        <b>Sad</b>
-                      </div>
-                    </div>
-                  </Button>
+                    </Button>
+                  ))}
                 </Slider>
               </Typography>
               <div className="category-modal-title-second">
