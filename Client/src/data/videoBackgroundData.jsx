@@ -13,6 +13,9 @@ const pathLofi1 = [
       id: 2,
       mode: "day-rain",
       src: "./assets/video/lofi-video/lofi-day-rain1.mp4"
+    },
+    {
+      id: 3,
     }
   ];
 

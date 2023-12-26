@@ -44,22 +44,40 @@ function Home() {
   useEffect(() => {
     pathLofi1.map((pathLofi) => {
       // console.log("inner" + atmosphere);
-  
-      if (dayNight === pathLofi.mode || (atmosphere === "rain" && mergMode === pathLofi.mode)) {
+
+      if (atmosphere === "rain" && mergMode === pathLofi.mode) {
+        if (currentPath !== pathLofi.src) {
+          setNextVideoOpacity(1);
+          setCurrentVideoOpacity(0);
+          setNextPath(pathLofi.src);
+          console.log("current :" + pathLofi.mode);
+          console.log("current :" + pathLofi.src);
+        } else if (nextPath !== pathLofi.src) {
+          setNextVideoOpacity(0);
+          setCurrentVideoOpacity(1);
+          setCurrentPath(pathLofi.src);
+          console.log("next :" + pathLofi.mode);
+          console.log("next :" + pathLofi.src);
+        }
+      } else if (dayNight === pathLofi.mode) {
         // console.log("currentPath" + currentPath);
         // console.log("nextPath" + nextPath);
         if (currentPath !== pathLofi.src) {
           setNextVideoOpacity(1);
           setCurrentVideoOpacity(0);
           setNextPath(pathLofi.src);
+          console.log("current :" + pathLofi.mode);
+          console.log("current :" + pathLofi.src);
         } else if (nextPath !== pathLofi.src) {
           setNextVideoOpacity(0);
           setCurrentVideoOpacity(1);
           setCurrentPath(pathLofi.src);
+          console.log("next :" + pathLofi.mode);
+          console.log("next :" + pathLofi.src);
         }
       }
     });
-  
+
     if (currentPath === "") {
       pathLofi1.map((pathLofi) => {
         if (pathLofi.mode === "day") {
@@ -68,7 +86,7 @@ function Home() {
         }
       });
     }
-  
+
     if (currentPath) {
       setIsCurrentPath(true);
     }
