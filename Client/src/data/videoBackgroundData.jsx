@@ -16,6 +16,8 @@ const pathLofi1 = [
     },
     {
       id: 3,
+      mode: "night-rain",
+      src: "./assets/video/lofi-video/lofi-night-rain1.mp4"
     }
   ];
 
