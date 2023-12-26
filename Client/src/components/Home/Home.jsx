@@ -15,6 +15,8 @@ function Home() {
   const [nextPath, setNextPath] = useState("");
   const [currentPath, setCurrentPath] = useState("");
   const [isCurrentPath, setIsCurrentPath] = useState(false);
+  const [currentMOde, setCurrentMode] = useState("day");
+  const [nextMode, setNextMode] = useState("");
 
   const { mode } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
@@ -45,35 +47,32 @@ function Home() {
     pathLofi1.map((pathLofi) => {
       // console.log("inner" + atmosphere);
 
-      if (atmosphere === "rain" && mergMode === pathLofi.mode) {
-        if (currentPath !== pathLofi.src) {
-          setNextVideoOpacity(1);
-          setCurrentVideoOpacity(0);
-          setNextPath(pathLofi.src);
-          console.log("current :" + pathLofi.mode);
-          console.log("current :" + pathLofi.src);
-        } else if (nextPath !== pathLofi.src) {
-          setNextVideoOpacity(0);
-          setCurrentVideoOpacity(1);
-          setCurrentPath(pathLofi.src);
-          console.log("next :" + pathLofi.mode);
-          console.log("next :" + pathLofi.src);
-        }
-      } else if (dayNight === pathLofi.mode) {
+      if (
+        dayNight === pathLofi.mode ||
+        (atmosphere === "rain" && mergMode === pathLofi.mode)
+      ) {
+        console.log("--------------------------------");
         // console.log("currentPath" + currentPath);
         // console.log("nextPath" + nextPath);
-        if (currentPath !== pathLofi.src) {
-          setNextVideoOpacity(1);
-          setCurrentVideoOpacity(0);
-          setNextPath(pathLofi.src);
-          console.log("current :" + pathLofi.mode);
-          console.log("current :" + pathLofi.src);
-        } else if (nextPath !== pathLofi.src) {
+
+        console.log("current src : " + pathLofi.mode);
+
+        if (pathLofi.mode === "day") {
           setNextVideoOpacity(0);
           setCurrentVideoOpacity(1);
           setCurrentPath(pathLofi.src);
-          console.log("next :" + pathLofi.mode);
-          console.log("next :" + pathLofi.src);
+        } else if (pathLofi.mode === "night") {
+          setNextVideoOpacity(1);
+          setCurrentVideoOpacity(0);
+          setNextPath(pathLofi.src);
+        } else if (pathLofi.mode === "day-rain") {
+          setNextVideoOpacity(1);
+          setCurrentVideoOpacity(0);
+          setCurrentPath(pathLofi.src);
+        } else if (pathLofi.mode === "night-rain") {
+          setNextVideoOpacity(0);
+          setCurrentVideoOpacity(1);
+          setNextPath(pathLofi.src);
         }
       }
     });
