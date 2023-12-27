@@ -14,15 +14,16 @@ function Home() {
   const [nextVideoOpacity, setNextVideoOpacity] = useState(0);
   const [nextPath, setNextPath] = useState("");
   const [currentPath, setCurrentPath] = useState("");
-  const [isCurrentPath, setIsCurrentPath] = useState(false);
+  const [isNextPath, setisNextPath] = useState(false);
 
   const { mode } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
   const { dayNight, atmosphere } = useMode();
-  const mergMode = dayNight + "-" + atmosphere;
+  const mergMode = (dayNight || "day") + "-" + atmosphere;
 
   // console.log(selectedMode[0].mode)
   // console.log("Outside"+atmosphere);
+  console.log("mergeMode src : " + mergMode);
 
   useEffect(() => {
     // console.log("Mode changed:", mode);
@@ -42,9 +43,22 @@ function Home() {
   }, [mode]);
 
   useEffect(() => {
+    const daySrc = pathLofi1.find((item) => item.mode === "day").src;
+
+    // defualt day and day-rain
+    if (currentPath === "") {
+      setNextVideoOpacity(0);
+      setCurrentVideoOpacity(1);
+      setCurrentPath(daySrc);
+      console.log("currentPath === ");
+      console.log(daySrc);
+    } else if (mergMode === "day-") {
+      setNextVideoOpacity(0);
+      setCurrentVideoOpacity(1);
+    }
+
     pathLofi1.map((pathLofi) => {
       // console.log("inner" + atmosphere);
-
       if (
         dayNight === pathLofi.mode ||
         (atmosphere === "rain" && mergMode === pathLofi.mode)
@@ -54,6 +68,7 @@ function Home() {
         // console.log("nextPath" + nextPath);
 
         console.log("current src : " + pathLofi.mode);
+        // console.log("mergeMode src : " + mergMode);
 
         if (pathLofi.mode === "day") {
           setNextVideoOpacity(0);
@@ -75,17 +90,8 @@ function Home() {
       }
     });
 
-    if (currentPath === "") {
-      pathLofi1.map((pathLofi) => {
-        if (pathLofi.mode === "day") {
-          setCurrentPath(pathLofi.src);
-          console.log(pathLofi.src);
-        }
-      });
-    }
-
-    if (currentPath) {
-      setIsCurrentPath(true);
+    if (nextPath) {
+      setisNextPath(true);
     }
   }, [dayNight, atmosphere]);
   // console.log("currentVideoOpacity", currentVideoOpacity);
@@ -126,7 +132,7 @@ function Home() {
         muted
         style={{ opacity: currentVideoOpacity }}
       />
-      {isCurrentPath ? (
+      {isNextPath ? (
         <video
           className="videosecond"
           src={nextPath}

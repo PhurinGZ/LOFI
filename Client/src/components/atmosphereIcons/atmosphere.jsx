@@ -9,7 +9,7 @@ const AtmosphereButton = () => {
     // Check if the atmosphere is already stored
     if (atmosphere === "rain") {
       // If stored, remove it
-      setAtmosphere(null);
+      setAtmosphere("");
     } else {
       // If not stored, store it
       setAtmosphere("rain");
