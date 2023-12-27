@@ -14,7 +14,7 @@ function Home() {
   const [nextVideoOpacity, setNextVideoOpacity] = useState(0);
   const [nextPath, setNextPath] = useState("");
   const [currentPath, setCurrentPath] = useState("");
-  const [isCurrentPath, setIsCurrentPath] = useState(false);
+  const [isNextPath, setisNextPath] = useState(false);
 
   const { mode } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
@@ -45,6 +45,7 @@ function Home() {
   useEffect(() => {
     const daySrc = pathLofi1.find((item) => item.mode === "day").src;
 
+    // defualt day and day-rain
     if (currentPath === "") {
       setNextVideoOpacity(0);
       setCurrentVideoOpacity(1);
@@ -89,8 +90,8 @@ function Home() {
       }
     });
 
-    if (currentPath) {
-      setIsCurrentPath(true);
+    if (nextPath) {
+      setisNextPath(true);
     }
   }, [dayNight, atmosphere]);
   // console.log("currentVideoOpacity", currentVideoOpacity);
@@ -131,7 +132,7 @@ function Home() {
         muted
         style={{ opacity: currentVideoOpacity }}
       />
-      {isCurrentPath ? (
+      {isNextPath ? (
         <video
           className="videosecond"
           src={nextPath}
