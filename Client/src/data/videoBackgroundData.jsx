@@ -2,22 +2,22 @@ const pathLofi1 = [
     {
       id: 0,
       mode: "day",
-      src: "./assets/video/lofi-video/lofi-day1.mp4",
+      src: "./assets/video/lofi-video/lofi1-day.mp4",
     },
     {
       id: 1,
       mode: "night",
-      src: "./assets/video/lofi-video/lofi-night1.mp4"
+      src: "./assets/video/lofi-video/lofi1-night.mp4"
     },
     {
       id: 2,
       mode: "day-rain",
-      src: "./assets/video/lofi-video/lofi-day-rain1.mp4"
+      src: "./assets/video/lofi-video/lofi1-day-rain.mp4"
     },
     {
       id: 3,
       mode: "night-rain",
-      src: "./assets/video/lofi-video/lofi-night-rain1.mp4"
+      src: "./assets/video/lofi-video/lofi1-night-rain.mp4"
     }
   ];
 
