@@ -173,9 +173,37 @@
   width: 160px;
   height: 155px;
   flex-shrink: 0;
-  background: #fff;
+  background:  rgba(187, 152, 255, 0.70);
   border-radius: 10px;
   margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* เพิ่มบรรทัดนี้ */
+  overflow: hidden;
+  flex-direction: column;
+
+  video{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  span{
+    font-size: 2rem;
+  }
+  .coti-img{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: row ;
+    align-items: flex-end;
+
+  }
 }
 
 .card-image-third {

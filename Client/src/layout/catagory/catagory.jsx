@@ -10,6 +10,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useMode } from "../../context/modeContext";
 import Draggable from "react-draggable";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+
+import { pathLofi1 } from "../../data/videoBackgroundData";
 
 function CustomBackdrop(props) {
   return (
@@ -304,7 +307,16 @@ function Catagory() {
                     <Slider {...secondSliderSettings}>
                       <Button onClick={handleButtonClickchang}>
                         <div className="card-image" style={{ color: "#000" }}>
-                          1
+                          <video src={pathLofi1[0].src} />
+                          <span> LOFI</span>
+                          <div className="coti-img">
+                            <AddPhotoAlternateIcon
+                              fontSize="small"
+                              marginBottom="10px"
+                              style={{margin:'4px'}}
+                            />{" "}
+                            <p>1</p>
+                          </div>
                         </div>
                       </Button>
 
@@ -333,9 +345,8 @@ function Catagory() {
                         display: "flex",
                         cursor: "pointer",
                         color: "rgba(138, 43, 226, 1)",
-                        borderRadius:'50px',
-                        borderBottom:'1px solid rgba(61, 61, 61, 1)'
-                  
+                        borderRadius: "50px",
+                        borderBottom: "1px solid rgba(61, 61, 61, 1)",
                       }}
                       onClick={handleButtonClickchang}
                     >
