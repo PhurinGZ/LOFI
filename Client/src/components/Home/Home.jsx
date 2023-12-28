@@ -1,32 +1,36 @@
-// Home.jsx
 import Demo from "../audioplayer/Demo";
 import "./Home.scss";
 import Header from "../../layout/header/head";
 import { Romantic, chil, Sad, happy, sexy } from "../../data/songData";
-import { pathLofi1 } from "../../data/videoBackgroundData";
+import { pathLofi1, pathLofi2 } from "../../data/videoBackgroundData";
 import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect } from "react";
 import { useMode } from "../../context/modeContext";
 import AtmosphereButton from "../atmosphereIcons/atmosphere";
+import { typeLofi } from "../../data/chooseVideo";
 
-function Home() {
+const Home = () => {
   const [currentVideoOpacity, setCurrentVideoOpacity] = useState(1);
   const [nextVideoOpacity, setNextVideoOpacity] = useState(0);
   const [nextPath, setNextPath] = useState("");
   const [currentPath, setCurrentPath] = useState("");
-  const [isNextPath, setisNextPath] = useState(false);
+  const [isNextPath, setIsNextPath] = useState(false);
 
   const { mode } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
-  const { dayNight, atmosphere } = useMode();
-  const mergMode = (dayNight || "day") + "-" + atmosphere;
+  const { dayNight, atmosphere, changedImage } = useMode();
+  const mergeMode = (dayNight || "day") + "-" + atmosphere;
 
-  // console.log(selectedMode[0].mode)
-  // console.log("Outside"+atmosphere);
-  console.log("mergeMode src : " + mergMode);
+  // console.log(changedImage.data);
+  // changedImage.map((m) =>{
+  //   console.log("m : ",m)
+  //   if(dayNight === m.mode){
+  //     console.log("type Lofi", m.mode );
+  //   }
+  // })
+  // console.log(changedImage.data)
 
   useEffect(() => {
-    // console.log("Mode changed:", mode);
     if (mode === "chill") {
       setSelectedMode(chil);
     } else if (mode === "romantic") {
@@ -43,61 +47,92 @@ function Home() {
   }, [mode]);
 
   useEffect(() => {
-    const daySrc = pathLofi1.find((item) => item.mode === "day").src;
-
-    // defualt day and day-rain
-    if (currentPath === "") {
-      setNextVideoOpacity(0);
-      setCurrentVideoOpacity(1);
-      setCurrentPath(daySrc);
-      console.log("currentPath === ");
-      console.log(daySrc);
-    } else if (mergMode === "day-") {
-      setNextVideoOpacity(0);
-      setCurrentVideoOpacity(1);
-    }
-
-    pathLofi1.map((pathLofi) => {
-      // console.log("inner" + atmosphere);
-      if (
-        dayNight === pathLofi.mode ||
-        (atmosphere === "rain" && mergMode === pathLofi.mode)
-      ) {
-        console.log("--------------------------------");
-        // console.log("currentPath" + currentPath);
-        // console.log("nextPath" + nextPath);
-
-        console.log("current src : " + pathLofi.mode);
-        // console.log("mergeMode src : " + mergMode);
-
-        if (pathLofi.mode === "day") {
-          setNextVideoOpacity(0);
-          setCurrentVideoOpacity(1);
-          setCurrentPath(pathLofi.src);
-        } else if (pathLofi.mode === "night") {
-          setNextVideoOpacity(1);
-          setCurrentVideoOpacity(0);
-          setNextPath(pathLofi.src);
-        } else if (pathLofi.mode === "day-rain") {
-          setNextVideoOpacity(0);
-          setCurrentVideoOpacity(1);
-          setCurrentPath(pathLofi.src);
-        } else if (pathLofi.mode === "night-rain") {
-          setNextVideoOpacity(1);
-          setCurrentVideoOpacity(0);
-          setNextPath(pathLofi.src);
+    if (changedImage && changedImage.name) {
+      if (changedImage.name === "lofi1" && changedImage.data) {
+        if (Array.isArray(changedImage?.data)) {
+          changedImage.data.forEach((pathLofi) => {
+            if (pathLofi.mode === dayNight || pathLofi.mode === mergeMode) {
+              switch (pathLofi.mode) {
+                case "day":
+                  setNextVideoOpacity(0);
+                  setCurrentVideoOpacity(1);
+                  setCurrentPath(pathLofi.src);
+                  console.log("day", pathLofi.mode);
+                  break;
+                case "night":
+                  setNextVideoOpacity(1);
+                  setCurrentVideoOpacity(0);
+                  setNextPath(pathLofi.src);
+                  console.log("night", pathLofi.mode);
+                  break;
+                case "day-rain":
+                  setNextVideoOpacity(0);
+                  setCurrentVideoOpacity(1);
+                  setCurrentPath(pathLofi.src);
+                  console.log("day-rain", pathLofi.mode);
+                  break;
+                case "night-rain":
+                  setNextVideoOpacity(1);
+                  setCurrentVideoOpacity(0);
+                  setNextPath(pathLofi.src);
+                  console.log("night-rain", pathLofi.mode);
+                  break;
+                default:
+                  break;
+              }
+            }
+          });
         }
+        console.log(
+          "lofi1",
+          changedImage.data.find((item) => item.mode === dayNight)?.src || ""
+        );
+      } else if (changedImage.name === "lofi2" && changedImage.data) {
+        if (Array.isArray(changedImage?.data)) {
+          changedImage.data.forEach((pathLofi) => {
+            if (pathLofi.mode === dayNight || pathLofi.mode === mergeMode) {
+              switch (pathLofi.mode) {
+                case "day":
+                  setNextVideoOpacity(1);
+                  setCurrentVideoOpacity(0);
+                  setNextPath(pathLofi.src);
+                  console.log("day", pathLofi.mode);
+                  break;
+                case "night":
+                  setNextVideoOpacity(0);
+                  setCurrentVideoOpacity(1);
+                  setCurrentPath(pathLofi.src);
+                  console.log("night", pathLofi.mode);
+                  break;
+                case "day-rain":
+                  setNextVideoOpacity(1);
+                  setCurrentVideoOpacity(0);
+                  setNextPath(pathLofi.src);
+                  console.log("day-rain", pathLofi.mode);
+                  break;
+                case "night-rain":
+                  setNextVideoOpacity(0);
+                  setCurrentVideoOpacity(1);
+                  setCurrentPath(pathLofi.src);
+                  console.log("night-rain", pathLofi.mode);
+                  break;
+                default:
+                  break;
+              }
+            }
+          });
+        }
+        console.log(
+          "lofi2",
+          changedImage.data.find((item) => item.mode === dayNight)?.src || ""
+        );
       }
-    });
+    }
 
     if (nextPath) {
-      setisNextPath(true);
+      setIsNextPath(true);
     }
-  }, [dayNight, atmosphere]);
-  // console.log("currentVideoOpacity", currentVideoOpacity);
-  // console.log("currentVideoOpacity", nextVideoOpacity);
-
-  // console.log(dayNight);
+  }, [dayNight, atmosphere, changedImage?.data]);
 
   return (
     <div className="main">
@@ -116,30 +151,27 @@ function Home() {
       </div>
 
       {/* {dayNight === "day" ? <video src={pathLofi1[0].src} autoPlay loop muted /> : (dayNight === "night" ? <video src={pathLofi1[1].src} autoPlay loop muted /> : <></>)} */}
-      <div className="video-container">
-        <video
 
-          src={currentPath}
+      <video
+        className="videofirst"
+        src={currentPath}
+        autoPlay
+        loop
+        muted
+        style={{ opacity: currentVideoOpacity }}
+      />
+     
+        <video
+          className="videosecond"
+          src={nextPath}
           autoPlay
           loop
           muted
-          style={{ opacity: currentVideoOpacity }}
+          style={{ opacity: nextVideoOpacity }}
         />
-        {isNextPath ? (
-          <video
 
-            src={nextPath}
-            autoPlay
-            loop
-            muted
-            style={{ opacity: nextVideoOpacity }}
-          />
-        ) : (
-          <></>
-        )}
-      </div>
     </div>
   );
-}
+};
 
 export default Home;
