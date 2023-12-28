@@ -136,40 +136,38 @@ const Home = () => {
 
   return (
     <div className="main">
-      <Header />
-      <div>
-        <Sidebar />
-      </div>
-      <div className="btn-rain">
-        <AtmosphereButton />
+      <div className="fh relative">
+        <Header />
+        <div
+          className="background-video video-player"
+          style={{ opacity: currentVideoOpacity }}
+        >
+          <video className="videofirst" src={currentPath} autoPlay loop muted />
+        </div>
+
+        <div
+          className="background-video video-player"
+          style={{ opacity: nextVideoOpacity }}
+        >
+          <video className="videosecond" src={nextPath} autoPlay loop muted />
+        </div>
+        <div>
+          <Sidebar />
+        </div>
+
+        <div className="btn-rain">
+          <AtmosphereButton />
+        </div>
       </div>
       <span className="audioplayer">
         <Demo mode={selectedMode} />
       </span>
+
       <div className="modeName">
         <p>Mode - {selectedMode[0].mode}</p>
       </div>
 
       {/* {dayNight === "day" ? <video src={pathLofi1[0].src} autoPlay loop muted /> : (dayNight === "night" ? <video src={pathLofi1[1].src} autoPlay loop muted /> : <></>)} */}
-
-      <video
-        className="videofirst"
-        src={currentPath}
-        autoPlay
-        loop
-        muted
-        style={{ opacity: currentVideoOpacity }}
-      />
-     
-        <video
-          className="videosecond"
-          src={nextPath}
-          autoPlay
-          loop
-          muted
-          style={{ opacity: nextVideoOpacity }}
-        />
-
     </div>
   );
 };

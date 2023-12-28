@@ -1,6 +1,8 @@
 /* Home.scss */
 
 .main {
+  overflow-y: hidden;
+  object-fit: cover;
   .modeName {
     position: absolute;
     width: 100%;
@@ -32,26 +34,48 @@
 
 .audioplayer {
   flex-grow: 1;
-  z-index: 2;
+  z-index: 1;
 }
 
-video {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
+.background-video.background-cta,
+.background-video,
+.background-video * {
+  min-width: 100vw !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+  width: calc(100vh * 16 / 9) !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  z-index: 1;
+  transform: translate(-50%, -50%) !important;
+}
+@media only screen and (max-width: 600px) {
+  .background-video {
+    left: 150% !important;
+  }
 }
 
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Maintain aspect ratio and cover the container */
-  }
+.fh {
+  height: 100vh;
+}
+.relative {
+  position: relative;
+}
 
-  .videofirst{
-    position: absolute;
+
+@media (min-aspect-ratio: 16/9) {
+  .background-cta,
+  .background-img,
+  .background-video video {
+    width: 100vw !important;
+    height: calc(100vw * 9 / 16) !important;
   }
-  
-  .videosecond{
-    position: absolute;
-  }
+}
+
+.video-player {
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+  transition-property: opacity;
+}

@@ -1,11 +1,11 @@
 .audio-main {
-  position: absolute;
-  width: 100%;
-  z-index: 3;
+  position: fixed;
+ 
   display: flex;
   justify-content: center;
-  height: 100%;
   align-items: flex-end;
+  bottom: 5%;
+  z-index: 99;
 }
 
 .borderBG-audio {
