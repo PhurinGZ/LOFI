@@ -12,7 +12,7 @@ import Draggable from "react-draggable";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
-import { pathLofi1 } from "../../data/videoBackgroundData";
+import { typeLofi } from "../../data/chooseVideo";
 
 function CustomBackdrop(props) {
   return (
@@ -24,6 +24,7 @@ function Catagory() {
   const { mode, toggleMode } = useMode();
   const [open, setOpen] = useState(false);
   const modalRef = useRef(null);
+  const { setChangedImage } = useMode();
 
   const cate = [
     { id: 0, mode: "chill", src: "/assets/icons/sunbathing (1).png" },
@@ -37,8 +38,21 @@ function Catagory() {
   const [isSliderSecondVisiblechang, setIsSliderSecondVisiblechang] =
     useState(true);
 
+  const [data, setData] = useState([]);
+
+  // console.log("data outside :", data);
+
   const handleButtonClickchang = () => {
     setIsSliderSecondVisiblechang(!isSliderSecondVisiblechang);
+  };
+
+  const handleData = (value1) => {
+    setData(value1);
+  };
+
+  const handleDataContext = (value) => {
+    setChangedImage(value);
+    // console.log(value);
   };
 
   const handback = () => {
@@ -305,28 +319,48 @@ function Catagory() {
                     className="Slider Slider-second"
                   >
                     <Slider {...secondSliderSettings}>
-                      <Button onClick={handleButtonClickchang}>
-                        <div className="card-image" style={{ color: "#000" }}>
-                          <video src={pathLofi1[0].src} />
-                          <span> LOFI</span>
-                          <div className="coti-img">
-                            <AddPhotoAlternateIcon
-                              fontSize="small"
-                              marginBottom="10px"
-                              style={{margin:'4px'}}
-                            />{" "}
-                            <p>1</p>
+                      {typeLofi.map((type, i) => (
+                        <Button
+                          onClick={() => {
+                            if (
+                              type.video &&
+                              type.video[i] &&
+                              type.video[i].data &&
+                              type.video[i].data.length > 0
+                            ) {
+                              handleButtonClickchang();
+                              handleData([type.video, type.nameType]);
+                            }
+                          }}
+                          key={i}
+                          disabled={
+                            !type.video ||
+                            !type.video[i] ||
+                            !type.video[i].data ||
+                            type.video[i].data.length === 0
+                          }
+                        >
+                          <div className="card-image" style={{ color: "#000" }}>
+                            {type.video &&
+                            type.video[i] &&
+                            type.video[i].data &&
+                            type.video[i].data[0] ? (
+                              <video src={type.video[i].data[0].src} />
+                            ) : (
+                              <video src="" />
+                            )}
+                            <span>{type.nameType}</span>
+                            <div className="coti-img">
+                              <AddPhotoAlternateIcon
+                                fontSize="small"
+                                marginBottom="10px"
+                                style={{ margin: "4px" }}
+                              />{" "}
+                              <p>{type.video ? type.video.length : 0}</p>
+                            </div>
                           </div>
-                        </div>
-                      </Button>
-
-                      <Button>
-                        <div className="card-image"></div>
-                      </Button>
-
-                      <Button>
-                        <div className="card-image"></div>
-                      </Button>
+                        </Button>
+                      ))}
                     </Slider>
                   </Typography>
                 ) : (
@@ -350,26 +384,27 @@ function Catagory() {
                       }}
                       onClick={handleButtonClickchang}
                     >
-                      <ChevronLeftIcon /> LOFI
+                      <ChevronLeftIcon /> {data[1]}
                     </p>
 
                     <Slider {...secondSliderSettings}>
-                      <Button>
-                        <div
-                          className="card-image-third"
-                          style={{ color: "#000" }}
+                      {data[0].map((datas, i) => (
+                        <Button
+                          key={i}
+                          onClick={() => handleDataContext(datas)}
                         >
-                          2
-                        </div>
-                      </Button>
-
-                      <Button>
-                        <div className="card-image-third"></div>
-                      </Button>
-
-                      <Button>
-                        <div className="card-image-third"></div>
-                      </Button>
+                          <div
+                            className="card-image-third"
+                            style={{ color: "#000" }}
+                          >
+                            {datas.data &&
+                              datas.data[0] &&
+                              datas.data[0].src && (
+                                <video src={datas.data[0].src} />
+                              )}
+                          </div>
+                        </Button>
+                      ))}
                     </Slider>
                   </Typography>
                 )}
