@@ -98,6 +98,7 @@ const Demo = ({ mode }) => {
           },
         }}
         onClick={onClick}
+        className="volume-size"
       />
     ) : volume <= 20 ? (
       <VolumeMuteIcon
@@ -110,6 +111,7 @@ const Demo = ({ mode }) => {
           },
         }}
         onClick={onClick}
+        className="volume-size"
       />
     ) : volume <= 75 ? (
       <VolumeDownIcon
@@ -122,6 +124,7 @@ const Demo = ({ mode }) => {
           },
         }}
         onClick={onClick}
+        className="volume-size"
       />
     ) : (
       <VolumeUpIcon
@@ -134,6 +137,7 @@ const Demo = ({ mode }) => {
           },
         }}
         onClick={onClick}
+        className="volume-size"
       />
     );
   };
@@ -159,6 +163,7 @@ const Demo = ({ mode }) => {
               "&:hover": { transform: "scale(1.2)" },
             }}
             onClick={toggleSkipBackward}
+     
           />
           {!isPlaying ? (
             <PlayCircleOutlineIcon
@@ -168,6 +173,7 @@ const Demo = ({ mode }) => {
                 "&:hover": { transform: "scale(1.2)" },
               }}
               onClick={togglePlay}
+
             />
           ) : (
             <PauseCircleOutlineIcon
@@ -186,6 +192,7 @@ const Demo = ({ mode }) => {
               "&:hover": { transform: "scale(1.2)" },
             }}
             onClick={toggleSkipForward}
+
           />
             {/* volume -----------------------------------------------------------------------------------------------------volume */}
           <div className="costom-volume">
@@ -201,6 +208,7 @@ const Demo = ({ mode }) => {
                   marginRight: "10px",
                   width: "100px",
                 }}
+                className="slide-volume"
               />
             )}
           </div>

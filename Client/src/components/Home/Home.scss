@@ -1,10 +1,7 @@
 /* Home.scss */
 
 .main {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* 100% of the viewport height */
-  .modeName{
+  .modeName {
     position: absolute;
     width: 100%;
     display: flex;
@@ -12,38 +9,56 @@
     align-items: flex-end;
     min-height: 100%;
     z-index: 1;
-    p{
+    p {
       margin-bottom: 60px;
       margin-right: 60px;
       font-size: 1.5rem;
     }
+    @media screen and (max-width: 1024px) {
+      p {
+        margin-bottom: 3px;
+        margin-right: 3px;
+        font-size: 1rem;
+      }
+    }
+  }
+  .btn-rain {
+    position: fixed;
+    z-index: 4;
+    right: 50px;
+    bottom: 50%;
   }
 }
 
 .audioplayer {
-  flex-grow: 1; /* Expand and fill the available space */
+  flex-grow: 1;
   z-index: 2;
+}
 
-video {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-}
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
-}
-  
+.video-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
   video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Maintain aspect ratio and cover the container */
+    object-fit: cover;
+    object-position: center top;
+    position: absolute;
   }
+  @media screen and (max-width: 1024px) {
+    .video-container {
+      overflow: scroll;
+      video {
+        min-height: 100vh !important;
+        min-width: 100vw !important;
+        position: absolute !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 177.77778vh !important;
+      }
+    }
+  }
+}
 
-  .videofirst{
-    position: absolute;
-  }
-  
-  .videosecond{
-    position: absolute;
-  }
-  

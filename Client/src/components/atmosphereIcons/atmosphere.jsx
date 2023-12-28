@@ -1,6 +1,7 @@
 // atmoshpereButton.jsx
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import { useMode } from "../../context/modeContext";
+import "./style.scss";
 
 const AtmosphereButton = () => {
   const { atmosphere, setAtmosphere } = useMode();
@@ -17,14 +18,9 @@ const AtmosphereButton = () => {
   };
 
   return (
-    <Button
-      variant="outlined"
-      color="secondary"
-      size="large"
-      onClick={handleToggle}
-    >
-      Atmosphere Button
-    </Button>
+    <div className="button-rain"     onClick={handleToggle}>
+        <img src="/public/assets/icons/rain.png" alt="" />
+    </div>
   );
 };
 

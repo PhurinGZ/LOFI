@@ -1,0 +1,22 @@
+
+.button-rain{
+
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #fff;
+        position: relative; /* เพิ่มบรรทัดนี้ */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        img{
+            width: 50%;
+            height: 50%;
+            padding: 10px ;
+        }
+        &:hover{
+            background: #BB98FF;
+        }
+}

@@ -105,45 +105,39 @@ function Home() {
       <div>
         <Sidebar />
       </div>
+      <div className="btn-rain">
+        <AtmosphereButton />
+      </div>
       <span className="audioplayer">
-        <div
-          style={{
-            position: "relative",
-            top: "300px",
-            zIndex: 2,
-            left: "150px",
-          }}
-        >
-          <AtmosphereButton />
-        </div>
         <Demo mode={selectedMode} />
       </span>
       <div className="modeName">
-        <p>Music Mode - {selectedMode[0].mode}</p>
+        <p>Mode - {selectedMode[0].mode}</p>
       </div>
 
       {/* {dayNight === "day" ? <video src={pathLofi1[0].src} autoPlay loop muted /> : (dayNight === "night" ? <video src={pathLofi1[1].src} autoPlay loop muted /> : <></>)} */}
-
-      <video
-        className="videofirst"
-        src={currentPath}
-        autoPlay
-        loop
-        muted
-        style={{ opacity: currentVideoOpacity }}
-      />
-      {isNextPath ? (
+      <div className="video-container">
         <video
-          className="videosecond"
-          src={nextPath}
+
+          src={currentPath}
           autoPlay
           loop
           muted
-          style={{ opacity: nextVideoOpacity }}
+          style={{ opacity: currentVideoOpacity }}
         />
-      ) : (
-        <></>
-      )}
+        {isNextPath ? (
+          <video
+
+            src={nextPath}
+            autoPlay
+            loop
+            muted
+            style={{ opacity: nextVideoOpacity }}
+          />
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 }
