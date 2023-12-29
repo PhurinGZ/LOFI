@@ -197,7 +197,7 @@ const Demo = ({ mode }) => {
             {/* volume -----------------------------------------------------------------------------------------------------volume */}
           <div className="costom-volume">
             <VolumeBtns onClick={handleLabelClick} />
-            {!isVolumeHidden && (
+            {isVolumeHidden && (
               <Slider
                 value={volume}
                 onChange={(e, newValue) => setVolume(newValue)}
