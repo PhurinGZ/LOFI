@@ -14,13 +14,14 @@ const Home = () => {
   const [nextPath, setNextPath] = useState("");
   const [currentPath, setCurrentPath] = useState("");
   const [isNextPath, setIsNextPath] = useState(false);
+  const [isVisible, setIsVisble] = useState(true);
 
   const { mode } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
   const { dayNight, atmosphere, changedImage } = useMode();
   const mergeMode = (dayNight || "day") + "-" + atmosphere;
 
-  console.log(mergeMode);
+  console.log(changedImage);
 
   const handleVideoPaths = (imageData) => {
     if (Array.isArray(imageData?.data)) {
@@ -75,6 +76,41 @@ const Home = () => {
     }
   };
 
+  const handleVideoPathsReality = (imageData) => {
+    if (Array.isArray(imageData?.data)) {
+      imageData.data.forEach((pathLofi) => {
+        console.log(pathLofi);
+        if (currentPath !== pathLofi.src) {
+          setNextVideoOpacity(0);
+          setCurrentVideoOpacity(1);
+          setCurrentPath(pathLofi.src);
+          console.log("currentPath !== pathLofi.src");
+          if (nextPath !== pathLofi.src) {
+            setNextVideoOpacity(1);
+            setCurrentVideoOpacity(0);
+            setNextPath(pathLofi.src);
+            console.log("nextPath !== pathLofi.src");
+          } else {
+            setNextVideoOpacity(1);
+            setCurrentVideoOpacity(0);
+            console.log("else");
+          }
+        } else {
+          setNextVideoOpacity(0);
+          setCurrentVideoOpacity(1);
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (changedImage.name === "reality") {
+      setIsVisble(false);
+    } else {
+      setIsVisble(true);
+    }
+  });
+
   useEffect(() => {
     if (mode === "chill") {
       setSelectedMode(chil);
@@ -111,6 +147,12 @@ const Home = () => {
         //   "lofi3",
         //   changedImage.data.find((item) => item.mode === dayNight)?.src || ""
         // );
+      } else if (changedImage.name === "reality" && changedImage.data) {
+        handleVideoPathsReality(changedImage);
+        // console.log(
+        //   "lofi3",
+        //   changedImage.data.find((item) => item.mode === dayNight)?.src || ""
+        // );
       }
     }
 
@@ -140,10 +182,11 @@ const Home = () => {
         <div>
           <Sidebar />
         </div>
-
-        <div className="btn-rain">
-          <AtmosphereButton />
-        </div>
+        {isVisible && (
+          <div className="btn-rain">
+            <AtmosphereButton />
+          </div>
+        )}
       </div>
       <span className="audioplayer">
         <Demo mode={selectedMode} />

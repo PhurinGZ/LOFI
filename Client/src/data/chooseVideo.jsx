@@ -1,4 +1,4 @@
-import { pathLofi1, pathLofi2,pathLofi3 } from "./videoBackgroundData";
+import { pathLofi1, pathLofi2,pathLofi3, reality1, reality2, reality3, reality4, reality5, reality6, reality7 } from "./videoBackgroundData";
 
 const typeLofi = [
   {
@@ -15,7 +15,7 @@ const typeLofi = [
   {
     id: 1,
     nameType: "Reality",
-    video: [],
+    video: [ { id: 0, name: "reality", data: reality1 }, { id: 1, name: "reality", data: reality2 }, { id: 2, name: "reality", data: reality3 }, { id: 3, name: "reality", data: reality4 }, { id: 4, name: "reality", data: reality5 }, { id: 5, name: "reality", data: reality6 }, { id: 6, name: "reality", data: reality7 }],
   },
   {
     id: 2,
