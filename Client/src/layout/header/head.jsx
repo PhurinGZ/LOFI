@@ -1,11 +1,10 @@
 // head.jsx
-import React, { useState } from 'react';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import React, { useEffect, useState } from "react";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { Link } from "react-router-dom";
-import DarkLightSwitch from '../../components/dark-light/darklight';
-import './styles.scss';
-
-
+import DarkLightSwitch from "../../components/dark-light/darklight";
+import "./styles.scss";
+import { useMode } from "../../context/modeContext";
 
 const Header = () => {
   const [fullscreen, setFullscreen] = useState(false);
@@ -20,17 +19,32 @@ const Header = () => {
     }
   };
 
+  const { changedImage } = useMode();
+
+  const [isVisible, setIsVisble] = useState(true);
+
+  useEffect(() => {
+
+    if (changedImage.name === "reality") {
+      setIsVisble(false);
+    }else{
+      setIsVisble(true)
+    }
+  });
+
   return (
     <nav className="nav-bar">
-      <Link to='#' style={{ textDecoration: 'none',paddingLeft:"10px"}}>
-        <h1 style={{color:'#fff',fontSize:'1.5rem', }}>LOFI</h1>
+      <Link to="#" style={{ textDecoration: "none", paddingLeft: "10px" }}>
+        <h1 style={{ color: "#fff", fontSize: "1.5rem" }}>LOFI</h1>
       </Link>
       <div className="nav-menu"></div>
       <div className="nav-menu">
-        <DarkLightSwitch  />
+        {isVisible && <DarkLightSwitch />}
         <FullscreenIcon
-        fontSize='large'
-        onClick={fullscreenHandler} className="fullscreen-btn" />
+          fontSize="large"
+          onClick={fullscreenHandler}
+          className="fullscreen-btn"
+        />
       </div>
     </nav>
   );
