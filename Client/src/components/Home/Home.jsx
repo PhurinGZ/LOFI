@@ -2,7 +2,7 @@ import Demo from "../audioplayer/Demo";
 import "./Home.scss";
 import Header from "../../layout/header/head";
 import { Romantic, chil, Sad, happy, sexy } from "../../data/songData";
-import { pathLofi1, pathLofi2 } from "../../data/videoBackgroundData";
+import { pathLofi1, pathLofi2, pathLofi3 } from "../../data/videoBackgroundData";
 import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect } from "react";
 import { useMode } from "../../context/modeContext";

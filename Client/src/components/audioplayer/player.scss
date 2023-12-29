@@ -1,10 +1,10 @@
 .audio-main {
   position: fixed;
- 
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  bottom: 5%;
+  left: 25%;
+  bottom: 0%;
   z-index: 99;
 }
 
@@ -74,21 +74,22 @@
   border-radius: 50px;
 }
 @media screen and (max-width: 1024px) {
-  .borderBG-audio{
-    width: 80%;
+  .borderBG-audio {
+    width: 300px;
     display: flex;
     flex-direction: row;
     background: transparent;
     backdrop-filter: blur(5px);
     border: 0.5px solid rgba(255, 255, 255, 0.2);
-   margin-bottom: 60px;
+    margin-bottom: 60px;
+    position: fixed;
+    left: 15%;
 
     .btn-play {
       cursor: pointer;
       overflow: hidden;
-      
     }
-    .namemusic{
+    .namemusic {
       display: none;
     }
 
@@ -110,17 +111,14 @@
       border-radius: 50px;
     }
 
-    .costom-volume{
-        position: relative;
-      .slide-volume{
+    .costom-volume {
+      position: relative;
+      .slide-volume {
         position: absolute;
         z-index: 5;
         right: -40px;
         top: -45px;
       }
     }
-
   }
-
 }
-

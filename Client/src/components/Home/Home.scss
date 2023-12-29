@@ -4,13 +4,11 @@
   overflow-y: hidden;
   object-fit: cover;
   .modeName {
-    position: absolute;
-    width: 100%;
-    display: flex;
-    justify-content: end;
-    align-items: flex-end;
-    min-height: 100%;
-    z-index: 1;
+  position: fixed;
+  bottom: -1%;
+  right: 0;
+
+    z-index: 10;
     p {
       margin-bottom: 60px;
       margin-right: 60px;
@@ -18,8 +16,8 @@
     }
     @media screen and (max-width: 1024px) {
       p {
-        margin-bottom: 3px;
-        margin-right: 3px;
+        margin-bottom: 20px;
+        margin-right: 10px;
         font-size: 1rem;
       }
     }

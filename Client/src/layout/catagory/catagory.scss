@@ -6,7 +6,7 @@
   transform: translate(-50%, -50%);
   width: 415px;
   height: 480px;
-  background: rgba(227, 242, 253, 0.70);;
+  background: rgba(227, 242, 253, 0.7);
   border: 0 solid #000000;
   border-radius: 5px;
   backdrop-filter: blur(5px);
@@ -47,7 +47,7 @@
   span {
     padding: 5px;
     margin-right: 15px;
-    color: rgba(138, 43, 226, 1)
+    color: rgba(138, 43, 226, 1);
   }
 }
 
@@ -121,10 +121,7 @@
 .image-slide {
   width: 70%;
 }
-.image-slider-second {
-  width: 80%;
-  height: 100px;
-}
+
 .button-close {
   cursor: pointer;
 }
@@ -173,7 +170,7 @@
   width: 160px;
   height: 155px;
   flex-shrink: 0;
-  background:  rgba(187, 152, 255, 0.70);
+  background: rgba(187, 152, 255, 0.7);
   border-radius: 10px;
   margin-right: 10px;
   display: flex;
@@ -183,7 +180,7 @@
   overflow: hidden;
   flex-direction: column;
 
-  video{
+  video {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -192,27 +189,38 @@
     left: 0;
     z-index: -1;
   }
-  span{
+  span {
     font-size: 2rem;
   }
-  .coti-img{
+  .coti-img {
     height: 100%;
     width: 100%;
     position: absolute;
     display: flex;
-    flex-direction: row ;
+    flex-direction: row;
     align-items: flex-end;
-
   }
 }
 
 .card-image-third {
+  position: relative;
   width: 160px;
   height: 155px;
   flex-shrink: 0;
   background: #fff;
   border-radius: 10px;
   margin-right: 10px;
+  overflow: hidden;
+
+  video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
 }
 
 .img-icon-category {
@@ -224,8 +232,36 @@
   cursor: pointer;
 }
 
-.silde-grop{
+.silde-grop {
   margin-top: 20px;
 }
 
+@media screen and (max-width: 1024px) {
+  .category-modal-container {
+    width: 300px;
+    height: auto;
+  }
+  .Slider {
+    width: 70%;
+    position: relative;
+    left: auto;
+    margin: 5px;
+  }
+    .card-image{
+      width: 200px;
+      height: 155px;
 
+    }
+    .card-image-third {
+      width: 200px;
+      height: 155px;
+    }
+
+    .custom-slick-next {
+      display: none;
+    }
+    .custom-slick-prev {
+      display: none;
+    }
+ 
+}

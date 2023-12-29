@@ -41,6 +41,28 @@ const pathLofi2 = [
     mode: "night-rain",
     src: "./assets/video/lofi-video/lofi2-night-rain.mp4"
   }
-]
+];
 
-export {pathLofi1,pathLofi2}
+const pathLofi3 = [
+  {
+    id: 0,
+    mode: "day",
+    src: "./assets/video/lofi-video/lofi3-day.mp4",
+  },
+  {
+    id: 1,
+    mode: "night",
+    src: "./assets/video/lofi-video/lofi3-night.mp4"
+  },
+  {
+    id: 2,
+    mode: "day-rain",
+    src: "./assets/video/lofi-video/lofi3-day-rain.mp4"
+  },
+  {
+    id: 3,
+    mode: "night-rain",
+    src: "./assets/video/lofi-video/lofi3-night-rain.mp4"
+  }
+]
+export {pathLofi1, pathLofi2, pathLofi3}
