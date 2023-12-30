@@ -21,7 +21,8 @@ const Home = () => {
   const { dayNight, atmosphere, changedImage } = useMode();
   const mergeMode = (dayNight || "day") + "-" + atmosphere;
 
-  console.log(changedImage);
+  // console.log(changedImage);
+  // console.log(typeLofi[0].video[4])
 
   const handleVideoPaths = (imageData) => {
     if (Array.isArray(imageData?.data)) {
