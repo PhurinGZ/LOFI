@@ -147,10 +147,22 @@ const Home = () => {
         //   "lofi3",
         //   changedImage.data.find((item) => item.mode === dayNight)?.src || ""
         // );
-      } else if (changedImage.name === "reality" && changedImage.data) {
+      } else if (changedImage.name === "lofi4" && changedImage.data) {
+        handleVideoPaths(changedImage);
+        // console.log(
+        //   "lofi4",
+        //   changedImage.data.find((item) => item.mode === dayNight)?.src || ""
+        // );
+      } else if (changedImage.name === "lofi5" && changedImage.data) {
+      handleVideoPaths(changedImage);
+      // console.log(
+      //   "lofi5",
+      //   changedImage.data.find((item) => item.mode === dayNight)?.src || ""
+      // );
+    }else if (changedImage.name === "reality" && changedImage.data) {
         handleVideoPathsReality(changedImage);
         // console.log(
-        //   "lofi3",
+        //   "reality",
         //   changedImage.data.find((item) => item.mode === dayNight)?.src || ""
         // );
       }

@@ -66,6 +66,52 @@ const pathLofi3 = [
   },
 ];
 
+const pathLofi4 = [
+  {
+    id: 0,
+    mode: "day",
+    src: "./assets/video/lofi-video/lofi4-day.mp4",
+  },
+  {
+    id: 1,
+    mode: "night",
+    src: "./assets/video/lofi-video/lofi4-night.mp4",
+  },
+  {
+    id: 2,
+    mode: "day-rain",
+    src: "./assets/video/lofi-video/lofi4-day-rain.mp4",
+  },
+  {
+    id: 3,
+    mode: "night-rain",
+    src: "./assets/video/lofi-video/lofi4-night-rain.mp4",
+  },
+];
+
+const pathLofi5 = [
+  {
+    id: 0,
+    mode: "day",
+    src: "./assets/video/lofi-video/lofi5-day.mp4",
+  },
+  {
+    id: 1,
+    mode: "night",
+    src: "./assets/video/lofi-video/lofi5-night.mp4",
+  },
+  {
+    id: 2,
+    mode: "day-rain",
+    src: "./assets/video/lofi-video/lofi5-day-rain.mp4",
+  },
+  {
+    id: 3,
+    mode: "night-rain",
+    src: "./assets/video/lofi-video/lofi5-night-rain.mp4",
+  },
+];
+
 const reality1 = [
   {
     id: 0,
@@ -126,6 +172,8 @@ export {
   pathLofi1,
   pathLofi2,
   pathLofi3,
+  pathLofi4,
+  pathLofi5,
   reality1,
   reality2,
   reality3,
@@ -133,4 +181,5 @@ export {
   reality5,
   reality6,
   reality7,
+
 };
