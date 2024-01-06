@@ -29,50 +29,50 @@ function Sidebar() {
           <div className="menuBar">
             <ul>
               <li>
-                <a href="#">
+                <span href="#">
                   <Tooltip title="Category" placement="right-start">
                     <span>
                       <Catagory />
                     </span>
                   </Tooltip>
-                </a>
+                </span>
               </li>
 
               <li>
-                <a href="#">
+                <span>
                   <Tooltip title="Atmospheresetting" placement="right-start">
                     <span><Atmospherebtn /></span>
                   </Tooltip>
-                </a>
+                </span>
               </li>
               <li>
-                <a href="#">
+                <span href="#">
                   <Tooltip title="Calendar" placement="right-start">
                     <img src="/assets/icons/timetable.png" alt=""/>
                   </Tooltip>
-                </a>
+                </span>
               </li>
               <li>
-                <a href="#">
+                <span href="#">
                   <Tooltip title="Notes" placement="right-start">
                     <img src="/assets/icons/notes.png" alt="" />
                   </Tooltip>
-                </a>
+                </span>
               </li>
 
               <li style={{ marginTop: "100px" }}>
-                <a href="#">
+                <span href="#">
                   <Tooltip title="Settings" placement="right-start">
                     <img src="/assets/icons/setting.png" alt="" />
                   </Tooltip>
-                </a>
+                </span>
               </li>
               <li>
-                <a href="#">
+                <span href="#">
                   <Tooltip title="Login" placement="right-start">
                     <img src="/assets/icons/user.png" alt="" />
                   </Tooltip>
-                </a>
+                </span>
               </li>
             </ul>
           </div>
