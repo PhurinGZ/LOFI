@@ -24,18 +24,20 @@ const Header = () => {
   const [isVisible, setIsVisble] = useState(true);
 
   useEffect(() => {
-
     if (changedImage.name === "reality") {
       setIsVisble(false);
-    }else{
-      setIsVisble(true)
+    } else {
+      setIsVisble(true);
     }
   });
 
   return (
     <nav className="nav-bar">
       <Link to="#" style={{ textDecoration: "none", paddingLeft: "10px" }}>
-        <h1 style={{ color: "#fff", fontSize: "1.5rem" }}>LOFI</h1>
+        <div className="logo">
+          {/* <video src="./assets/icons/logo-lofi.mp4"></video> */}
+          <h1> LOFI </h1>
+        </div>
       </Link>
       <div className="nav-menu"></div>
       <div className="nav-menu">

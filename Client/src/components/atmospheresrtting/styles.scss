@@ -1,0 +1,90 @@
+
+.bg-atmos {
+  width: 330px;
+  height: 450px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(227, 242, 253, 0.9);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  position: fixed;
+
+  .header-atmos {
+    width: 330px;
+    height: 40px;
+    border-radius: 10px 10px 10px 50px;
+    background: #bb98ff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    span {
+      margin-left: 20px;
+    }
+    i {
+      margin-right: 10px;
+    }
+  }
+
+  .city-atmos {
+    // border: 1px solid yellow;
+    margin-top: 40px;
+    p {
+      color: #9747ff;
+      text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
+      font-family: Inter;
+      font-size: 25px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 150%; /* 48px */
+      letter-spacing: -0.352px;
+      margin-left: 20px;
+    }
+    .content-city{
+      display: flex;
+      align-items: center;
+      h1{
+        margin: 0px 10px 0px 10px;
+        font-size: 1.5rem;
+        color: #808080;
+      }
+    }
+  }
+
+  .nature-atmos {
+    margin-top: 20px;
+
+    h1 {
+        color: #9747ff;
+        text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
+        font-family: Inter;
+        font-size: 25px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 48px */
+        letter-spacing: -0.352px;
+        margin-left: 20px;
+        
+      }
+      .content-city{
+        display: flex;
+        align-items: center;
+        h1{
+          margin: 0px 10px 0px 10px;
+          font-size: 1.5rem;
+          color: #808080;
+        }
+      }
+  }
+}
+
+.airbnb-bar{
+    border: 1px solid red;
+    width: 100px;
+  
+}
+
+.btn-atmosphere{
+  button{
+
+  }
+}

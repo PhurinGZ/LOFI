@@ -26,7 +26,7 @@ const Demo = ({ mode }) => {
   const [index, setIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(30);
-  const [isVolumeHidden, setIsVolumeHidden] = useState(false);
+  const [isVolumeHidden, setIsVolumeHidden] = useState(true);
 
   const Playlist = mode;
    // console.log("In demo" + Playlist);
@@ -85,7 +85,7 @@ const Demo = ({ mode }) => {
       setIsVolumeHidden(true);
     }, 15000); // 15,000 milliseconds
   };
-
+  console.log("isVolumeHidden",isVolumeHidden)
   const VolumeBtns = ({ onClick }) => {
     return volume === 0 ? (
       <VolumeOffIcon
@@ -197,7 +197,7 @@ const Demo = ({ mode }) => {
             {/* volume -----------------------------------------------------------------------------------------------------volume */}
           <div className="costom-volume">
             <VolumeBtns onClick={handleLabelClick} />
-            {isVolumeHidden && (
+            {!isVolumeHidden && (
               <Slider
                 value={volume}
                 onChange={(e, newValue) => setVolume(newValue)}
