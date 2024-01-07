@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./styles.scss";
 import Tooltip from "@mui/material/Tooltip";
 import Catagory from "../catagory/catagory";
-import Atmospherebtn from "../../components/atmospheresrtting/atmospherebtn";
+import Atmospherebtn from "../../components/atmospheresrtting/Atmospherebtn";
 
 function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
