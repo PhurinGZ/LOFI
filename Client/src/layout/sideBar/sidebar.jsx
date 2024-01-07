@@ -7,8 +7,11 @@ import Atmospherebtn from "../../components/atmospheresrtting/atmospherebtn";
 function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+
   const handleBarIconClick = () => {
+    console.log('isMenuOpen before:', isMenuOpen);
     setIsMenuOpen(!isMenuOpen);
+    console.log('isMenuOpen after:', isMenuOpen);
   };
 
 
@@ -25,12 +28,11 @@ function Sidebar() {
             alt=""
           />
         </div>
-        {isMenuOpen && (
-          <div className="menuBar">
+          <div className={`menuBar ${isMenuOpen ? "display-block" : ""}`}>
             <ul>
               <li>
                 <span href="#">
-                  <Tooltip title="Category" placement="right-start">
+                  <Tooltip title="Category" placement="right-start"> 
                     <span>
                       <Catagory />
                     </span>
@@ -76,7 +78,6 @@ function Sidebar() {
               </li>
             </ul>
           </div>
-        )}
       </div>
     </>
   );

@@ -20,12 +20,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: move;
     
     span {
       margin-left: 20px;
-    }
-    i {
-      margin-right: 10px;
     }
   }
 

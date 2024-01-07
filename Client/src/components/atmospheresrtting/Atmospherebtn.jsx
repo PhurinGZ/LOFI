@@ -4,6 +4,7 @@ import Draggable from "react-draggable";
 import { sound } from "../../data/atmosphere";
 import { useAtmosphereContext } from "../../context/atmosphere";
 import CustomSlider from "./CustomSlider";
+import CloseIcon from "@mui/icons-material/Close";
 import "./styles.scss";
 
 function Atmospherebtn() {
@@ -49,7 +50,10 @@ function Atmospherebtn() {
         >
           <div className="header-atmos">
             <span> Atmosphere setting </span>
-            <i onClick={handleBtnCloseClick}>X</i>
+            <CloseIcon
+              onClick={handleBtnCloseClick}
+              style={{ marginRight: "10px", cursor : "pointer"}}
+            />
           </div>
           <div className="scoll-mouns">
             <div className="city-atmos">
@@ -125,7 +129,6 @@ function Atmospherebtn() {
           </div>
         </div>
       </Draggable>
-      
     </div>
   );
 }

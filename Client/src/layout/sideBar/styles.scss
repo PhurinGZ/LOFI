@@ -7,6 +7,7 @@
     height: 100%;
     justify-content: center;
     z-index: 4;
+    
 
     .barIcon {
         transition: transform 0.3s ease;
@@ -31,6 +32,7 @@
     }
 
     .menuBar {
+        display: none;
         ul {
             border: 1px solid red;
             width: fit-content;
@@ -50,6 +52,9 @@
             }
         }
     }
+    .display-block {
+        display: block;
+    }
 }
 
 @media screen and (max-width: 1024px) {
@@ -57,5 +62,6 @@
         position: fixed;
     }
 }
+
 
 
