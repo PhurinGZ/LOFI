@@ -9,11 +9,12 @@ import "./style.scss";
 const AtmosphereButton = () => {
   const { atmosphere, setAtmosphere } = useMode();
   const { volumes, handleSliderChange, isPlaying } = useAtmosphereContext();
-  const [volume, setVolume] = useState(30)
+  const [volume, setVolume] = useState(30);
+  const [isSlideVisible, setIsSlideVisible] = useState(false);
 
   const audioRefs = sound.map(() => useRef(null));
-  console.log("volums :",volumes)
-  console.log("volum :",volume)
+  console.log("volums :", volumes);
+  console.log("volum :", volume);
   const audioElement = useRef(audioRefs);
 
   useEffect(() => {
@@ -35,15 +36,16 @@ const AtmosphereButton = () => {
   const foundSound = sound.find((a) => a.name === "rain");
 
   const handleToggle = () => {
-    
+    setIsSlideVisible(!isSlideVisible);
     if (atmosphere === "rain") {
       setAtmosphere("");
     } else {
       setAtmosphere("rain");
+      setIsSlideVisible(true);
     }
   };
 
-  
+console.log('isSlideVisible',isSlideVisible)
 
   return (
     <div className="side-volume">
@@ -53,19 +55,24 @@ const AtmosphereButton = () => {
         </div>
         <img src="/public/assets/icons/rain.png" alt="" />
       </div>
-      <Slider
-      volume={volumes[foundSound.id]}
-        value={volume}
-        onChange={(e, newValue) => [setVolume(newValue),handleSliderChange(foundSound.id, newValue)]}
-        aria-labelledby="continuous-slider"
-        sx={{
-          color: "#FFF",
-          marginLeft: "10px",
-          marginRight: "10px",
-          width: "100px",
-        }}
-        className="slide-volume"
-      />
+      <div className={`slide ${isSlideVisible ? "display-block" : ""}`}>
+        <Slider
+          volume={volumes[foundSound.id]}
+          value={volume}
+          onChange={(e, newValue) => [
+            setVolume(newValue),
+            handleSliderChange(foundSound.id, newValue),
+          ]}
+          aria-labelledby="continuous-slider"
+          sx={{
+            color: "#FFF",
+            marginLeft: "10px",
+            marginRight: "10px",
+            width: "100px",
+          }}
+          className="slide-volume"
+        />
+      </div>
     </div>
   );
 };

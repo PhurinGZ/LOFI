@@ -7,14 +7,17 @@ import CustomSlider from "./CustomSlider";
 import "./styles.scss";
 
 function Atmospherebtn() {
-  const { volumes, handleSliderChange, isPlaying } =
-    useAtmosphereContext();
+  const { volumes, handleSliderChange, isPlaying } = useAtmosphereContext();
   const [isAtmospheresetting, setIsAtmospheresetting] = useState(false);
 
   const audioRefs = sound.map(() => useRef(null));
 
   const hahdleBtnClickAtmosphere = () => {
-    setIsAtmospheresetting(!isAtmospheresetting);
+    setIsAtmospheresetting(true);
+  };
+
+  const handleBtnCloseClick = () => {
+    setIsAtmospheresetting(false);
   };
 
   useEffect(() => {
@@ -40,20 +43,31 @@ function Atmospherebtn() {
           <img src="assets/icons/turntable.png" alt="" />
         </button>
       </div>
-      {isAtmospheresetting && (
-        <Draggable handle=".header-atmos">
-          <div className="bg-atmos">
-            <div className="header-atmos">
-              <span> Atmosphere setting </span>
-              <i onClick={hahdleBtnClickAtmosphere}>X</i>
-            </div>
+      <Draggable handle=".header-atmos">
+        <div
+          className={`bg-atmos ${isAtmospheresetting ? "display-block" : ""}`}
+        >
+          <div className="header-atmos">
+            <span> Atmosphere setting </span>
+            <i onClick={handleBtnCloseClick}>X</i>
+          </div>
+          <div className="scoll-mouns">
             <div className="city-atmos">
               <p> City</p>
               {sound.map((a, index) => {
                 if (a.Type === "city") {
                   return (
                     <div className="content-city" key={a.id}>
-                      <h1> {a.name} : </h1>
+                      <h1
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          width: "40%",
+                        }}
+                      >
+                        {" "}
+                        <h4> {a.name} </h4> <h4>:</h4>{" "}
+                      </h1>
                       <div className="volumeRain">
                         <div>
                           <audio ref={audioRefs[a.id]} src={a.pathSound} />
@@ -74,12 +88,21 @@ function Atmospherebtn() {
               })}
             </div>
             <div className="nature-atmos">
-              <h1> Nature </h1>
+              <p> Nature </p>
               {sound.map((a, index) => {
                 if (a.Type === "nature") {
                   return (
                     <div className="content-city" key={a.id}>
-                      <h1> {a.name} : </h1>
+                      <h1
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          width: "40%",
+                        }}
+                      >
+                        {" "}
+                        <h4> {a.name} </h4> <h4>:</h4>{" "}
+                      </h1>
                       <div className="volumeRain">
                         <div>
                           <audio ref={audioRefs[a.id]} src={a.pathSound} />
@@ -100,8 +123,9 @@ function Atmospherebtn() {
               })}
             </div>
           </div>
-        </Draggable>
-      )}
+        </div>
+      </Draggable>
+      
     </div>
   );
 }
