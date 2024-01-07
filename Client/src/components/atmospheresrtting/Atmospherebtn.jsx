@@ -56,13 +56,13 @@ function Atmospherebtn() {
                       <h1> {a.name} : </h1>
                       <div className="volumeRain">
                         <div>
-                          <audio ref={audioRefs[index]} src={a.pathSound} />
+                          <audio ref={audioRefs[a.id]} src={a.pathSound} />
                         </div>
                         <CustomSlider
-                          volume={volumes[index]}
-                          value={volumes[index]}
+                          volume={volumes[a.id]}
+                          value={volumes[a.id]}
                           onChange={(event, newValue) =>
-                            handleSliderChange(index, newValue)
+                            handleSliderChange(a.id, newValue, a.name)
                           }
                           disableRipple
                         />
@@ -82,13 +82,13 @@ function Atmospherebtn() {
                       <h1> {a.name} : </h1>
                       <div className="volumeRain">
                         <div>
-                          <audio ref={audioRefs[index]} src={a.pathSound} />
+                          <audio ref={audioRefs[a.id]} src={a.pathSound} />
                         </div>
                         <CustomSlider
-                          volume={volumes[index]}
-                          value={volumes[index]}
+                          volume={volumes[a.id]}
+                          value={volumes[a.id]}
                           onChange={(event, newValue) =>
-                            handleSliderChange(index, newValue)
+                            handleSliderChange(a.id, newValue, a.name)
                           }
                           disableRipple
                         />

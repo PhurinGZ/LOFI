@@ -1,60 +1,62 @@
-// atmoshpereButton.jsx
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-import { useMode } from "../../context/modeContext";
 import Slider from "@mui/material/Slider";
+import { useMode } from "../../context/modeContext";
+import { useAtmosphereContext } from "../../context/atmosphere";
+import { sound } from "../../data/atmosphere";
 import "./style.scss";
 
 const AtmosphereButton = () => {
   const { atmosphere, setAtmosphere } = useMode();
-  const audioRain = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(30);
+  const { volumes, handleSliderChange, isPlaying } = useAtmosphereContext();
+  const [volume, setVolume] = useState(30)
+
+  const audioRefs = sound.map(() => useRef(null));
+  console.log("volums :",volumes)
+  console.log("volum :",volume)
+  const audioElement = useRef(audioRefs);
 
   useEffect(() => {
-    const audioElement = audioRain.current;
+    audioRefs.forEach((audioRef, index) => {
+      const audioElement = audioRef.current;
 
-    // เมื่อค่า isPlaying เปลี่ยน
-    if (isPlaying) {
-      audioElement.play();
-    } else {
-      audioElement.pause();
-      audioElement.currentTime = 1; // เริ่มที่ต้นหากต้องการเล่นใหม่
-    }
-  }, [isPlaying]);
+      if (isPlaying[index] && audioElement) {
+        audioElement.volume = volumes[index] / 100;
+        audioElement.play().catch((error) => {
+          console.error("Error playing audio:", error);
+        });
+      } else if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 1;
+      }
+    });
+  }, [isPlaying, volumes, audioRefs]);
 
-  useEffect(() => {
-    if (audioRain.current) {
-      audioRain.current.volume = volume / 100;
-    }
-  }, [volume]);
+  const foundSound = sound.find((a) => a.name === "rain");
 
   const handleToggle = () => {
-    // กำหนดค่า isPlaying ตรงนี้ จะทำให้ useEffect ทำงาน
-    setIsPlaying(!isPlaying);
-
-    // Check if the atmosphere is already stored
+    
     if (atmosphere === "rain") {
-      // If stored, remove it
       setAtmosphere("");
     } else {
-      // If not stored, store it
       setAtmosphere("rain");
     }
   };
+
+  
 
   return (
     <div className="side-volume">
       <div className={`button-rain ${atmosphere}`} onClick={handleToggle}>
         <div>
-          {/* ใส่ ref ใน <audio> เพื่อให้เข้าถึง element */}
-          <audio ref={audioRain} src="/public/assets/soundatmosphere/rain.mp3" />
+          <audio ref={audioElement} src={foundSound.pathSound} />
         </div>
         <img src="/public/assets/icons/rain.png" alt="" />
       </div>
       <Slider
+      volume={volumes[foundSound.id]}
         value={volume}
-        onChange={(e, newValue) => setVolume(newValue)}
+        onChange={(e, newValue) => [setVolume(newValue),handleSliderChange(foundSound.id, newValue)]}
         aria-labelledby="continuous-slider"
         sx={{
           color: "#FFF",
