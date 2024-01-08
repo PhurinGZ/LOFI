@@ -9,9 +9,9 @@ function Sidebar() {
 
 
   const handleBarIconClick = () => {
-    console.log('isMenuOpen before:', isMenuOpen);
+    // console.log('isMenuOpen before:', isMenuOpen);
     setIsMenuOpen(!isMenuOpen);
-    console.log('isMenuOpen after:', isMenuOpen);
+    // console.log('isMenuOpen after:', isMenuOpen);
   };
 
 

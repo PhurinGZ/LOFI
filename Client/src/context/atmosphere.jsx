@@ -1,3 +1,4 @@
+// atmosphereContext.jsx
 import React, { createContext, useContext, useState } from "react";
 import { sound } from "../data/atmosphere";
 import { useMode } from "./modeContext";
@@ -15,11 +16,11 @@ export const useAtmosphereContext = () => {
 };
 
 export const AtmosphereProvider = ({ children }) => {
-  const [volumes, setVolumes] = useState(sound.map(() => 0));
+  const [volumes, setVolumes] = useState(sound.map(() => 30)); // Set default volume to 30
   const [isPlaying, setIsPlaying] = useState(Array(sound.length).fill(false));
   const { atmosphere, setAtmosphere } = useMode();
 
-  const handleSliderChange = (id, newValue) => {
+  const handleSliderChange = (id, newValue, name) => {
     if (!Number.isFinite(newValue)) {
       return;
     }
@@ -39,13 +40,19 @@ export const AtmosphereProvider = ({ children }) => {
     setIsPlaying(newIsPlaying);
   };
 
+  const toggleIsPlaying = (id) => {
+    const newIsPlaying = [...isPlaying];
+    newIsPlaying[id] = !newIsPlaying[id];
+    setIsPlaying(newIsPlaying);
+  };
+
   return (
     <AtmosphereContext.Provider
       value={{
         volumes,
         handleSliderChange,
         isPlaying,
-        setIsPlaying,
+        toggleIsPlaying,
       }}
     >
       {children}

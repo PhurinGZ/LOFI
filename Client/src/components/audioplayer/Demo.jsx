@@ -85,7 +85,7 @@ const Demo = ({ mode }) => {
       setIsVolumeHidden(true);
     }, 15000); // 15,000 milliseconds
   };
-  console.log("isVolumeHidden",isVolumeHidden)
+  // console.log("isVolumeHidden",isVolumeHidden)
   const VolumeBtns = ({ onClick }) => {
     return volume === 0 ? (
       <VolumeOffIcon

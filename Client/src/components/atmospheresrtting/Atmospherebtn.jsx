@@ -1,4 +1,3 @@
-// Atmospherebtn.jsx
 import React, { useState, useRef, useEffect } from "react";
 import Draggable from "react-draggable";
 import { sound } from "../../data/atmosphere";
@@ -6,10 +5,12 @@ import { useAtmosphereContext } from "../../context/atmosphere";
 import CustomSlider from "./CustomSlider";
 import CloseIcon from "@mui/icons-material/Close";
 import "./styles.scss";
+import { useMode } from "../../context/modeContext";
 
 function Atmospherebtn() {
-  const { volumes, handleSliderChange, isPlaying } = useAtmosphereContext();
+  const { volumes, handleSliderChange, isPlaying, toggleIsPlaying } = useAtmosphereContext();
   const [isAtmospheresetting, setIsAtmospheresetting] = useState(false);
+  const { atmosphere, setAtmosphere } = useMode();
 
   const audioRefs = sound.map(() => useRef(null));
 
@@ -32,10 +33,22 @@ function Atmospherebtn() {
         });
       } else if (audioElement) {
         audioElement.pause();
-        audioElement.currentTime = 1;
+        audioElement.currentTime = 0;
       }
     });
   }, [isPlaying, volumes, audioRefs]);
+
+  const handleSliderChangeWithCheck = (id, newValue, name) => {
+    if (name === "rain") {
+      if (newValue === 0) {
+        setAtmosphere(""); // Set atmosphere to an empty string when volume is 0
+      } else {
+        setAtmosphere(name); // Set atmosphere to the name when volume is not 0
+      }
+    }
+
+    handleSliderChange(id, newValue, name);
+  };
 
   return (
     <div>
@@ -52,7 +65,7 @@ function Atmospherebtn() {
             <span> Atmosphere setting </span>
             <CloseIcon
               onClick={handleBtnCloseClick}
-              style={{ marginRight: "10px", cursor : "pointer"}}
+              style={{ marginRight: "10px", cursor: "pointer" }}
             />
           </div>
           <div className="scoll-mouns">
@@ -62,7 +75,7 @@ function Atmospherebtn() {
                 if (a.Type === "city") {
                   return (
                     <div className="content-city" key={a.id}>
-                      <h1
+                      <span
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -71,18 +84,17 @@ function Atmospherebtn() {
                       >
                         {" "}
                         <h4> {a.name} </h4> <h4>:</h4>{" "}
-                      </h1>
+                      </span>
                       <div className="volumeRain">
                         <div>
-                          <audio ref={audioRefs[a.id]} src={a.pathSound} />
+                          <audio ref={audioRefs[a.id]} src={a.pathSound} loop/>
                         </div>
                         <CustomSlider
                           volume={volumes[a.id]}
                           value={volumes[a.id]}
                           onChange={(event, newValue) =>
-                            handleSliderChange(a.id, newValue, a.name)
+                            handleSliderChangeWithCheck(a.id, newValue, a.name)
                           }
-                          disableRipple
                         />
                       </div>
                     </div>
@@ -97,7 +109,7 @@ function Atmospherebtn() {
                 if (a.Type === "nature") {
                   return (
                     <div className="content-city" key={a.id}>
-                      <h1
+                      <span
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -106,18 +118,17 @@ function Atmospherebtn() {
                       >
                         {" "}
                         <h4> {a.name} </h4> <h4>:</h4>{" "}
-                      </h1>
+                      </span>
                       <div className="volumeRain">
                         <div>
-                          <audio ref={audioRefs[a.id]} src={a.pathSound} />
+                          <audio ref={audioRefs[a.id]} src={a.pathSound} loop/>
                         </div>
                         <CustomSlider
                           volume={volumes[a.id]}
                           value={volumes[a.id]}
                           onChange={(event, newValue) =>
-                            handleSliderChange(a.id, newValue, a.name)
+                            handleSliderChangeWithCheck(a.id, newValue, a.name)
                           }
-                          disableRipple
                         />
                       </div>
                     </div>
