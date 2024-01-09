@@ -1,7 +1,7 @@
 //demo.jsx
 import { useState, useEffect, useRef } from "react";
 import { styled, Slider, Paper, Stack, Box } from "@mui/material";
-import Draggable from 'react-draggable';
+import Draggable from "react-draggable";
 
 // #region ------------ ICONS ---------
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -29,7 +29,7 @@ const Demo = ({ mode }) => {
   const [isVolumeHidden, setIsVolumeHidden] = useState(true);
 
   const Playlist = mode;
-   // console.log("In demo" + Playlist);
+  // console.log("In demo" + Playlist);
 
   useEffect(() => {
     if (audioPlayer.current) {
@@ -148,7 +148,7 @@ const Demo = ({ mode }) => {
         <div>
           <audio src={Playlist[index].src} ref={audioPlayer} />
         </div>
-         {/* เวลา -----------------------------------------------------------------------------------------------------เวลา */}
+        {/* เวลา -----------------------------------------------------------------------------------------------------เวลา */}
         <div className="time">
           <Time />
         </div>
@@ -163,7 +163,6 @@ const Demo = ({ mode }) => {
               "&:hover": { transform: "scale(1.2)" },
             }}
             onClick={toggleSkipBackward}
-     
           />
           {!isPlaying ? (
             <PlayCircleOutlineIcon
@@ -173,7 +172,6 @@ const Demo = ({ mode }) => {
                 "&:hover": { transform: "scale(1.2)" },
               }}
               onClick={togglePlay}
-
             />
           ) : (
             <PauseCircleOutlineIcon
@@ -192,9 +190,8 @@ const Demo = ({ mode }) => {
               "&:hover": { transform: "scale(1.2)" },
             }}
             onClick={toggleSkipForward}
-
           />
-            {/* volume -----------------------------------------------------------------------------------------------------volume */}
+          {/* volume -----------------------------------------------------------------------------------------------------volume */}
           <div className="costom-volume">
             <VolumeBtns onClick={handleLabelClick} />
             {!isVolumeHidden && (
@@ -217,8 +214,14 @@ const Demo = ({ mode }) => {
         <div className="line"></div>
         <div className="namemusic">
           <p style={{ color: "#FFF" }}>
-            <strong> Music :</strong> {Playlist[index].name.length <= 12 ? Playlist[index].name : Playlist[index].name.substr(0, 12) + "..."} &nbsp; &nbsp;{" "}
-            <strong> By : </strong> {Playlist[index].music_by.length <= 9 ? Playlist[index].music_by : Playlist[index].music_by.substr(0, 9) + "..."}
+            <strong> Music :</strong>{" "}
+            {Playlist[index].name.length <= 12
+              ? Playlist[index].name
+              : Playlist[index].name.substr(0, 12) + "..."}{" "}
+            &nbsp; &nbsp; <strong> By : </strong>{" "}
+            {Playlist[index].music_by.length <= 9
+              ? Playlist[index].music_by
+              : Playlist[index].music_by.substr(0, 9) + "..."}
           </p>
         </div>
       </div>

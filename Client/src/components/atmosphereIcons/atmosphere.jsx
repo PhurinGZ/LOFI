@@ -8,7 +8,8 @@ import "./style.scss";
 
 const AtmosphereButton = () => {
   const { atmosphere, setAtmosphere } = useMode();
-  const { volumes, handleSliderChange, isPlaying, toggleIsPlaying } = useAtmosphereContext();
+  const { volumes, handleSliderChange, isPlaying, toggleIsPlaying } =
+    useAtmosphereContext();
   const [isSlideVisible, setIsSlideVisible] = useState(false);
   const foundSound = useMemo(() => sound.find((a) => a.name === "rain"), []);
 
@@ -16,8 +17,16 @@ const AtmosphereButton = () => {
 
   const handleToggle = () => {
     toggleIsPlaying(foundSound.id);
-    setIsSlideVisible(!isSlideVisible);
     setAtmosphere(atmosphere === "rain" ? "" : "rain");
+
+    if (atmosphere === "rain") {
+      setIsSlideVisible(false);
+    } else {
+      setIsSlideVisible(true);
+      setTimeout(() => {
+        setIsSlideVisible(false);
+      }, 15000);
+    }
   };
 
   const handleSliderChangeWithCheck = (id, newValue, name) => {
@@ -57,7 +66,7 @@ const AtmosphereButton = () => {
     return () => {
       pauseAudio();
       audioRef.current.currentTime = 0;
-      audioRef.current.removeEventListener('ended', pauseAudio);
+      audioRef.current.removeEventListener("ended", pauseAudio);
     };
   }, [isPlaying, volumes, foundSound]);
 
@@ -69,10 +78,17 @@ const AtmosphereButton = () => {
         </div>
         <img src="/public/assets/icons/rain.png" alt="" />
       </div>
+
       <div className={`slide ${isSlideVisible ? "display-block" : ""}`}>
         <Slider
           value={volumes[foundSound.id]}
-          onChange={(e, newValue) => handleSliderChangeWithCheck(foundSound.id, newValue, foundSound.name)}
+          onChange={(e, newValue) =>
+            handleSliderChangeWithCheck(
+              foundSound.id,
+              newValue,
+              foundSound.name
+            )
+          }
           aria-labelledby="continuous-slider"
           sx={{
             color: "#FFF",
@@ -80,7 +96,7 @@ const AtmosphereButton = () => {
             marginRight: "10px",
             width: "100px",
           }}
-          className="slide-volume"
+          className="rage-volume"
         />
       </div>
     </div>
