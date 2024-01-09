@@ -6,21 +6,22 @@ import { useAtmosphereContext } from "../../context/atmosphere";
 import { sound } from "../../data/atmosphere";
 import "./style.scss";
 
-const AtmosphereButton = ({name}) => {
+const AtmosphereButton = ({ name }) => {
   const { atmosphere, setAtmosphere } = useMode();
   const { volumes, handleSliderChange, isPlaying, toggleIsPlaying } =
     useAtmosphereContext();
   const [isSlideVisible, setIsSlideVisible] = useState(false);
   const foundSound = useMemo(() => sound.find((a) => a.name === name), []);
 
-  // console.log(foundSound)
+  // console.log(name)
 
   const audioRef = useRef(new Audio(foundSound.pathSound));
 
   const handleToggle = () => {
     toggleIsPlaying(foundSound.id);
-    setAtmosphere(atmosphere === "rain" ? "" : "rain");
-
+    if (name === "rain") {
+      setAtmosphere(atmosphere === "rain" ? "" : "rain");
+    }
     if (atmosphere === "rain") {
       setIsSlideVisible(false);
     } else {
@@ -34,6 +35,7 @@ const AtmosphereButton = ({name}) => {
   const handleSliderChangeWithCheck = (id, newValue, name) => {
     if (name === "rain") {
       if (newValue === 0) {
+        console.log(name);
         setAtmosphere(""); // Set atmosphere to an empty string when volume is 0
       } else {
         setAtmosphere(name); // Set atmosphere to the name when volume is not 0
