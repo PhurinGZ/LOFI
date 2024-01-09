@@ -204,12 +204,12 @@ const Home = () => {
             <div
               className="btn-rain"
               style={{
-                position: "relative",
+                position: "apsolute",
                 top: `${p.position[0]}%`,
                 left: `${p.position[1]}%`,
                 right: `${p.position[2]}%`,
               }}
-              key={index}
+              key={p.id}
             >
               {/* {console.log(p)} */}
               <AtmosphereButton name={p.name} />

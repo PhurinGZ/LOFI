@@ -91,7 +91,7 @@ function Atmospherebtn() {
                           <audio ref={audioRefs[a.id]} src={a.pathSound} loop />
                         </div>
                         <CustomSlider
-                        index={a.pathImg}
+                          index={a.pathImg}
                           volume={volumes[a.id]}
                           value={volumes[a.id]}
                           onChange={(event, newValue) =>
