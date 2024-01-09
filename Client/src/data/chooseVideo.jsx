@@ -20,11 +20,36 @@ const typeLofi = [
     video: [
       // pathLofi1,
       // pathLofi2
-      { id: 0, name: "lofi1", data: pathLofi1, pIcon: [120, 200, 0] },
-      { id: 1, name: "lofi2", data: pathLofi2, pIcon: [120, 200, 0] },
-      { id: 2, name: "lofi3", data: pathLofi3, pIcon: [120, 200, 0] },
-      { id: 3, name: "lofi4", data: pathLofi4, pIcon: [120, 200, 0] },
-      { id: 4, name: "lofi5", data: pathLofi5, pIcon: [50, 90, 0] },
+      {
+        id: 0,
+        name: "lofi1",
+        data: pathLofi1,
+        pIcon: [{ id: 0, name: "rain", position: [50, 90, 0] }],
+      }, //pIcon:[{id:0,name:"rain",position:[]}]
+      {
+        id: 1,
+        name: "lofi2",
+        data: pathLofi2,
+        pIcon: [{ id: 0, name: "rain", position: [50, 90, 0] }],
+      },
+      {
+        id: 2,
+        name: "lofi3",
+        data: pathLofi3,
+        pIcon: [{ id: 0, name: "rain", position: [50, 90, 0] }],
+      },
+      {
+        id: 3,
+        name: "lofi4",
+        data: pathLofi4,
+        pIcon: [{ id: 0, name: "rain", position: [50, 90, 0] }],
+      },
+      {
+        id: 4,
+        name: "lofi5",
+        data: pathLofi5,
+        pIcon: [{ id: 0, name: "rain", position: [50, 90, 0] },{id:1, name: "waves", position: [60,20,0]}],
+      },
     ],
   },
   {

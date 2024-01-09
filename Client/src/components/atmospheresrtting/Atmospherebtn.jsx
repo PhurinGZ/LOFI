@@ -133,7 +133,7 @@ function Atmospherebtn() {
                             handleSliderChangeWithCheck(a.id, newValue, a.name)
                           }
                         />
-                        {console.log(a.pathImg)}
+                        {/* {console.log(a.pathImg)} */}
                       </div>
                     </div>
                   );

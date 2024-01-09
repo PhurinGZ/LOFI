@@ -111,7 +111,7 @@ const Home = () => {
       setIsVisble(true);
     }
 
-    console.log(changedImage.pIcon)
+    // console.log(changedImage.pIcon);
   });
 
   useEffect(() => {
@@ -157,12 +157,12 @@ const Home = () => {
         //   changedImage.data.find((item) => item.mode === dayNight)?.src || ""
         // );
       } else if (changedImage.name === "lofi5" && changedImage.data) {
-      handleVideoPaths(changedImage);
-      // console.log(
-      //   "lofi5",
-      //   changedImage.data.find((item) => item.mode === dayNight)?.src || ""
-      // );
-    }else if (changedImage.name === "reality" && changedImage.data) {
+        handleVideoPaths(changedImage);
+        // console.log(
+        //   "lofi5",
+        //   changedImage.data.find((item) => item.mode === dayNight)?.src || ""
+        // );
+      } else if (changedImage.name === "reality" && changedImage.data) {
         handleVideoPathsReality(changedImage);
         // console.log(
         //   "reality",
@@ -197,11 +197,24 @@ const Home = () => {
         <div>
           <Sidebar />
         </div>
-        {isVisible && (
-           <div className="btn-rain" style={{position:"relative", top:`${changedImage.pIcon[0]}%`, left:`${changedImage.pIcon[1]}%`, right:`${changedImage.pIcon[2]}%`}}  > 
-            <AtmosphereButton />
-          </div>
-        )}
+        {/*  */}
+
+        {isVisible &&
+          changedImage.pIcon.map((p, index) => (
+            <div
+              className="btn-rain"
+              style={{
+                position: "relative",
+                top: `${p.position[0]}%`,
+                left: `${p.position[1]}%`,
+                right: `${p.position[2]}%`,
+              }}
+              key={index}
+            >
+              {console.log()}
+              <AtmosphereButton name={p.name} />
+            </div>
+          ))}
       </div>
       <span className="audioplayer">
         <Demo mode={selectedMode} />

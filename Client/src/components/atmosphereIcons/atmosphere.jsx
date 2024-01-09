@@ -6,12 +6,14 @@ import { useAtmosphereContext } from "../../context/atmosphere";
 import { sound } from "../../data/atmosphere";
 import "./style.scss";
 
-const AtmosphereButton = () => {
+const AtmosphereButton = ({name}) => {
   const { atmosphere, setAtmosphere } = useMode();
   const { volumes, handleSliderChange, isPlaying, toggleIsPlaying } =
     useAtmosphereContext();
   const [isSlideVisible, setIsSlideVisible] = useState(false);
-  const foundSound = useMemo(() => sound.find((a) => a.name === "rain"), []);
+  const foundSound = useMemo(() => sound.find((a) => a.name === name), []);
+
+  // console.log(foundSound)
 
   const audioRef = useRef(new Audio(foundSound.pathSound));
 
@@ -76,7 +78,7 @@ const AtmosphereButton = () => {
         <div>
           <audio src={foundSound.pathSound} loop />
         </div>
-        <img src="/public/assets/icons/rain.png" alt="" />
+        <img src={foundSound.pathImg} alt="" />
       </div>
 
       <div className={`slide ${isSlideVisible ? "display-block" : ""}`}>
