@@ -30,7 +30,7 @@ const typeLofi = [
         id: 1,
         name: "lofi2",
         data: pathLofi2,
-        pIcon: [{ id: 0, name: "rain", position: [50, 90, 0] }],
+        pIcon: [{ id: 0, name: "rain", position: [50, 90, 0] },{id:1, name: "birds", position: [60,20,0]}],
       },
       {
         id: 2,

@@ -211,7 +211,7 @@ const Home = () => {
               }}
               key={index}
             >
-              {console.log()}
+              {/* {console.log(p)} */}
               <AtmosphereButton name={p.name} />
             </div>
           ))}
