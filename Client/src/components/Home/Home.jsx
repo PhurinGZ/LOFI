@@ -198,7 +198,7 @@ const Home = () => {
           <Sidebar />
         </div>
         {isVisible && (
-           <div className="btn-rain" style={{position:"relative", top:`${changedImage.pIcon[0]}px`, left:`${changedImage.pIcon[1]}px`, right:`${changedImage.pIcon[2]}px`}}  > 
+           <div className="btn-rain" style={{position:"relative", top:`${changedImage.pIcon[0]}%`, left:`${changedImage.pIcon[1]}%`, right:`${changedImage.pIcon[2]}%`}}  > 
             <AtmosphereButton />
           </div>
         )}

@@ -8,7 +8,8 @@ import "./styles.scss";
 import { useMode } from "../../context/modeContext";
 
 function Atmospherebtn() {
-  const { volumes, handleSliderChange, isPlaying, toggleIsPlaying } = useAtmosphereContext();
+  const { volumes, handleSliderChange, isPlaying, toggleIsPlaying } =
+    useAtmosphereContext();
   const [isAtmospheresetting, setIsAtmospheresetting] = useState(false);
   const { atmosphere, setAtmosphere } = useMode();
 
@@ -87,9 +88,10 @@ function Atmospherebtn() {
                       </span>
                       <div className="volumeRain">
                         <div>
-                          <audio ref={audioRefs[a.id]} src={a.pathSound} loop/>
+                          <audio ref={audioRefs[a.id]} src={a.pathSound} loop />
                         </div>
                         <CustomSlider
+                        index={a.pathImg}
                           volume={volumes[a.id]}
                           value={volumes[a.id]}
                           onChange={(event, newValue) =>
@@ -121,15 +123,17 @@ function Atmospherebtn() {
                       </span>
                       <div className="volumeRain">
                         <div>
-                          <audio ref={audioRefs[a.id]} src={a.pathSound} loop/>
+                          <audio ref={audioRefs[a.id]} src={a.pathSound} loop />
                         </div>
                         <CustomSlider
+                          index={a.pathImg}
                           volume={volumes[a.id]}
                           value={volumes[a.id]}
                           onChange={(event, newValue) =>
                             handleSliderChangeWithCheck(a.id, newValue, a.name)
                           }
                         />
+                        {console.log(a.pathImg)}
                       </div>
                     </div>
                   );

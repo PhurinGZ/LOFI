@@ -9,6 +9,7 @@
   position: fixed;
   left: 100px;
   display: none;
+ 
 
   
   .header-atmos {
@@ -20,7 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    cursor: move;
+    cursor: move; z-index: 10;
     
     span {
       margin-left: 20px;

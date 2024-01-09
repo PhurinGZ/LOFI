@@ -1,56 +1,56 @@
 const sound = [
     {
         id:0,
-        pathImg:"",
+        pathImg:"./assets/icons/bird-1.svg",
         name:"birds",
         pathSound:"/public/assets/soundatmosphere/birds.mp3",
         Type:"nature"
     },
     {
         id:1,
-        pathImg:"",
+        pathImg:"./assets/icons/keyboard-1.svg",
         name:"keyboard",
         pathSound:"/public/assets/soundatmosphere/keyboard.mp3",
         Type:"city"
     },
     {
         id:2,
-        pathImg:"",
+        pathImg:"./assets/icons/people-1.svg",
         name:"people",
         pathSound:"/public/assets/soundatmosphere/people.mp3",
         Type:"city"
     },
     {
         id:3,
-        pathImg:"",
+        pathImg:"./assets/icons/rain-1.svg",
         name:"rain",
         pathSound:"/public/assets/soundatmosphere/rain.mp3",
         Type:"nature"
     },
     {
         id:4,
-        pathImg:"",
+        pathImg:"./assets/icons/river-1.svg",
         name:"river",
         pathSound:"/public/assets/soundatmosphere/river.mp3",
         Type:"nature"
     },
     {
         id:5,
-        pathImg:"",
+        pathImg:"./assets/icons/trafic-1.svg",
         name:"trafic",
         pathSound:"/public/assets/soundatmosphere/trafic.mp3",
         Type:"city"
     },
     {
         id:6,
-        pathImg:"",
+        pathImg:"./assets/icons/waterfall-1.svg",
         name:"waterfall",
         pathSound:"/public/assets/soundatmosphere/waterfall.mp3",
         Type:"nature"
     },
     {
         id:7,
-        pathImg:"",
+        pathImg:"./assets/icons/wave-1.svg",
         name:"waves",
         pathSound:"/public/assets/soundatmosphere/waves.mp3",
         Type:"nature"

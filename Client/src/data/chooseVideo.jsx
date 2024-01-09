@@ -24,7 +24,7 @@ const typeLofi = [
       { id: 1, name: "lofi2", data: pathLofi2, pIcon: [120, 200, 0] },
       { id: 2, name: "lofi3", data: pathLofi3, pIcon: [120, 200, 0] },
       { id: 3, name: "lofi4", data: pathLofi4, pIcon: [120, 200, 0] },
-      { id: 4, name: "lofi5", data: pathLofi5, pIcon: [120, 500, 0] },
+      { id: 4, name: "lofi5", data: pathLofi5, pIcon: [50, 90, 0] },
     ],
   },
   {
