@@ -110,6 +110,8 @@ const Home = () => {
     } else {
       setIsVisble(true);
     }
+
+    console.log(changedImage.pIcon)
   });
 
   useEffect(() => {
@@ -196,7 +198,7 @@ const Home = () => {
           <Sidebar />
         </div>
         {isVisible && (
-          <div className="btn-rain">
+           <div className="btn-rain" style={{position:"relative", top:`${changedImage.pIcon[0]}px`, left:`${changedImage.pIcon[1]}px`, right:`${changedImage.pIcon[2]}px`}}  > 
             <AtmosphereButton />
           </div>
         )}
