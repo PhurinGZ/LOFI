@@ -29,12 +29,12 @@ function Atmospherebtn() {
 
       if (isPlaying[index] && audioElement) {
         // Check if the current atmosphere is reality, set volume to 0 if it is
-        const newVolume = changedImage.name === "reality" ? 0 : volumes[index] / 100;
+        const newVolume =  volumes[index] / 100; //changedImage.name === "reality" ? 0 :
         
         audioElement.volume = newVolume;
 
         // If the atmosphere is not reality and volume is not 0, play the audio
-        if (changedImage.name !== "reality" && newVolume > 0) {
+        if (newVolume > 0) { //changedImage.name !== "reality" && 
           audioElement.play().catch((error) => {
             console.error("Error playing audio:", error);
           });
@@ -105,7 +105,7 @@ function Atmospherebtn() {
                           onChange={(event, newValue) =>
                             handleSliderChangeWithCheck(a.id, newValue, a.name)
                           }
-                          disabled={changedImage.name === "reality"}
+                          // disabled={changedImage.name === "reality"}
                         />
                       </div>
                     </div>
@@ -141,7 +141,7 @@ function Atmospherebtn() {
                           onChange={(event, newValue) =>
                             handleSliderChangeWithCheck(a.id, newValue, a.name)
                           }
-                          disabled={changedImage.name === "reality"}
+                          // disabled={changedImage.name === "reality"}
                         />
                       </div>
                     </div>
