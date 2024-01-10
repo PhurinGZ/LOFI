@@ -197,14 +197,14 @@ const Home = () => {
         <div>
           <Sidebar />
         </div>
-        {/*  */}
 
         {isVisible &&
-          changedImage.pIcon.map((p, index) => (
+          changedImage.pIcon &&
+          changedImage.pIcon.map((p) => (
             <div
               className="btn-rain"
               style={{
-                position: "apsolute",
+                position: "absolute",
                 top: `${p.position[0]}%`,
                 left: `${p.position[1]}%`,
                 right: `${p.position[2]}%`,
