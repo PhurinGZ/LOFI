@@ -176,6 +176,8 @@ const Home = () => {
     }
   }, [dayNight, atmosphere, changedImage?.data]);
 
+
+
   return (
     <div className="main">
       <div className="fh relative">
