@@ -55,7 +55,7 @@ import { css } from "@emotion/react";
 //   },
 // });
 const CustomSlider = styled(Slider)(
-  ({ index, volume }) => `
+  ({ index, volume, disabled }) => `
     && {
       color: ${volume === 0 ? "#808080" : "#BB98FF"};
       margin-left: 10px;
@@ -68,7 +68,7 @@ const CustomSlider = styled(Slider)(
         width: 45px;
         height: 45px;
         border-radius: "50%";
-        cursor: "pointer";
+        cursor: ${disabled ? "not-allowed" : "pointer"};
         position: "relative";
         background-color: "rgba(169, 169, 169, 0.8)";
         background-clip: "content-box";
@@ -104,6 +104,7 @@ const CustomSlider = styled(Slider)(
     }
   `
 );
+
 
 
 

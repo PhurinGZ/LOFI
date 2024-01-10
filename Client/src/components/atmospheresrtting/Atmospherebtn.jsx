@@ -11,7 +11,7 @@ function Atmospherebtn() {
   const { volumes, handleSliderChange, isPlaying, toggleIsPlaying } =
     useAtmosphereContext();
   const [isAtmospheresetting, setIsAtmospheresetting] = useState(false);
-  const { atmosphere, setAtmosphere } = useMode();
+  const { atmosphere, setAtmosphere, changedImage } = useMode();
 
   const audioRefs = sound.map(() => useRef(null));
 
@@ -28,16 +28,24 @@ function Atmospherebtn() {
       const audioElement = audioRef.current;
 
       if (isPlaying[index] && audioElement) {
-        audioElement.volume = volumes[index] / 100;
-        audioElement.play().catch((error) => {
-          console.error("Error playing audio:", error);
-        });
-      } else if (audioElement) {
-        audioElement.pause();
-        audioElement.currentTime = 0;
+        // Check if the current atmosphere is reality, set volume to 0 if it is
+        const newVolume = changedImage.name === "reality" ? 0 : volumes[index] / 100;
+        
+        audioElement.volume = newVolume;
+
+        // If the atmosphere is not reality and volume is not 0, play the audio
+        if (changedImage.name !== "reality" && newVolume > 0) {
+          audioElement.play().catch((error) => {
+            console.error("Error playing audio:", error);
+          });
+        } else {
+          // If the atmosphere is reality or volume is 0, pause and reset the audio
+          audioElement.pause();
+          audioElement.currentTime = 0;
+        }
       }
     });
-  }, [isPlaying, volumes, audioRefs]);
+  }, [isPlaying, volumes, audioRefs, changedImage]);
 
   const handleSliderChangeWithCheck = (id, newValue, name) => {
     if (name === "rain") {
@@ -97,6 +105,7 @@ function Atmospherebtn() {
                           onChange={(event, newValue) =>
                             handleSliderChangeWithCheck(a.id, newValue, a.name)
                           }
+                          disabled={changedImage.name === "reality"}
                         />
                       </div>
                     </div>
@@ -132,8 +141,8 @@ function Atmospherebtn() {
                           onChange={(event, newValue) =>
                             handleSliderChangeWithCheck(a.id, newValue, a.name)
                           }
+                          disabled={changedImage.name === "reality"}
                         />
-                        {/* {console.log(a.pathImg)} */}
                       </div>
                     </div>
                   );

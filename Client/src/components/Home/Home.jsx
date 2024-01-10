@@ -1,3 +1,4 @@
+// Home.jsx
 import Demo from "../audioplayer/Demo";
 import "./Home.scss";
 import Header from "../../layout/header/head";
@@ -80,21 +81,21 @@ const Home = () => {
   const handleVideoPathsReality = (imageData) => {
     if (Array.isArray(imageData?.data)) {
       imageData.data.forEach((pathLofi) => {
-        console.log(pathLofi);
+        // console.log(pathLofi);
         if (currentPath !== pathLofi.src) {
           setNextVideoOpacity(0);
           setCurrentVideoOpacity(1);
           setCurrentPath(pathLofi.src);
-          console.log("currentPath !== pathLofi.src");
+          // console.log("currentPath !== pathLofi.src");
           if (nextPath !== pathLofi.src) {
             setNextVideoOpacity(1);
             setCurrentVideoOpacity(0);
             setNextPath(pathLofi.src);
-            console.log("nextPath !== pathLofi.src");
+            // console.log("nextPath !== pathLofi.src");
           } else {
             setNextVideoOpacity(1);
             setCurrentVideoOpacity(0);
-            console.log("else");
+            // console.log("else");
           }
         } else {
           setNextVideoOpacity(0);
@@ -212,7 +213,10 @@ const Home = () => {
               key={p.id}
             >
               {/* {console.log(p)} */}
-              <AtmosphereButton name={p.name} />
+
+              {changedImage.name !== "reality" && (
+                <AtmosphereButton name={p.name} />
+              )}
             </div>
           ))}
       </div>
