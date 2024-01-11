@@ -65,7 +65,7 @@ const AtmosphereButton = ({ name }) => {
   }, [isPlaying, volumes, soundPath]);
 
   const handleToggle = () => {
-    console.log("Handle Toggle Clicked");
+    // console.log("Handle Toggle Clicked");
     const newVolumes = [...volumes];
     newVolumes[soundPath.id] = 30; // Set the volume to 0 in the local state
     setVolumes(newVolumes); // Update the context with the new volumes

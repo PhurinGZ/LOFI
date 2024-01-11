@@ -66,7 +66,7 @@ function Atmospherebtn() {
 
       // Other logic for handling volume changes and updates
 
-      console.log(audioElement.volume);
+      // console.log(audioElement.volume);
     });
   }, [isPlaying, volumes, audioRefs, changedImage, prevChangeImage]);
 
