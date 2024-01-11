@@ -16,10 +16,11 @@ const Home = () => {
   const [currentPath, setCurrentPath] = useState("");
   const [isNextPath, setIsNextPath] = useState(false);
   const [isVisible, setIsVisble] = useState(true);
+  const [prevChangeImage, setPrevChangeImage] = useState("");
 
   const { mode } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
-  const { dayNight, atmosphere, changedImage } = useMode();
+  const { dayNight, atmosphere, changedImage, setAtmosphere } = useMode();
   const mergeMode = (dayNight || "day") + "-" + atmosphere;
 
   // console.log(changedImage);
@@ -106,6 +107,13 @@ const Home = () => {
   };
 
   useEffect(() => {
+    if (prevChangeImage != changedImage.name) {
+      setAtmosphere("");
+      setPrevChangeImage(changedImage.name);
+    }
+  });
+
+  useEffect(() => {
     if (changedImage.name === "reality") {
       setIsVisble(false);
     } else {
@@ -177,8 +185,6 @@ const Home = () => {
     }
   }, [dayNight, atmosphere, changedImage?.data]);
 
-
-
   return (
     <div className="main">
       <div className="fh relative">
@@ -212,7 +218,7 @@ const Home = () => {
                 left: `${p.position[1]}%`,
                 right: `${p.position[2]}%`,
                 width: "fit-content",
-                height: "fit-content"
+                height: "fit-content",
               }}
               key={p.id}
             >
