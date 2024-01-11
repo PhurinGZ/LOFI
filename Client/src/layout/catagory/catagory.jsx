@@ -226,193 +226,179 @@ function Catagory() {
         <img src="/assets/icons/open-menu.png" alt="" />
       </button>
 
-      <Modal
-        open={open}
-        onClose={handleClose}
-        BackdropComponent={CustomBackdrop}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        background="none"
-      >
-        <div ref={modalRef}>
-          <Draggable handle=".category-modal-title">
-            {/* ---------------------------------------------------------------------------------------------modal-container */}
-            <Box className="category-modal-container">
-              <div className="category-modal-title">
-                <div id="modal-modal-title" className="category-title">
-                  <Typography variant="h5" component="h2">
-                    <span> Category </span>
-                  </Typography>
-                </div>
-                <div className="button-close">
-                  <CloseIcon onClick={handleClose} />
-                </div>
-              </div>
-              <Typography
-                id="modal-modal-description"
-                style={{
-                  marginTop: "16px",
-                  marginBottom: "16px",
-                  marginLeft: "30px",
-                  marginRight: "16px",
-                  padding: "10px",
-                }}
-                component={"div"}
-                className="Slider"
-              >
-                {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
-                <Slider {...firstSliderSettings}>
-                  {cate.map((cates) => (
-                    <Button
-                      onClick={() => handleButtonClick(cates.mode)}
-                      key={cates.id}
-                    >
-                      <div
-                        className="card"
-                        style={{
-                          border:
-                            selectedMode === cates.mode
-                              ? "2px solid #BB98FF"
-                              : "none",
-                          width: selectedMode === cates.mode ? "90px" : "",
-                          height: selectedMode === cates.mode ? "96px" : "",
-                        }}
-                      >
-                        <div className="cards-image">
-                          <img
-                            src={cates.src}
-                            className="image-slide"
-                            alt={cates.mode}
-                          />
-                        </div>
-                        <div className="cardtext">
-                          <b>{cates.mode}</b>
-                        </div>
-                      </div>
-                    </Button>
-                  ))}
-                </Slider>
-              </Typography>
-              <div className="category-modal-title-second">
-                <Typography
-                  id="modal-modal-title"
-                  variant="h6"
-                  component="h2"
-                  style={{ marginLeft: "15px" }}
-                >
-                  <span>Choose picture</span>
+      {open && (
+        <Draggable handle=".category-modal-title">
+          {/* ---------------------------------------------------------------------------------------------modal-container */}
+          <Box className="category-modal-container">
+            <div className="category-modal-title">
+              <div id="modal-modal-title" className="category-title">
+                <Typography variant="h5" component="h2">
+                  <span> Category </span>
                 </Typography>
               </div>
-
-              {/* ---------------------------------------------------------------------------------------------image-slide-ImageMode */}
-
-              <div className="silde-grop">
-                {isSliderSecondVisiblechang ? (
-                  <Typography
-                    id="modal-modal-description"
-                    style={{
-                      marginBottom: "16px",
-                      marginLeft: "30px",
-                      marginRight: "16px",
-                      padding: "10px",
-                    }}
-                    className="Slider Slider-second"
+              <div className="button-close">
+                <CloseIcon onClick={handleClose} />
+              </div>
+            </div>
+            <Typography
+              id="modal-modal-description"
+              style={{
+                marginTop: "16px",
+                marginBottom: "16px",
+                marginLeft: "30px",
+                marginRight: "16px",
+                padding: "10px",
+              }}
+              component={"div"}
+              className="Slider"
+            >
+              {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
+              <Slider {...firstSliderSettings}>
+                {cate.map((cates) => (
+                  <Button
+                    onClick={() => handleButtonClick(cates.mode)}
+                    key={cates.id}
                   >
-                    <Slider {...secondSliderSettings}>
-                      {typeLofi.map((type, i) => (
-                        <Button
-                          onClick={() => {
-                            if (
-                              type.video &&
-                              type.video[i] &&
-                              type.video[i].data &&
-                              type.video[i].data.length > 0
-                            ) {
-                              handleButtonClickchang();
-                              handleData([type.video, type.nameType]);
-                            }
-                          }}
-                          key={i}
-                          disabled={
-                            !type.video ||
-                            !type.video[i] ||
-                            !type.video[i].data ||
-                            type.video[i].data.length === 0
-                          }
-                        >
-                          <div className="card-image" style={{ color: "#000" }}>
-                            {type.video &&
+                    <div
+                      className="card"
+                      style={{
+                        border:
+                          selectedMode === cates.mode
+                            ? "2px solid #BB98FF"
+                            : "none",
+                        width: selectedMode === cates.mode ? "90px" : "",
+                        height: selectedMode === cates.mode ? "96px" : "",
+                      }}
+                    >
+                      <div className="cards-image">
+                        <img
+                          src={cates.src}
+                          className="image-slide"
+                          alt={cates.mode}
+                        />
+                      </div>
+                      <div className="cardtext">
+                        <b>{cates.mode}</b>
+                      </div>
+                    </div>
+                  </Button>
+                ))}
+              </Slider>
+            </Typography>
+            <div className="category-modal-title-second">
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+                style={{ marginLeft: "15px" }}
+              >
+                <span>Choose picture</span>
+              </Typography>
+            </div>
+
+            {/* ---------------------------------------------------------------------------------------------image-slide-ImageMode */}
+
+            <div className="silde-grop">
+              {isSliderSecondVisiblechang ? (
+                <Typography
+                  id="modal-modal-description"
+                  style={{
+                    marginBottom: "16px",
+                    marginLeft: "30px",
+                    marginRight: "16px",
+                    padding: "10px",
+                  }}
+                  className="Slider Slider-second"
+                >
+                  <Slider {...secondSliderSettings}>
+                    {typeLofi.map((type, i) => (
+                      <Button
+                        onClick={() => {
+                          if (
+                            type.video &&
                             type.video[i] &&
                             type.video[i].data &&
-                            type.video[i].data[0] ? (
-                              <video src={type.video[i].data[0].src} />
-                            ) : (
-                              <video src="" />
-                            )}
-                            <span>{type.nameType}</span>
-                            <div className="coti-img">
-                              <AddPhotoAlternateIcon
-                                fontSize="small"
-                                marginBottom="10px"
-                                style={{ margin: "4px" }}
-                              />{" "}
-                              <p>{type.video ? type.video.length : 0}</p>
-                            </div>
+                            type.video[i].data.length > 0
+                          ) {
+                            handleButtonClickchang();
+                            handleData([type.video, type.nameType]);
+                          }
+                        }}
+                        key={i}
+                        disabled={
+                          !type.video ||
+                          !type.video[i] ||
+                          !type.video[i].data ||
+                          type.video[i].data.length === 0
+                        }
+                      >
+                        <div className="card-image" style={{ color: "#000" }}>
+                          {type.video &&
+                          type.video[i] &&
+                          type.video[i].data &&
+                          type.video[i].data[0] ? (
+                            <video src={type.video[i].data[0].src} />
+                          ) : (
+                            <video src="" />
+                          )}
+                          <span>{type.nameType}</span>
+                          <div className="coti-img">
+                            <AddPhotoAlternateIcon
+                              fontSize="small"
+                              marginBottom="10px"
+                              style={{ margin: "4px" }}
+                            />{" "}
+                            <p>{type.video ? type.video.length : 0}</p>
                           </div>
-                        </Button>
-                      ))}
-                    </Slider>
-                  </Typography>
-                ) : (
-                  <Typography
-                    id="modal-modal-description"
+                        </div>
+                      </Button>
+                    ))}
+                  </Slider>
+                </Typography>
+              ) : (
+                <Typography
+                  id="modal-modal-description"
+                  style={{
+                    marginBottom: "16px",
+                    marginLeft: "30px",
+                    marginRight: "16px",
+                    padding: "0px 10px 0px 0px",
+                  }}
+                  className="Slider Slider-third"
+                >
+                  <p
                     style={{
-                      marginBottom: "16px",
-                      marginLeft: "30px",
-                      marginRight: "16px",
-                      padding: "0px 10px 0px 0px",
+                      display: "flex",
+                      cursor: "pointer",
+                      color: "rgba(138, 43, 226, 1)",
+                      borderRadius: "50px",
+                      borderBottom: "1px solid rgba(61, 61, 61, 1)",
                     }}
-                    className="Slider Slider-third"
+                    onClick={handleButtonClickchang}
                   >
-                    <p
-                      style={{
-                        display: "flex",
-                        cursor: "pointer",
-                        color: "rgba(138, 43, 226, 1)",
-                        borderRadius: "50px",
-                        borderBottom: "1px solid rgba(61, 61, 61, 1)",
-                      }}
-                      onClick={handleButtonClickchang}
-                    >
-                      <ChevronLeftIcon /> {data[1]}
-                    </p>
+                    <ChevronLeftIcon /> {data[1]}
+                  </p>
 
-                    <Slider {...secondSliderSettings}>
-                      {data[0].map((datas, i) => (
-                        <Button
-                          key={i}
-                          onClick={() => handleDataContext(datas)}
+                  <Slider {...secondSliderSettings}>
+                    {data[0].map((datas, i) => (
+                      <Button key={i} onClick={() => handleDataContext(datas)}>
+                        <div
+                          className="card-image-third"
+                          style={{ color: "#000" }}
                         >
-                          <div
-                            className="card-image-third"
-                            style={{ color: "#000" }}
-                          >
-                            {datas.data &&
-                              datas.data[0] &&
-                              datas.data[0].src && (
-                                <video src={datas.data[0].src} />
-                              )}
-                          </div>
-                        </Button>
-                      ))}
-                    </Slider>
-                  </Typography>
-                )}
-              </div>
-            </Box>
-          </Draggable>
-        </div>
-      </Modal>
+                          {datas.data && datas.data[0] && datas.data[0].src && (
+                            <video src={datas.data[0].src} />
+                          )}
+                        </div>
+                      </Button>
+                    ))}
+                  </Slider>
+                </Typography>
+              )}
+            </div>
+          </Box>
+        </Draggable>
+      )}
     </div>
   );
 }
