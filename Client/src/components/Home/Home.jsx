@@ -211,6 +211,8 @@ const Home = () => {
                 top: `${p.position[0]}%`,
                 left: `${p.position[1]}%`,
                 right: `${p.position[2]}%`,
+                width: "fit-content",
+                height: "fit-content"
               }}
               key={p.id}
             >

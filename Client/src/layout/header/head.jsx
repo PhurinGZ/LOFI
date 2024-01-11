@@ -33,10 +33,10 @@ const Header = () => {
 
   return (
     <nav className="nav-bar">
-      <Link to="#" style={{ textDecoration: "none", paddingLeft: "10px" }}>
+      <Link to="#" style={{ textDecoration: "none" }}>
         <div className="logo">
-          {/* <video src="./assets/icons/logo-lofi.mp4"></video> */}
-          <h1> LOFI </h1>
+          <img src="public/assets/icons/logo-1.gif" />
+          {/* <h1> LOFI </h1> */}
         </div>
       </Link>
       <div className="nav-menu"></div>
