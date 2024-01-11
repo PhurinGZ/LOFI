@@ -41,9 +41,12 @@ export const AtmosphereProvider = ({ children }) => {
   };
 
   const toggleIsPlaying = (id) => {
-    const newIsPlaying = [...isPlaying];
-    newIsPlaying[id] = !newIsPlaying[id];
-    setIsPlaying(newIsPlaying);
+    setIsPlaying((prevIsPlaying) => {
+      const newIsPlaying = [...prevIsPlaying];
+      newIsPlaying[id] = !newIsPlaying[id];
+      // console.log("newIsPlaying : ", newIsPlaying);
+      return newIsPlaying;
+    });
   };
 
   return (
@@ -53,6 +56,8 @@ export const AtmosphereProvider = ({ children }) => {
         handleSliderChange,
         isPlaying,
         toggleIsPlaying,
+        setVolumes,
+        setIsPlaying,
       }}
     >
       {children}

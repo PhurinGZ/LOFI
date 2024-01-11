@@ -1,3 +1,4 @@
+// AtmosphereSetting.jsx
 import React, { useState, useRef, useEffect } from "react";
 import Draggable from "react-draggable";
 import { sound } from "../../data/atmosphere";
@@ -8,12 +9,16 @@ import "./styles.scss";
 import { useMode } from "../../context/modeContext";
 
 function Atmospherebtn() {
-  const { volumes, handleSliderChange, isPlaying, toggleIsPlaying } =
+  const { volumes, handleSliderChange, isPlaying, setIsPlaying } =
     useAtmosphereContext();
   const [isAtmospheresetting, setIsAtmospheresetting] = useState(false);
   const { atmosphere, setAtmosphere, changedImage } = useMode();
+  const [prevChangeImage, setPrevChangeImage] = useState("");
 
   const audioRefs = sound.map(() => useRef(null));
+
+  // console.log("prevChangeImage : ", prevChangeImage);
+  // console.log("currentChangeImage : ", changedImage.name);
 
   const hahdleBtnClickAtmosphere = () => {
     setIsAtmospheresetting(true);
@@ -27,25 +32,43 @@ function Atmospherebtn() {
     audioRefs.forEach((audioRef, index) => {
       const audioElement = audioRef.current;
 
-      if (isPlaying[index] && audioElement) {
-        // Check if the current atmosphere is reality, set volume to 0 if it is
-        const newVolume =  volumes[index] / 100; //changedImage.name === "reality" ? 0 :
-        
+      if (prevChangeImage !== changedImage.name && audioElement) {
+        // Pause and reset the audio when changedImage is updated
+        audioElement.pause();
+        audioElement.currentTime = 0; // Reset the audio to the beginning
+        audioElement.volume = 0;
+
+        // Update the context with the new volumes
+        setIsPlaying((prevIsPlaying) => {
+          const newIsPlaying = [...prevIsPlaying];
+          newIsPlaying[index] = false;
+          return newIsPlaying;
+        });
+        setPrevChangeImage(changedImage.name);
+      } else if (isPlaying[index] && audioElement) {
+        // If isPlaying is true, resume or start playing the audio
+        const newVolume = volumes[index] / 100;
         audioElement.volume = newVolume;
 
-        // If the atmosphere is not reality and volume is not 0, play the audio
-        if (newVolume > 0) { //changedImage.name !== "reality" && 
+        if (newVolume > 0) {
           audioElement.play().catch((error) => {
             console.error("Error playing audio:", error);
           });
-        } else {
-          // If the atmosphere is reality or volume is 0, pause and reset the audio
+        }
+      } else {
+        // Pause and reset the audio when isPlaying is false
+        if (audioElement) {
           audioElement.pause();
-          audioElement.currentTime = 0;
+          audioElement.currentTime = 0; // Reset the audio to the beginning
+          audioElement.volume = 0;
         }
       }
+
+      // Other logic for handling volume changes and updates
+
+      console.log(audioElement.volume);
     });
-  }, [isPlaying, volumes, audioRefs, changedImage]);
+  }, [isPlaying, volumes, audioRefs, changedImage, prevChangeImage]);
 
   const handleSliderChangeWithCheck = (id, newValue, name) => {
     if (name === "rain") {
