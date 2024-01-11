@@ -50,12 +50,12 @@ const Home = () => {
                 setNextVideoOpacity(1);
                 setCurrentVideoOpacity(0);
                 setNextPath(pathLofi.src);
-                console.log("next day-rain");
+                // console.log("next day-rain");
               } else {
                 setNextVideoOpacity(0);
                 setCurrentVideoOpacity(1);
                 setCurrentPath(pathLofi.src);
-                console.log("current day-rain");
+                // console.log("current day-rain");
               }
               break;
             case "night-rain":
@@ -63,12 +63,12 @@ const Home = () => {
                 setNextVideoOpacity(0);
                 setCurrentVideoOpacity(1);
                 setCurrentPath(pathLofi.src);
-                console.log("current night-rain");
+                // console.log("current night-rain");
               } else {
                 setNextVideoOpacity(1);
                 setCurrentVideoOpacity(0);
                 setNextPath(pathLofi.src);
-                console.log("next night-rain");
+                // console.log("next night-rain");
               }
               break;
             default:
