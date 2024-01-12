@@ -1,5 +1,5 @@
 // darklightswitch.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { styled } from "@mui/system";
@@ -55,7 +55,7 @@ const DarkLightSwitch = ({ theme }) => {
   }));
 
   const [mode, setMode] = useState('night');
-  const {dayNight,setDayNight} = useMode()
+  const {setDayNight} = useMode()
 
   // console.log(mode);
 

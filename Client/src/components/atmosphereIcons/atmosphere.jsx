@@ -1,6 +1,6 @@
 // atmosphereButton.jsx
 
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Slider from "@mui/material/Slider";
 import { useMode } from "../../context/modeContext";
 import { useAtmosphereContext } from "../../context/atmosphere";
@@ -21,21 +21,19 @@ const AtmosphereButton = ({ name }) => {
 
   useEffect(() => {
     const foundSound = sound.find((a) => a.name === name);
-    // console.log(foundSound);
-
     if (foundSound) {
       setSoundPath(foundSound);
     }
   }, [name]);
 
-  // console.log(soundPath);
-
   const audioRef = useRef(new Audio());
+
+  const { pathSound, id } = soundPath || {};
 
   useEffect(() => {
     if (soundPath) {
-      audioRef.current.src = soundPath.pathSound;
-      audioRef.current.volume = volumes[soundPath.id] / 100;
+      audioRef.current.src = pathSound;
+      audioRef.current.volume = volumes[id] / 100;
 
       const playAudio = () => {
         audioRef.current.play().catch((error) => {
@@ -49,7 +47,7 @@ const AtmosphereButton = ({ name }) => {
         }
       };
 
-      if (isPlaying[soundPath.id]) {
+      if (isPlaying[id]) {
         playAudio();
       } else {
         pauseAudio();
@@ -65,15 +63,15 @@ const AtmosphereButton = ({ name }) => {
   }, [isPlaying, volumes, soundPath]);
 
   const handleToggle = () => {
-    // console.log("Handle Toggle Clicked");
     const newVolumes = [...volumes];
-    newVolumes[soundPath.id] = 30; // Set the volume to 0 in the local state
-    setVolumes(newVolumes); // Update the context with the new volumes
+    newVolumes[id] = 30;
+    setVolumes(newVolumes);
+    toggleIsPlaying(id);
 
-    toggleIsPlaying(soundPath.id);
     if (name === "rain") {
       setAtmosphere(atmosphere === "rain" ? "" : "rain");
     }
+
     if (atmosphere === "rain") {
       setIsSlideVisible(false);
     } else {
@@ -82,16 +80,11 @@ const AtmosphereButton = ({ name }) => {
         setIsSlideVisible(false);
       }, 15000);
     }
-    // console.log(isPlaying[3])
   };
 
-  const handleSliderChangeWithCheck = (id, newValue, name) => {
+  const handleSliderChangeWithCheck = (newValue, name) => {
     if (name === "rain") {
-      if (newValue === 0) {
-        setAtmosphere("");
-      } else {
-        setAtmosphere(name);
-      }
+      setAtmosphere(newValue === 0 ? "" : name);
     }
 
     handleSliderChange(id, newValue, name);
@@ -102,22 +95,18 @@ const AtmosphereButton = ({ name }) => {
       {soundPath && (
         <div className={`button-rain ${atmosphere}`} onClick={handleToggle}>
           <div>
-            <audio src={soundPath.pathSound} loop />
+            <audio src={pathSound} loop />
           </div>
           <img src={soundPath.pathImg} alt="" />
         </div>
       )}
 
-      <div className={`slide ${isSlideVisible ? "display-block" : ""}`}>
+      <div className={`slide ${isSlideVisible && "display-block"}`}>
         {soundPath && (
           <Slider
-            value={volumes[soundPath.id]}
+            value={volumes[id]}
             onChange={(e, newValue) =>
-              handleSliderChangeWithCheck(
-                soundPath.id,
-                newValue,
-                soundPath.name
-              )
+              handleSliderChangeWithCheck(newValue, soundPath.name)
             }
             aria-labelledby="continuous-slider"
             sx={{

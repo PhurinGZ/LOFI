@@ -35,7 +35,7 @@ const Header = () => {
     <nav className="nav-bar">
       <Link to="#" style={{ textDecoration: "none" }}>
         <div className="logo">
-          <img src="public/assets/icons/logo-1.gif" />
+          <img src="./assets/icons/logo-1.gif" />
           {/* <h1> LOFI </h1> */}
         </div>
       </Link>

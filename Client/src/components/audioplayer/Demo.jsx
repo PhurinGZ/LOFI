@@ -1,7 +1,6 @@
 //demo.jsx
 import { useState, useEffect, useRef } from "react";
-import { styled, Slider, Paper, Stack, Box } from "@mui/material";
-import Draggable from "react-draggable";
+import { Slider } from "@mui/material";
 
 // #region ------------ ICONS ---------
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -15,7 +14,6 @@ import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
 // #endregion ------------ ICONS ---------
 
 // #region ------- another -------------------------------------------------------
-import { chil } from "../../data/songData";
 import Time from "../time/Time";
 import "./player.scss";
 // #endregion ---------------------------------------------------------------
@@ -95,6 +93,7 @@ const Demo = ({ mode }) => {
           "&:hover": {
             opacity: 1,
             transform: "scale(1.2)",
+            cursor:"pointer",
           },
         }}
         onClick={onClick}
@@ -108,6 +107,7 @@ const Demo = ({ mode }) => {
           "&:hover": {
             opacity: 1,
             transform: "scale(1.2)",
+            cursor:"pointer",
           },
         }}
         onClick={onClick}
@@ -121,6 +121,7 @@ const Demo = ({ mode }) => {
           "&:hover": {
             opacity: 1,
             transform: "scale(1.2)",
+            cursor:"pointer",
           },
         }}
         onClick={onClick}
@@ -134,6 +135,7 @@ const Demo = ({ mode }) => {
           "&:hover": {
             opacity: 1,
             transform: "scale(1.2)",
+            cursor:"pointer",
           },
         }}
         onClick={onClick}
@@ -160,7 +162,7 @@ const Demo = ({ mode }) => {
             fontSize={"large"}
             sx={{
               color: "#FFF",
-              "&:hover": { transform: "scale(1.2)" },
+              "&:hover": { transform: "scale(1.2)",cursor:"pointer", },
             }}
             onClick={toggleSkipBackward}
           />
@@ -169,7 +171,7 @@ const Demo = ({ mode }) => {
               fontSize={"large"}
               sx={{
                 color: "#FFF",
-                "&:hover": { transform: "scale(1.2)" },
+                "&:hover": { transform: "scale(1.2)",cursor:"pointer", },
               }}
               onClick={togglePlay}
             />
@@ -178,7 +180,7 @@ const Demo = ({ mode }) => {
               fontSize={"large"}
               sx={{
                 color: "#FFF",
-                "&:hover": { transform: "scale(1.2)" },
+                "&:hover": { transform: "scale(1.2)", cursor:"pointer", },
               }}
               onClick={togglePlay}
             />
@@ -187,7 +189,7 @@ const Demo = ({ mode }) => {
             fontSize={"large"}
             sx={{
               color: "#FFF",
-              "&:hover": { transform: "scale(1.2)" },
+              "&:hover": { transform: "scale(1.2)",cursor:"pointer", },
             }}
             onClick={toggleSkipForward}
           />

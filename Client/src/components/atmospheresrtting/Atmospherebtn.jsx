@@ -1,5 +1,5 @@
 // AtmosphereSetting.jsx
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Draggable from "react-draggable";
 import { sound } from "../../data/atmosphere";
 import { useAtmosphereContext } from "../../context/atmosphere";
@@ -12,7 +12,7 @@ function Atmospherebtn() {
   const { volumes, handleSliderChange, isPlaying, setIsPlaying } =
     useAtmosphereContext();
   const [isAtmospheresetting, setIsAtmospheresetting] = useState(false);
-  const { atmosphere, setAtmosphere, changedImage } = useMode();
+  const { setAtmosphere, changedImage } = useMode();
   const [prevChangeImage, setPrevChangeImage] = useState("");
 
   const audioRefs = sound.map(() => useRef(null));

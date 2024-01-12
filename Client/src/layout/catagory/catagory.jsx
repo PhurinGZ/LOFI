@@ -1,5 +1,5 @@
-import { useState, createContext, useRef } from "react";
-import { Button, Modal, Box, Typography, Backdrop } from "@mui/material";
+import { useState } from "react";
+import { Button, Typography } from "@mui/material";
 import Slider from "react-slick";
 import "./catagory.scss";
 import "slick-carousel/slick/slick.css";
@@ -11,57 +11,35 @@ import { useMode } from "../../context/modeContext";
 import Draggable from "react-draggable";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-
 import { typeLofi } from "../../data/chooseVideo";
-
-function CustomBackdrop(props) {
-  return (
-    <Backdrop {...props} style={{ backgroundColor: "rgba(0, 0, 0, 0)" }} />
-  );
-}
+import { cate } from "../../data/musicMode";
 
 function Catagory() {
-  const { mode, toggleMode } = useMode();
   const [open, setOpen] = useState(false);
-  const modalRef = useRef(null);
-  const { setChangedImage } = useMode();
+  const { setChangedImage, toggleMode } = useMode();
 
-  const cate = [
-    { id: 0, mode: "chill", src: "/assets/icons/sunbathing (1).png" },
-    { id: 1, mode: "sexy", src: "/assets/icons/woman.png" },
-    { id: 2, mode: "happy", src: "/assets/icons/jumping-man.png" },
-    { id: 3, mode: "romantic", src: "/assets/icons/drinks.png" },
-    { id: 4, mode: "sad", src: "/assets/icons/abused.png" },
-  ];
-  // ------------------------------------------------------------------------------clickchangslide
+  
 
   const [isSliderSecondVisiblechang, setIsSliderSecondVisiblechang] =
     useState(true);
-
   const [data, setData] = useState([]);
+  // const { video, nameType } = typeLofi.reduce((acc, type) => (type.video && type.video[0] && type.video[0].data && type.video[0].data.length > 0 ? { ...type.video[0].data[0] } : acc), {});
 
-  // console.log("data outside :", data);
+  // console.log(data)
 
   const handleButtonClickchang = () => {
     setIsSliderSecondVisiblechang(!isSliderSecondVisiblechang);
   };
 
+  // set data for ahead to lofi mode or reality
   const handleData = (value1) => {
     setData(value1);
   };
-
+  // insert data to ChangeImage in ModeContext
   const handleDataContext = (value) => {
     setChangedImage(value);
-    // console.log(value);
   };
 
-  const handback = () => {
-    if (isSliderSecondVisiblechang === "true") {
-      setIsSliderSecondVisiblechang(false);
-    }
-  };
-
-  // console.log(mode);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -71,76 +49,27 @@ function Catagory() {
   };
 
   const [selectedMode, setSelectedMode] = useState("");
-  // console.log("SelcetedMode" + selectedMode);
 
-  // Custom arrow components
   const NextArrow = (props) => {
     const { onClick, currentSlide, slideCount } = props;
-    return (
-      <>
-        {currentSlide < slideCount - 2 ? (
-          <div className="custom-slick-next" onClick={onClick}>
-            <div className="nextarrow">
-              <ArrowForwardIosIcon />
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
-      </>
-    );
+    return currentSlide < slideCount - 2 ? (
+      <div className="custom-slick-next" onClick={onClick}>
+        <div className="nextarrow">
+          <ArrowForwardIosIcon />
+        </div>
+      </div>
+    ) : null;
   };
 
   const PrevArrow = (props) => {
     const { onClick, currentSlide } = props;
-    return (
-      <>
-        {currentSlide > 0 ? (
-          <div className="custom-slick-prev" onClick={onClick}>
-            <div className="prevarrow">
-              <ArrowBackIosNewIcon />
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
-      </>
-    );
-  };
-
-  // Custom arrow components 2
-  const NextArrow2 = (props) => {
-    const { onClick, currentSlide, slideCount } = props;
-    return (
-      <>
-        {currentSlide < slideCount - 3 ? (
-          <div className="custom-slick-next" onClick={onClick}>
-            <div className="nextarrow">
-              <ArrowForwardIosIcon />
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
-      </>
-    );
-  };
-
-  const PrevArrow2 = (props) => {
-    const { onClick, currentSlide } = props;
-    return (
-      <>
-        {currentSlide > 0 ? (
-          <div className="custom-slick-prev" onClick={onClick}>
-            <div className="prevarrow">
-              <ArrowBackIosNewIcon />
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
-      </>
-    );
+    return currentSlide > 0 ? (
+      <div className="custom-slick-prev" onClick={onClick}>
+        <div className="prevarrow">
+          <ArrowBackIosNewIcon />
+        </div>
+      </div>
+    ) : null;
   };
 
   const handleButtonClick = (selectedMode) => {
@@ -148,43 +77,23 @@ function Catagory() {
     setSelectedMode(selectedMode);
   };
 
-  //---------------------------------------------------------------------------------------------------firstSliderSettings
+  // Setting music slider
   const firstSliderSettings = {
     dots: false,
     infinite: false,
     speed: 300,
     slidesToShow: 3,
     slidesToScroll: 2,
-    nextArrow: <NextArrow2 />,
-    prevArrow: <PrevArrow2 />,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
+      { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+      { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 2, slidesToScroll: 2 } },
     ],
   };
 
-  //----------------------------------------------------------------------------------secondSliderSettings
+  // Setting image slider
   const secondSliderSettings = {
     dots: false,
     infinite: false,
@@ -194,29 +103,9 @@ function Catagory() {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
+      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3 } },
+      { breakpoint: 600, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
     ],
   };
 
@@ -228,8 +117,7 @@ function Catagory() {
 
       {open && (
         <Draggable handle=".category-modal-title">
-          {/* ---------------------------------------------------------------------------------------------modal-container */}
-          <Box className="category-modal-container">
+          <div className="category-modal-container">
             <div className="category-modal-title">
               <div id="modal-modal-title" className="category-title">
                 <Typography variant="h5" component="h2">
@@ -240,6 +128,7 @@ function Catagory() {
                 <CloseIcon onClick={handleClose} />
               </div>
             </div>
+            {/* ------------------------------------------ Mode Music -------------------------------------------------------------- */}
             <Typography
               id="modal-modal-description"
               style={{
@@ -250,9 +139,10 @@ function Catagory() {
                 padding: "10px",
               }}
               component={"div"}
-              className="Slider"
+              className={`Slider ${
+                isSliderSecondVisiblechang ? "" : "Slider-third"
+              }`}
             >
-              {/* ---------------------------------------------------------------------------------------------image-slide-musicMode */}
               <Slider {...firstSliderSettings}>
                 {cate.map((cates) => (
                   <Button
@@ -295,49 +185,48 @@ function Catagory() {
                 <span>Choose picture</span>
               </Typography>
             </div>
-
-            {/* ---------------------------------------------------------------------------------------------image-slide-ImageMode */}
-
             <div className="silde-grop">
-              {isSliderSecondVisiblechang ? (
-                <Typography
-                  id="modal-modal-description"
-                  style={{
-                    marginBottom: "16px",
-                    marginLeft: "30px",
-                    marginRight: "16px",
-                    padding: "10px",
-                  }}
-                  className="Slider Slider-second"
-                >
+              {/* ------------------------------------------- Mode Image ------------------------------------------------------------ */}
+              <Typography
+                id="modal-modal-description"
+                style={{
+                  marginBottom: "16px",
+                  marginLeft: "30px",
+                  marginRight: "16px",
+                  padding: isSliderSecondVisiblechang
+                    ? "10px"
+                    : "0px 10px 0px 0px",
+                }}
+                className={`Slider ${
+                  isSliderSecondVisiblechang ? "Slider-second" : "Slider-third"
+                }`}
+              >
+                {isSliderSecondVisiblechang ? (
                   <Slider {...secondSliderSettings}>
                     {typeLofi.map((type, i) => (
                       <Button
-                        onClick={() => {
-                          if (
-                            type.video &&
-                            type.video[i] &&
-                            type.video[i].data &&
-                            type.video[i].data.length > 0
-                          ) {
-                            handleButtonClickchang();
-                            handleData([type.video, type.nameType]);
-                          }
-                        }}
                         key={i}
+                        onClick={() => {
+                          type.video &&
+                            type.video[0] &&
+                            type.video[0].data &&
+                            type.video[0].data.length > 0 &&
+                            handleData([type.video, type.nameType]);
+                          handleButtonClickchang();
+                        }}
                         disabled={
                           !type.video ||
-                          !type.video[i] ||
-                          !type.video[i].data ||
-                          type.video[i].data.length === 0
+                          !type.video[0] ||
+                          !type.video[0].data ||
+                          type.video[0].data.length === 0
                         }
                       >
                         <div className="card-image" style={{ color: "#000" }}>
                           {type.video &&
-                          type.video[i] &&
-                          type.video[i].data &&
-                          type.video[i].data[0] ? (
-                            <video src={type.video[i].data[0].src} />
+                          type.video[0] &&
+                          type.video[0].data &&
+                          type.video[0].data[0] ? (
+                            <video src={type.video[0].data[0].src} />
                           ) : (
                             <video src="" />
                           )}
@@ -354,49 +243,44 @@ function Catagory() {
                       </Button>
                     ))}
                   </Slider>
-                </Typography>
-              ) : (
-                <Typography
-                  id="modal-modal-description"
-                  style={{
-                    marginBottom: "16px",
-                    marginLeft: "30px",
-                    marginRight: "16px",
-                    padding: "0px 10px 0px 0px",
-                  }}
-                  className="Slider Slider-third"
-                >
-                  <p
-                    style={{
-                      display: "flex",
-                      cursor: "pointer",
-                      color: "rgba(138, 43, 226, 1)",
-                      borderRadius: "50px",
-                      borderBottom: "1px solid rgba(61, 61, 61, 1)",
-                    }}
-                    onClick={handleButtonClickchang}
-                  >
-                    <ChevronLeftIcon /> {data[1]}
-                  </p>
-
-                  <Slider {...secondSliderSettings}>
-                    {data[0].map((datas, i) => (
-                      <Button key={i} onClick={() => handleDataContext(datas)}>
-                        <div
-                          className="card-image-third"
-                          style={{ color: "#000" }}
+                ) : (
+                  <>
+                    <p
+                      onClick={handleButtonClickchang}
+                      style={{
+                        display: "flex",
+                        cursor: "pointer",
+                        color: "rgba(138, 43, 226, 1)",
+                        borderRadius: "50px",
+                        borderBottom: "1px solid rgba(61, 61, 61, 1)",
+                      }}
+                    >
+                      <ChevronLeftIcon /> {data[1]}
+                    </p>
+                    <Slider {...secondSliderSettings}>
+                      {data[0].map((datas, i) => (
+                        <Button
+                          key={i}
+                          onClick={() => handleDataContext(datas)}
                         >
-                          {datas.data && datas.data[0] && datas.data[0].src && (
-                            <video src={datas.data[0].src} />
-                          )}
-                        </div>
-                      </Button>
-                    ))}
-                  </Slider>
-                </Typography>
-              )}
+                          <div
+                            className="card-image-third"
+                            style={{ color: "#000" }}
+                          >
+                            {datas.data &&
+                              datas.data[0] &&
+                              datas.data[0].src && (
+                                <video src={datas.data[0].src} />
+                              )}
+                          </div>
+                        </Button>
+                      ))}
+                    </Slider>
+                  </>
+                )}
+              </Typography>
             </div>
-          </Box>
+          </div>
         </Draggable>
       )}
     </div>
