@@ -26,14 +26,18 @@ const Home = () => {
         if (pathLofi.mode === dayNight || pathLofi.mode === mergeMode) {
           switch (pathLofi.mode) {
             case "day":
-              setCurrentVideoOpacity(1);
-              setCurrentPath(pathLofi.src);
-              setNextVideoOpacity(0);
+              if (mergeMode !== `${dayNight}-rain`) {
+                setNextVideoOpacity(0);
+                setCurrentVideoOpacity(1);
+                setCurrentPath(pathLofi.src);
+              }
               break;
             case "night":
-              setNextVideoOpacity(1);
-              setCurrentVideoOpacity(0);
-              setNextPath(pathLofi.src);
+              if (mergeMode !== `${dayNight}-rain`) {
+                setNextVideoOpacity(1);
+                setCurrentVideoOpacity(0);
+                setNextPath(pathLofi.src);
+              }
               break;
             case "day-rain":
               if (currentPath) {
@@ -41,16 +45,16 @@ const Home = () => {
                 setCurrentVideoOpacity(0);
                 setNextPath(pathLofi.src);
               } else {
+                setNextVideoOpacity(0);
                 setCurrentVideoOpacity(1);
                 setCurrentPath(pathLofi.src);
-                setNextVideoOpacity(0);
               }
               break;
             case "night-rain":
               if (nextPath) {
+                setNextVideoOpacity(0);
                 setCurrentVideoOpacity(1);
                 setCurrentPath(pathLofi.src);
-                setNextVideoOpacity(0);
               } else {
                 setNextVideoOpacity(1);
                 setCurrentVideoOpacity(0);
@@ -122,10 +126,16 @@ const Home = () => {
     <div className="main">
       <div className="fh relative">
         <Header />
-        <div className="background-video video-player" style={{ opacity: currentVideoOpacity }}>
+        <div
+          className="background-video video-player"
+          style={{ opacity: currentVideoOpacity }}
+        >
           <video className="videofirst" src={currentPath} autoPlay loop muted />
         </div>
-        <div className="background-video video-player" style={{ opacity: nextVideoOpacity }}>
+        <div
+          className="background-video video-player"
+          style={{ opacity: nextVideoOpacity }}
+        >
           <video className="videosecond" src={nextPath} autoPlay loop muted />
         </div>
         <div>
@@ -146,7 +156,9 @@ const Home = () => {
               }}
               key={p.id}
             >
-              {changedImage.name !== "reality" && <AtmosphereButton name={p.name} />}
+              {changedImage.name !== "reality" && (
+                <AtmosphereButton name={p.name} />
+              )}
             </div>
           ))}
       </div>
