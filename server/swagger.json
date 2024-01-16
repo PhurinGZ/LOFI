@@ -1,0 +1,1560 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Lofi-BTB API",
+    "version": "1.0.0",
+    "description": "API documentation for Lofi-BTB"
+  },
+  "servers": [
+    {
+      "url": "https://lofi-btb-backnd.vercel.app"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "User authentication operations"
+    },
+    {
+      "name": "Playlists",
+      "description": "API operations related to playlists"
+    },
+    {
+      "name": "Search",
+      "description": "API operations related to search"
+    },
+    {
+      "name": "Songs",
+      "description": "API operations related to songs"
+    },
+    {
+      "name": "Users",
+      "description": "API operations related to users"
+    }
+  ],
+  "paths": {
+    "/api/login": {
+      "post": {
+        "summary": "Authenticate user",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful authentication",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTg1NTA3NmY1YTBhYzM4YjQ1NDIyYjgiLCJuYW1lIjoidXNlcjIiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzAzMzk5MzI3LCJleHAiOjE3MDQwMDQxMjd9.fRU4eTF5BiCSsaNW4sw1kCOjLiVPEvxYjeIrTpMpqDg",
+                  "message": "Signing in please wait..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid email or password",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Invalid email or password"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/playlists": {
+      "post": {
+        "summary": "Create a new playlist",
+        "tags": ["Playlists"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlayListInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Playlist created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all playlists",
+        "tags": ["Playlists"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all playlists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlayListResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          }
+        }
+      }
+    },
+    "/api/playlists/edit/{id}": {
+      "put": {
+        "summary": "Edit playlist by ID",
+        "tags": ["Playlists"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "description": "Playlist ID"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlayListEditInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Update successfully"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "updated successfully"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bad request. Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have access to edit this playlist."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid ID"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Not Found. Playlist with the given ID does not exist."
+          }
+        }
+      }
+    },
+    "/api/playlists/add-song": {
+      "put": {
+        "summary": "Add a song to a playlist",
+        "tags": ["Playlists"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddSongToPlaylistInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Song added to playlist successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bad request. Invalid token."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have access to edit this playlist."
+          },
+          "404": {
+            "description": "Not Found. Playlist or song with the given ID does not exist."
+          }
+        }
+      }
+    },
+    "/api/playlists/remove-song": {
+      "put": {
+        "summary": "Remove a song from a playlist",
+        "tags": ["Playlists"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveSongFromPlaylistInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Song removed from playlist successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bad request. Invalid input data."
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have access to edit this playlist."
+          },
+          "404": {
+            "description": "Not Found. Playlist or song with the given ID does not exist."
+          }
+        }
+      }
+    },
+    "/api/playlists/favourite": {
+      "get": {
+        "summary": "Get user's favorite playlists",
+        "tags": ["Playlists"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of favorite playlists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PlayListResponse"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized. User not authenticated."
+          }
+        }
+      }
+    },
+    "/api/playlists/random": {
+      "get": {
+        "summary": "Get random playlists",
+        "tags": ["Playlists"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of random playlists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PlayListResponse"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized. User not authenticated."
+          }
+        }
+      }
+    },
+    "/api/playlists/{id}": {
+      "get": {
+        "summary": "Get playlist by ID",
+        "tags": ["Playlists"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "description": "Playlist ID"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Playlist details along with associated songs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayListDetailsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bad request. Invalid Token."
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have access to view this playlist."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid ID"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Not Found. Playlist with the given ID does not exist."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete playlist by ID",
+        "tags": ["Playlists"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "description": "Playlist ID"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Remove from libary"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Playlist deleted successfully"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bad request. Invalid playlist ID."
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have access to delete this playlist."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid ID"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Not Found. Playlist with the given ID does not exist."
+          }
+        }
+      }
+    },
+    "/api/search": {
+      "get": {
+        "summary": "Search for songs and playlists",
+        "tags": ["Search"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "songs": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/SongResponse"
+                          }
+                        },
+                        "playlists": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/PlayListResponse"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized. User not authenticated."
+          }
+        }
+      }
+    },
+    "/api/songs": {
+      "post": {
+        "summary": "Create a new song(Admin)",
+        "tags": ["Songs"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SongInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Song created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SongResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "You don't have access to this condtent"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Forbidden. User does not have admin privileges."
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bad request. Invalid Token."
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all songs",
+        "tags": ["Songs"],
+        "responses": {
+          "200": {
+            "description": "List of songs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SongResponseGetAll"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid input data."
+          }
+        }
+      }
+    },
+    "/api/songs/{id}": {
+      "put": {
+        "summary": "Update song by ID",
+        "tags": ["Songs"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "description": "Song ID"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SongInputUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated song details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SongResponseUpdate"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have admin privileges."
+          },
+          "404": {
+            "description": "Not Found. Song with the given ID does not exist."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete song by ID",
+        "tags": ["Songs"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "description": "Song ID"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Song deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have admin privileges."
+          },
+          "404": {
+            "description": "Not Found. Song with the given ID does not exist."
+          }
+        }
+      }
+    },
+    "/api/songs/like/{id}": {
+      "put": {
+        "summary": "Like or unlike a song",
+        "tags": ["Songs"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "description": "Song ID"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Added to your liked song"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Operation successful. Song liked or unliked."
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bad request. Invalid token."
+          }
+        }
+      }
+    },
+    "/api/songs/like": {
+      "get": {
+        "summary": "Get all liked songs by the authenticated user",
+        "tags": ["Songs"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of liked songs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "example": [
+                        {
+                          "_id": "658816be6befb79f370a094d",
+                          "name": "My Song2",
+                          "artist": "Artist Name2",
+                          "song": "some.mp3",
+                          "img": "some.jpg",
+                          "duration": "5",
+                          "__v": 0
+                        },
+                        {
+                          "_id": "6587f2a4d4f1e5bb833ff400",
+                          "name": "My Song3",
+                          "artist": "Artist Name3",
+                          "song": "some.mp3",
+                          "img": "some.jpg",
+                          "duration": "5",
+                          "__v": 0
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid token"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Unauthorized. User not authenticated."
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "post": {
+        "summary": "Create a new user",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User account created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid input data."
+          },
+          "403": {
+            "description": "Forbidden. User with the given email already exists."
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all users",
+        "tags": ["Users"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have admin privileges."
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "summary": "Get user by ID",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "description": "User ID"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have access to this user's details."
+          },
+          "404": {
+            "description": "Not Found. User with the given ID does not exist."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user by ID",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "description": "User ID"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated user details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have access to update this user's details."
+          },
+          "404": {
+            "description": "Not Found. User with the given ID does not exist."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user by ID",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "description": "User ID"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized. User not authenticated."
+          },
+          "403": {
+            "description": "Forbidden. User does not have admin privileges."
+          },
+          "404": {
+            "description": "Not Found. User with the given ID does not exist."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Authorizations code from Authentication /api/login"
+      }
+    },
+    "schemas": {
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user2@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "User2@1234"
+          }
+        },
+        "required": ["email", "password"]
+      },
+
+      "PlayList": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "60ae100c6fda0441b4725673"
+          },
+          "name": {
+            "type": "string",
+            "example": "My Playlist"
+          },
+          "desc": {
+            "type": "string",
+            "example": "This is a playlist description"
+          },
+          "user": {
+            "type": "string",
+            "example": "60ae0fcb6fda0441b4725672"
+          },
+          "songs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["60ae0fcb6fda0441b4725672", "60ae0fcb6fda0441b4725673"]
+          },
+          "img": {
+            "type": "string",
+            "example": "https://example.com/playlist-image.jpg"
+          },
+          "__v": {
+            "type": "integer",
+            "default": 1
+          }
+        }
+      },
+      "Song": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "My Song"
+          },
+          "artist": {
+            "type": "string",
+            "example": "Artist Name"
+          },
+          "song": {
+            "type": "string",
+            "example": "some.mp3"
+          },
+          "img": {
+            "type": "string",
+            "example": "some.jpg"
+          },
+          "duration": {
+            "type": "number",
+            "example": 240
+          },
+          "_id": {
+            "type": "string",
+            "example": "60ae0fcb6fda0441b4725672"
+          },
+          "__v": {
+            "type": "integer"
+          }
+        }
+      },
+      "SongUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "My Song2"
+          },
+          "artist": {
+            "type": "string",
+            "example": "Artist Name2"
+          },
+          "song": {
+            "type": "string",
+            "example": "some.mp3"
+          },
+          "img": {
+            "type": "string",
+            "example": "some.jpg"
+          },
+          "duration": {
+            "type": "number",
+            "example": 5
+          },
+          "_id": {
+            "type": "string",
+            "example": "60ae0fcb6fda0441b4725672"
+          },
+          "__v": {
+            "type": "integer"
+          }
+        }
+      },
+      "PlayListInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "90's Rock",
+            "description": "Name of the playlist"
+          },
+          "user": {
+            "type": "string",
+            "example": "65855076f5a0ac38b45422b8"
+          },
+          "desc": {
+            "type": "string",
+            "example": "By user1",
+            "description": "Description of the playlist"
+          },
+          "songs": {
+            "type": "object",
+            "example": ["60ae0fcb6fda0441b4725672", "60ae0fcb6fda0441b4725673"]
+          },
+          "img": {
+            "type": "string",
+            "description": "URL of the playlist image"
+          }
+        },
+        "required": ["name"]
+      },
+      "PlayListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PlayList"
+          }
+        }
+      },
+      "PlayListEditInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "My Playlist",
+            "description": "New name of the playlist"
+          },
+          "desc": {
+            "type": "string",
+            "example": "By user1",
+            "description": "New description of the playlist"
+          },
+          "img": {
+            "type": "string",
+            "example": "some.jpg",
+            "description": "New URL of the playlist image"
+          }
+        }
+      },
+      "AddSongToPlaylistInput": {
+        "type": "object",
+        "properties": {
+          "playListId": {
+            "type": "string",
+            "example": "6587f2a4d4f1e5bb833ff400",
+            "description": "ID of the playlist"
+          },
+          "songId": {
+            "type": "string",
+            "example": "6576f243d9ea1010bfa380df",
+            "description": "ID of the song to be added to the playlist"
+          }
+        },
+        "required": ["playListId", "songId"]
+      },
+      "RemoveSongFromPlaylistInput": {
+        "type": "object",
+        "properties": {
+          "playListId": {
+            "type": "string",
+            "example": "6587f2a4d4f1e5bb833ff400",
+            "description": "ID of the playlist"
+          },
+          "songId": {
+            "type": "string",
+            "example": "60ae0fcb6fda0441b4725673",
+            "description": "ID of the song to be removed from the playlist"
+          }
+        },
+        "required": ["playListId", "songId"]
+      },
+      "PlayListDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PlayList"
+          },
+          "songs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Song"
+            }
+          }
+        }
+      },
+      "schemas": {
+        "SongResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/Song"
+            }
+          }
+        },
+        "PlayListResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/components/schemas/PlayList"
+            }
+          }
+        },
+        "Song": {
+          "type": "object",
+          "properties": {
+            // Define your Song properties here
+          }
+        },
+        "PlayList": {
+          "type": "object",
+          "properties": {
+            // Define your PlayList properties here
+          }
+        }
+      },
+      "SongInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "My Song"
+          },
+          "artist": {
+            "type": "string",
+            "example": "Artist Name"
+          },
+          "song": {
+            "type": "string",
+            "example": "some.mp3"
+          },
+          "img": {
+            "type": "string",
+            "example": "some.jpg"
+          },
+          "duration": {
+            "type": "string",
+            "example": "3"
+          }
+        }
+      },
+      "SongInputUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "My Song2"
+          },
+          "artist": {
+            "type": "string",
+            "example": "Artist Name2"
+          },
+          "song": {
+            "type": "string",
+            "example": "some.mp3"
+          },
+          "img": {
+            "type": "string",
+            "example": "some.jpg"
+          },
+          "duration": {
+            "type": "string",
+            "example": "5"
+          }
+        }
+      },
+      "SongsList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SongResponse"
+        }
+      },
+      "SongResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Song"
+          },
+          "message": {
+            "type": "string",
+            "example": "Song created successfully"
+          }
+        }
+      },
+      "SongResponseUpdate": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SongUpdate"
+          },
+          "message": {
+            "type": "string",
+            "example": "Update song successfully"
+          }
+        }
+      },
+      "SongResponseGetAll": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Song"
+          }
+        }
+      },
+      "UserInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "usertest"
+          },
+          "email": {
+            "type": "string",
+            "example": "usertest@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "User@1234"
+          },
+          "month": {
+            "type": "string",
+            "example": "june"
+          },
+          "date": {
+            "type": "string",
+            "example": "10"
+          },
+          "year": {
+            "type": "string",
+            "example": "2000"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          }
+        }
+      },
+      "UsersList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UserResponse"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          // Define your User properties here
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/UserInput"
+          },
+          "message": {
+            "type": "string",
+            "example": "Account created successfully"
+          }
+        }
+      }
+    }
+  }
+}
