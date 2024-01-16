@@ -8,6 +8,7 @@ import Sidebar from "./layout/sideBar/sidebar";
 import { ModeProvider } from "./context/modeContext";
 import { AtmosphereProvider } from "./context/atmosphere";
 import VerifyEmail from "./page/verifyEmail";
+import Register from "./components/membership/register";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               path="/verify-email/:emailToken"
               element={<VerifyEmail />}
             ></Route>
+            <Route path="/register" element={<Register />} />
           </Routes>
         </AtmosphereProvider>
       </ModeProvider>
