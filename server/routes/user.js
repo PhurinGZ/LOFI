@@ -50,13 +50,12 @@ router.post("/", async (req, res) => {
       from: `LOFI BBT ${process.env.EMAIL}`, // Replace with your email
       to: newUser.email,
       subject: "Email Verification",
-      text: `Click the following link to verify your email:`,
+      // text: `Click the following link to verify your email:`,
       html: `<div style="text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
       <h1 style="color: #007bff; margin-bottom: 20px; font-size: 24px;">Welcome 👋 ${newUser.name}</h1>
       <p style="color: #333; font-size: 16px; line-height: 1.5em;">To complete your registration, click the following link to verify your email:</p>
       <a href='${process.env.BASEURL}/verify-email/${emailToken}' style="color: #fff; background-color: #007bff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Verify Email</a>
   </div>
-  
     `,
     };
 
@@ -157,9 +156,12 @@ router.post("/resend-verification", async (req, res) => {
       to: user.email,
       subject: "Email Verification",
       text: `Click the following link to verify your email:`,
-      html: `<div>
-       <a href ='http://localhost:5173/verify-email/${emailToken}'>Verify</a>
-      </div>`,
+      html: `<div style="text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+      <h1 style="color: #007bff; margin-bottom: 20px; font-size: 24px;">Welcome 👋 ${newUser.name}</h1>
+      <p style="color: #333; font-size: 16px; line-height: 1.5em;">To complete your registration, click the following link to verify your email:</p>
+      <a href='${process.env.BASEURL}/verify-email/${emailToken}' style="color: #fff; background-color: #007bff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Verify Email</a>
+  </div>
+    `,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
