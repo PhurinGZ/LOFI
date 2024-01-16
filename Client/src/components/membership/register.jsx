@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import CloseIcon from "@mui/icons-material/Close";
 
 // Custom styled TextField
 const CustomTextField = styled(TextField)({
@@ -103,7 +104,17 @@ const Register = () => {
               lineHeight: "normal",
             }}
           >
-            <strong>Welcome to</strong> <br />
+            <strong>Welcome to</strong>
+            <CloseIcon
+              sx={{
+                position: "absolute",
+                left: "93%",
+                top: "1%",
+                cursor: "pointer",
+              }}
+              onClick={handleClose}
+            />
+            <br />
             <img
               src="public/assets/icons/LOGO.svg"
               alt="Logo"
