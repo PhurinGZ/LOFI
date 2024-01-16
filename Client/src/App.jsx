@@ -7,7 +7,6 @@ import Cat from "./layout/catagory/catagory";
 import Sidebar from "./layout/sideBar/sidebar";
 import { ModeProvider } from "./context/modeContext";
 import { AtmosphereProvider } from "./context/atmosphere";
-// import Atmospherebtn from "./components/atmospheresrtting/atmospherebtn";
 import VerifyEmail from "./page/verifyEmail";
 
 function App() {
@@ -20,7 +19,6 @@ function App() {
             <Route path="/demo" element={<Demo />} />
             <Route path="/category" element={<Cat />} />
             <Route path="/sidebar" element={<Sidebar />} />
-            {/* <Route path="/atmospherebtn" element={<Atmospherebtn />} /> */}
             <Route
               path="/verify-email/:emailToken"
               element={<VerifyEmail />}
