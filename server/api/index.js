@@ -9,6 +9,7 @@ const authRoutes = require("../routes/auth");
 const songsRoutes = require("../routes/songs");
 const playlistRoutes = require("../routes/playList");
 const searchRoutes = require("../routes/search");
+const auth = require("../middleware/auth");
 
 const app = express();
 
@@ -21,8 +22,8 @@ app.use(express.json()); // Parse JSON bodies
 connection();
 
 // Default route
-app.get("/", (req, res) => {
-  res.send("Lofi-BTB API");
+app.get("/", auth, (req, res) => {
+  res.json({ data: req.user });
 });
 
 app.use("/api/users", userRoutes);

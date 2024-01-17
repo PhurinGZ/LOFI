@@ -6,9 +6,10 @@ import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect, useMemo } from "react";
 import { useMode } from "../../context/modeContext";
 import AtmosphereButton from "../atmosphereIcons/atmosphere";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Register from "../membership/register";
 import Login from "../membership/Login";
+import { useAuth } from "../../context/authContext";
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -26,6 +27,12 @@ const Home = () => {
   const [isNextPath, setIsNextPath] = useState(false);
   const [isVisible, setIsVisble] = useState(true);
   const [prevChangeImage, setPrevChangeImage] = useState("");
+
+  const token = localStorage.getItem("token");
+
+  const { user, logout } = useAuth();
+
+  // console.log("user : ",user)
 
   // membership
   const [isModalOpen, setModalOpen] = useState(false);
@@ -150,6 +157,10 @@ const Home = () => {
     }
   }, [dayNight, atmosphere, changedImage?.data]);
 
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <div className="main">
       <div className="fh relative">
@@ -190,17 +201,48 @@ const Home = () => {
             </div>
           ))}
       </div>
-      {queryUrl === "register" ? (
+      {token && queryUrl === "profile" && (
+        <div className="membership">
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              backgroundColor: "#E3F2FD",
+              padding: "2%",
+              color: "black",
+              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+              borderRadius: 8,
+              zIndex: 1000,
+            }}
+            className="modal-overlay"
+          >
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h2>Profile</h2>
+                {}
+                <button>
+                  <Link to="/">Close</Link>
+                </button>
+                <button onClick={handleLogout}> logout</button>
+              </div>
+              {/* Add your profile content here */}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {!token && queryUrl === "register" ? (
         <div className="membership">
           <Register isModalOpen={isModalOpen} />
         </div>
-      ) : queryUrl === "login" ? (
+      ) : !token && queryUrl === "login" ? (
         <div className="membership">
           <Login isModalOpen={isModalOpen} />
         </div>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       <span className="audioplayer">
         <Demo mode={selectedMode} />

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import songModeReducers from './song';
+import userReducer from './user';
 
 
-export const reducers = combineReducers({ songModeReducers }); // Corrected userReducer
+export const reducers = combineReducers({ userReducer }); // Corrected userReducer

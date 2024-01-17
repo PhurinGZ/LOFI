@@ -1,11 +1,13 @@
+// Login.jsx
 import React, { useState } from "react";
 import { styled } from "@mui/system";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import { setAuthToken } from "../../auth/auth";
 
 const CustomTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -33,7 +35,7 @@ const style = {
   color: "black",
   boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
   borderRadius: 8,
-  zIndex: 100, // Correct syntax for zIndex
+  zIndex: 1000,
 };
 
 const backdropStyle = {
@@ -42,16 +44,20 @@ const backdropStyle = {
   left: 0,
   width: "100%",
   height: "100%",
-  backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust the transparency as needed
-  zIndex: 99,
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  zIndex: 100,
 };
 
 function Login({ isModalOpen }) {
-  const { setPath } = useAuth();
+  const { setPath, user } = useAuth();
+  const BASE_URL = "http://localhost:8080";
   const [formData, setFormData] = useState({
-    usernameOrEmail: "",
+    email: "",
     password: "",
   });
+  const navigate = useNavigate();
+
+  console.log(user);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,7 +69,7 @@ function Login({ isModalOpen }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch(`${BASE_URL}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +78,18 @@ function Login({ isModalOpen }) {
       });
 
       if (response.ok) {
+        const responseData = await response.json();
         console.log("Login successful");
+        // login({
+        //   data: responseData.data,
+        //   token: responseData.token,
+        //   message: responseData.message,
+        // });
+        localStorage.setItem("token", responseData.token);
+        setAuthToken(responseData.token)
+        // Redirect to home page
+        navigate("/");
+        setPath("/?auth=profile");
       } else {
         console.error("Login failed");
       }
@@ -131,8 +148,8 @@ function Login({ isModalOpen }) {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                name="usernameOrEmail"
-                value={formData.usernameOrEmail}
+                name="email"
+                value={formData.email}
                 onChange={handleInputChange}
               />
 
