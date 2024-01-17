@@ -54,7 +54,7 @@ function Login({ isModalOpen }) {
   const [passwordError, setPasswordError] = useState(false);
 
   const [shakeInputs, setShakeInputs] = useState(false);
-  const { setPath } = useAuth();
+  const { setPath,user } = useAuth();
   const BASE_URL = "http://localhost:8080";
   const [formData, setFormData] = useState({
     email: "",
@@ -142,6 +142,13 @@ function Login({ isModalOpen }) {
       if (response.ok) {
         const responseData = await response.json();
         console.log("Login successful");
+         // login({
+        //   data: responseData.data,
+        //   token: responseData.token,
+        setAuthToken(responseData.token)
+        // Redirect to home page
+        navigate("/");
+        setPath("/?auth=profile");
       } else {
         console.error("Login failed");
         alert("Login failed");
