@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import "./styles.scss";
 
 const CustomTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -47,6 +48,11 @@ const backdropStyle = {
 };
 
 function Login({ isModalOpen }) {
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  const [shakeInputs, setShakeInputs] = useState(false);
+
   const { setPath } = useAuth();
   const [formData, setFormData] = useState({
     usernameOrEmail: "",
@@ -55,14 +61,73 @@ function Login({ isModalOpen }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+    // Reset validation errors and shaking animation when user starts typing
+    setEmailError(false);
+    setPasswordError(false);
+    setShakeInputs(false);
+
+    if (name === "usernameOrEmail") {
+      // Handle email validation
+      setEmailError(!isEmail);
+    } else if (name === "password") {
+      // Handle password validation
+      setPasswordError(value.length < 8);
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
+  const validateForm = () => {
+    let isValid = true;
+
+    if (!formData.usernameOrEmail) {
+      setEmailError(true);
+      isValid = false;
+    }
+
+    if (!formData.password) {
+      setPasswordError(true);
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  // const handleLogin = async () => {
+  //   try {
+  //     const response = await fetch("/api/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+
+  //     if (response.ok) {
+  //       console.log("Login successful");
+  //       alert("Login successful")
+  //     } else {
+  //       console.error("Login failed");
+  //       alert("Login failed")
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during login:", error);
+  //   }
+  // };
   const handleLogin = async () => {
     try {
+      if (!validateForm()) {
+        // Form validation failed, apply shaking animation to inputs
+        setShakeInputs(true);
+        return;
+      }
+
+      // Your existing login logic here
       const response = await fetch("/api/login", {
         method: "POST",
         headers: {
@@ -73,8 +138,10 @@ function Login({ isModalOpen }) {
 
       if (response.ok) {
         console.log("Login successful");
+        alert("Login successful");
       } else {
         console.error("Login failed");
+        alert("Login failed");
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -134,6 +201,9 @@ function Login({ isModalOpen }) {
                 name="usernameOrEmail"
                 value={formData.usernameOrEmail}
                 onChange={handleInputChange}
+                error={emailError}
+                helperText={emailError ? "Email is required!!" : ""}
+                className={shakeInputs && emailError ? "shake-input" : ""}
               />
 
               <CustomTextField
@@ -145,6 +215,13 @@ function Login({ isModalOpen }) {
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
+                error={passwordError}
+                helperText={
+                  passwordError
+                    ? "Password must be at least 8 characters!!"
+                    : ""
+                }
+                className={shakeInputs && passwordError ? "shake-input" : ""}
               />
 
               <Button
