@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../../context/authContext";
+ 
 
 // Custom styled TextField
 const CustomTextField = styled(TextField)({
@@ -48,6 +49,11 @@ const backdropStyle = {
 };
 
 const Register = ({ isModalOpen }) => {
+  const [usernameError, setUsernameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [shakeInputs, setShakeInputs] = useState(false);
+
   const { setPath } = useAuth();
   const BASE_URL = "http://localhost:8080";
   const [formData, setFormData] = useState({
@@ -60,15 +66,55 @@ const Register = ({ isModalOpen }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    // Clear existing errors when the user starts typing
+    setUsernameError(false);
+    setEmailError(false);
+    setPasswordError(false);
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
+  const handleClose = () => {
+    setPath("/?auth=login");
+  };
+  const validateForm = () => {
+    let isValid = true;
+
+    // Validate username
+    if (!formData.username) {
+      setUsernameError(true);
+      isValid = false;
+    }
+
+    // Validate email
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+    if (!isEmailValid) {
+      setEmailError(true);
+      isValid = false;
+    }
+
+    // Validate password
+    if (formData.password.length < 8) {
+      setPasswordError(true);
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
   const handleRegistration = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/users`, {
+      if (!validateForm()) {
+        // Form validation failed, apply shaking animation to inputs
+        setShakeInputs(true);
+        return;
+      }
+      // Your registration logic
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -140,6 +186,9 @@ const Register = ({ isModalOpen }) => {
                 name="username"
                 value={formData.username}
                 onChange={handleInputChange}
+                error={usernameError}
+                helperText={usernameError ? "Username is required!" : ""}
+                className={shakeInputs && usernameError ? "shake-input" : ""}
               />
 
               <CustomTextField
@@ -151,6 +200,9 @@ const Register = ({ isModalOpen }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
+                error={emailError}
+                helperText={emailError ? "Valid email is required!" : ""}
+                className={shakeInputs && emailError ? "shake-input" : ""}
               />
 
               <CustomTextField
@@ -162,7 +214,13 @@ const Register = ({ isModalOpen }) => {
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
+                error={passwordError}
+                helperText={
+                  passwordError ? "Password must be at least 8 characters!" : ""
+                }
+                className={shakeInputs && passwordError ? "shake-input" : ""}
               />
+
               <Button
                 variant="contained"
                 color="primary"
