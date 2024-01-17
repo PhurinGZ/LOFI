@@ -1,22 +1,45 @@
-// autcontext.jsx
-import React, { createContext, useContext, useState } from "react";
+// authContext.jsx
+import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 
-// Create the authentication context
 const AuthContext = createContext();
 
-// Create a provider component to wrap your app and provide authentication state
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // You can replace null with the initial user state or fetch from local storage
-  const [path, setPath] = useState("/?auth=register");
+  const [user, setUser] = useState(null);
+  const [path, setPath] = useState("");
 
   const login = (userData) => {
-    // Logic to handle user login
     setUser(userData);
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      axios.get("http://localhost:8080/", {
+        headers: {
+          "x-auth-token": token
+        }
+      })
+        .then((response) => {
+          setUser(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setPath(token ? "/?auth=profile" : "/?auth=register");
+  }, []);
+
   const logout = () => {
-    // Logic to handle user logout
+    // Clear user data and token
     setUser(null);
+    localStorage.removeItem("token");
   };
 
   return (
@@ -26,7 +49,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to consume the AuthContext
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

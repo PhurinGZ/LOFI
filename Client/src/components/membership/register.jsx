@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { styled } from "@mui/system";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -35,7 +35,7 @@ const style = {
   color: "black",
   boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
   borderRadius: 8,
-  zIndex: 100, // Correct syntax for zIndex
+  zIndex: 1000, // Correct syntax for zIndex
 };
 
 const backdropStyle = {
@@ -45,7 +45,7 @@ const backdropStyle = {
   width: "100%",
   height: "100%",
   backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust the transparency as needed
-  zIndex: 99,
+  zIndex: 100,
 };
 
 const Register = ({ isModalOpen }) => {
@@ -55,11 +55,14 @@ const Register = ({ isModalOpen }) => {
   const [shakeInputs, setShakeInputs] = useState(false);
 
   const { setPath } = useAuth();
+  const BASE_URL = "http://localhost:8080";
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -78,7 +81,6 @@ const Register = ({ isModalOpen }) => {
   const handleClose = () => {
     setPath("/?auth=login");
   };
-
   const validateForm = () => {
     let isValid = true;
 
@@ -122,12 +124,17 @@ const Register = ({ isModalOpen }) => {
 
       if (response.ok) {
         console.log("Registration successful");
+        navigate("/");
       } else {
         console.error("Registration failed");
       }
     } catch (error) {
       console.error("Error during registration:", error);
     }
+  };
+
+  const handleClose = () => {
+    setPath("/?auth=register");
   };
 
   return (
@@ -152,7 +159,7 @@ const Register = ({ isModalOpen }) => {
               }}
             >
               <strong>Welcome to</strong>
-              <Link to="/">
+              <Link to="/" onCanPlay={handleClose}>
                 <CloseIcon
                   sx={{
                     position: "absolute",
