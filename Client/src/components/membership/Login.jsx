@@ -1,16 +1,13 @@
 import React from "react";
 import { styled } from "@mui/system";
 import TextField from "@mui/material/TextField";
-import InputBase from "@mui/material/InputBase";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
-import Login from "./Login";
+import Register from "./register";
 
-// Custom styled TextField
 const CustomTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     borderRadius: 20,
@@ -39,14 +36,16 @@ const style = {
   backgroundColor: "#E3F2FD",
 };
 
-const Register = () => {
+
+
+
+function Login() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const [formData, setFormData] = React.useState({
-    username: "",
-    email: "",
+    usernameOrEmail: "",
     password: "",
   });
 
@@ -58,9 +57,9 @@ const Register = () => {
     }));
   };
 
-  const handleRegistration = async () => {
+  const handleLogin = async () => {
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,19 +68,19 @@ const Register = () => {
       });
 
       if (response.ok) {
-        console.log("Registration successful");
+        console.log("Login successful");
       } else {
-        console.error("Registration failed");
+        console.error("Login failed");
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error("Error during login:", error);
     }
   };
 
   return (
     <div>
-      <div variant="contained" color="primary" onClick={handleOpen} style={{color:"#9747FF"}}>
-        Register here
+      <div variant="contained" color="primary" onClick={handleOpen} style={{color: "#9747FF"}}>
+        Open Login
       </div>
       <Modal
         open={open}
@@ -125,23 +124,12 @@ const Register = () => {
 
           <form>
             <CustomTextField
-              label="Username"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              name="username"
-              value={formData.username}
-              onChange={handleInputChange}
-            />
-
-            <CustomTextField
               label="Email"
               variant="outlined"
               fullWidth
               margin="normal"
-              type="email"
-              name="email"
-              value={formData.email}
+              name="usernameOrEmail"
+              value={formData.usernameOrEmail}
               onChange={handleInputChange}
             />
 
@@ -161,8 +149,9 @@ const Register = () => {
               color="primary"
               fullWidth
               margin="normal"
-              onClick={handleRegistration}
+              onClick={handleLogin}
               sx={{
+                marginTop:"10px",
                 borderRadius: 20,
                 background: "#BB98FF",
                 boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
@@ -171,7 +160,7 @@ const Register = () => {
                 flexShrink: 0,
               }}
             >
-              Register
+              Login
             </Button>
           </form>
 
@@ -186,12 +175,11 @@ const Register = () => {
               fontWeight: 200,
               lineHeight: "normal",
               marginTop: 2,
-              display:"flex",
+              display:"flex"
             }}
           >
-            Already have an account?{" "}
+            Don't have an account?{" "}
             <a
-              href="/login"
               style={{
                 color: "#9747FF",
                 fontFamily: "Inter",
@@ -199,10 +187,9 @@ const Register = () => {
                 fontStyle: "normal",
                 fontWeight: 200,
                 lineHeight: "normal",
-                
               }}
             >
-              <Login />
+              <Register />
             </a>
             .
           </Typography>
@@ -210,6 +197,6 @@ const Register = () => {
       </Modal>
     </div>
   );
-};
+}
 
-export default Register;
+export default Login;

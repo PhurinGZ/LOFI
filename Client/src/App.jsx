@@ -9,6 +9,7 @@ import { ModeProvider } from "./context/modeContext";
 import { AtmosphereProvider } from "./context/atmosphere";
 import VerifyEmail from "./page/verifyEmail";
 import Register from "./components/membership/register";
+import Login from "./components/membership/Login";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               element={<VerifyEmail />}
             ></Route>
             <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </AtmosphereProvider>
       </ModeProvider>
