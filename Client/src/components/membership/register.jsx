@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../../context/authContext";
- 
 
 // Custom styled TextField
 const CustomTextField = styled(TextField)({
@@ -78,9 +77,7 @@ const Register = ({ isModalOpen }) => {
     }));
   };
 
-  const handleClose = () => {
-    setPath("/?auth=login");
-  };
+
   const validateForm = () => {
     let isValid = true;
 
@@ -141,136 +138,139 @@ const Register = ({ isModalOpen }) => {
     <div>
       {isModalOpen && (
         <>
-          <div style={backdropStyle}></div>
-          <div style={style}>
-            <Typography
-              color="textSecondary"
-              component="div"
-              sx={{
-                textAlign: "center",
-                marginBottom: 2,
-                color: "#3D3D3D",
-                textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                fontFamily: "Inter",
-                fontSize: 30,
-                fontStyle: "normal",
-                fontWeight: 700,
-                lineHeight: "normal",
-              }}
-            >
-              <strong>Welcome to</strong>
-              <Link to="/" onCanPlay={handleClose}>
-                <CloseIcon
-                  sx={{
-                    position: "absolute",
-                    left: "93%",
-                    top: "1%",
-                    cursor: "pointer",
-                  }}
-                />
-              </Link>
-              <br />
-              <img
-                src="public/assets/icons/LOGO.svg"
-                alt="Logo"
-                style={{ marginTop: 10, maxWidth: "100%" }}
-              />
-            </Typography>
-
-            <form>
-              <CustomTextField
-                label="Username"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-                error={usernameError}
-                helperText={usernameError ? "Username is required!" : ""}
-                className={shakeInputs && usernameError ? "shake-input" : ""}
-              />
-
-              <CustomTextField
-                label="Email"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                error={emailError}
-                helperText={emailError ? "Valid email is required!" : ""}
-                className={shakeInputs && emailError ? "shake-input" : ""}
-              />
-
-              <CustomTextField
-                label="Password"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                error={passwordError}
-                helperText={
-                  passwordError ? "Password must be at least 8 characters!" : ""
-                }
-                className={shakeInputs && passwordError ? "shake-input" : ""}
-              />
-
-              <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                margin="normal"
-                onClick={handleRegistration}
+          <div style={backdropStyle}>
+            <div style={style}>
+              <Typography
+                color="textSecondary"
+                component="div"
                 sx={{
-                  borderRadius: 20,
-                  background: "#BB98FF",
-                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-                  width: 400,
-                  height: 56,
-                  flexShrink: 0,
+                  textAlign: "center",
+                  marginBottom: 2,
+                  color: "#3D3D3D",
+                  textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                  fontFamily: "Inter",
+                  fontSize: 30,
+                  fontStyle: "normal",
+                  fontWeight: 700,
+                  lineHeight: "normal",
                 }}
               >
-                Register
-              </Button>
-            </form>
+                <strong>Welcome to</strong>
+                <Link to="/" onCanPlay={handleClose}>
+                  <CloseIcon
+                    sx={{
+                      position: "absolute",
+                      left: "93%",
+                      top: "1%",
+                      cursor: "pointer",
+                    }}
+                  />
+                </Link>
+                <br />
+                <img
+                  src="public/assets/icons/LOGO.svg"
+                  alt="Logo"
+                  style={{ marginTop: 10, maxWidth: "100%" }}
+                />
+              </Typography>
 
-            <Typography
-              variant="subtitle1"
-              color="textSecondary"
-              sx={{
-                color: "rgba(0, 0, 0, 0.56)",
-                fontFamily: "Inter",
-                fontSize: 15,
-                fontStyle: "normal",
-                fontWeight: 200,
-                lineHeight: "normal",
-                marginTop: 2,
-                display: "flex",
-              }}
-            >
-              Already have an account?{" "}
-              <Link
-                to="/?auth=login"
-                href="/login"
-                style={{
-                  color: "#9747FF",
+              <form>
+                <CustomTextField
+                  label="Username"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  error={usernameError}
+                  helperText={usernameError ? "Username is required!" : ""}
+                  className={shakeInputs && usernameError ? "shake-input" : ""}
+                />
+
+                <CustomTextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  error={emailError}
+                  helperText={emailError ? "Valid email is required!" : ""}
+                  className={shakeInputs && emailError ? "shake-input" : ""}
+                />
+
+                <CustomTextField
+                  label="Password"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  error={passwordError}
+                  helperText={
+                    passwordError
+                      ? "Password must be at least 8 characters!"
+                      : ""
+                  }
+                  className={shakeInputs && passwordError ? "shake-input" : ""}
+                />
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  margin="normal"
+                  onClick={handleRegistration}
+                  sx={{
+                    borderRadius: 20,
+                    background: "#BB98FF",
+                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+                    width: 400,
+                    height: 56,
+                    flexShrink: 0,
+                  }}
+                >
+                  Register
+                </Button>
+              </form>
+
+              <Typography
+                variant="subtitle1"
+                color="textSecondary"
+                sx={{
+                  color: "rgba(0, 0, 0, 0.56)",
                   fontFamily: "Inter",
                   fontSize: 15,
                   fontStyle: "normal",
                   fontWeight: 200,
                   lineHeight: "normal",
+                  marginTop: 2,
+                  display: "flex",
                 }}
               >
-                Login
-              </Link>
-              .
-            </Typography>
+                Already have an account?{" "}
+                <Link
+                  to="/?auth=login"
+                  href="/login"
+                  style={{
+                    color: "#9747FF",
+                    fontFamily: "Inter",
+                    fontSize: 15,
+                    fontStyle: "normal",
+                    fontWeight: 200,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Login
+                </Link>
+                .
+              </Typography>
+            </div>
           </div>
         </>
       )}
