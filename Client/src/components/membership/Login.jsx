@@ -145,6 +145,9 @@ function Login({ isModalOpen }) {
          // login({
         //   data: responseData.data,
         //   token: responseData.token,
+        //   message: responseData.message,
+        // });
+        localStorage.setItem("token", responseData.token);
         setAuthToken(responseData.token)
         // Redirect to home page
         navigate("/");
