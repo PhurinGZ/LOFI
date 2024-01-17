@@ -178,6 +178,23 @@ function Login() {
               display:"flex"
             }}
           >
+            <span> 
+            <a 
+              href="#"
+              style={{
+                color: "#9747FF",
+                fontFamily: "Inter",
+                fontSize: 15,
+                fontStyle: "normal",
+                fontWeight: 200,
+                lineHeight: "normal",
+                paddingRight:"10px",
+              }}
+            >
+              Forgot Password?
+            </a>
+
+            </span>
             Don't have an account?{" "}
             <a
               style={{
