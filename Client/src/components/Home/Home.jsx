@@ -3,11 +3,22 @@ import "./Home.scss";
 import Header from "../../layout/header/head";
 import { Romantic, chil, Sad, happy, sexy } from "../../data/songData";
 import Sidebar from "../../layout/sideBar/sidebar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useMode } from "../../context/modeContext";
 import AtmosphereButton from "../atmosphereIcons/atmosphere";
+import { useLocation } from "react-router-dom";
+import Register from "../membership/register";
+import Login from "../membership/Login";
+
+const useQuery = () => {
+  const { search } = useLocation();
+
+  return useMemo(() => new URLSearchParams(search), [search]);
+};
 
 const Home = () => {
+  let query = useQuery();
+  const [queryUrl, setQueryUrl] = useState();
   const [currentVideoOpacity, setCurrentVideoOpacity] = useState(1);
   const [nextVideoOpacity, setNextVideoOpacity] = useState(0);
   const [nextPath, setNextPath] = useState("");
@@ -16,9 +27,26 @@ const Home = () => {
   const [isVisible, setIsVisble] = useState(true);
   const [prevChangeImage, setPrevChangeImage] = useState("");
 
+  // membership
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
+
   const { mode, dayNight, atmosphere, changedImage, setAtmosphere } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
   const mergeMode = (dayNight || "day") + "-" + atmosphere;
+
+  useEffect(() => {
+    if (query.get("auth")) {
+      setQueryUrl(query.get("auth"));
+      setModalOpen(true);
+    } else {
+      setModalOpen(false);
+      setQueryUrl("");
+    }
+  });
+  console.log(queryUrl);
 
   const handleVideoPaths = (imageData) => {
     if (Array.isArray(imageData?.data)) {
@@ -162,6 +190,18 @@ const Home = () => {
             </div>
           ))}
       </div>
+      {queryUrl === "register" ? (
+        <div className="membership">
+          <Register isModalOpen={isModalOpen} />
+        </div>
+      ) : queryUrl === "login" ? (
+        <div className="membership">
+          <Login isModalOpen={isModalOpen} />
+        </div>
+      ) : (
+        <></>
+      )}
+
       <span className="audioplayer">
         <Demo mode={selectedMode} />
       </span>

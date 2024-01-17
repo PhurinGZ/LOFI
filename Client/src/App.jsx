@@ -8,28 +8,31 @@ import Sidebar from "./layout/sideBar/sidebar";
 import { ModeProvider } from "./context/modeContext";
 import { AtmosphereProvider } from "./context/atmosphere";
 import VerifyEmail from "./page/verifyEmail";
-import Register from "./components/membership/register";
-import Login from "./components/membership/Login";
+// import Register from "./components/membership/register";
+// import Login from "./components/membership/Login";
+import { AuthProvider } from "./context/authContext";
 
 function App() {
   return (
     <BrowserRouter>
-      <ModeProvider>
-        <AtmosphereProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/demo" element={<Demo />} />
-            <Route path="/category" element={<Cat />} />
-            <Route path="/sidebar" element={<Sidebar />} />
-            <Route
-              path="/verify-email/:emailToken"
-              element={<VerifyEmail />}
-            ></Route>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </AtmosphereProvider>
-      </ModeProvider>
+      <AuthProvider>
+        <ModeProvider>
+          <AtmosphereProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/demo" element={<Demo />} />
+              <Route path="/category" element={<Cat />} />
+              <Route path="/sidebar" element={<Sidebar />} />
+              <Route
+                path="/verify-email/:emailToken"
+                element={<VerifyEmail />}
+              ></Route>
+              {/* <Route path="/:auth" element={<Register />} />
+              <Route path="/:auth" element={<Login />} /> */}
+            </Routes>
+          </AtmosphereProvider>
+        </ModeProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
