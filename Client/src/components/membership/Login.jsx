@@ -73,7 +73,7 @@ function Login({ isModalOpen }) {
     setPasswordError(false);
     setShakeInputs(false);
 
-    if (name === "usernameOrEmail") {
+    if (name === "email") {
       // Handle email validation
       setEmailError(!isEmail);
     } else if (name === "password") {
@@ -90,7 +90,7 @@ function Login({ isModalOpen }) {
   const validateForm = () => {
     let isValid = true;
 
-    if (!formData.usernameOrEmail) {
+    if (!formData.email) {
       setEmailError(true);
       isValid = false;
     }
