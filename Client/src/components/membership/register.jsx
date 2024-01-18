@@ -111,7 +111,7 @@ const Register = ({ isModalOpen }) => {
         return;
       }
       // Your registration logic
-      const response = await fetch("/api/register", {
+      const response = await fetch(`http://localhost:8080/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

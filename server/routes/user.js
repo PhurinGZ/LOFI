@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const router = require("express").Router();
-const { User, validate } = require("../models/user");
+const { User, validate, validatePassword } = require("../models/user");
 const bcrypt = require("bcrypt");
 const auth = require("../middleware/auth");
 const authAdmin = require("../middleware/admin");
@@ -93,12 +93,34 @@ router.get("/:id", [validObjectID, auth], async (req, res) => {
 
 //  update user by id
 router.put("/:id", [validObjectID, auth], async (req, res) => {
-  const user = await User.findByIdAndUpdate(
-    req.params.id,
-    { $set: req.body },
-    { new: true }
-  ).select("-password -__v");
-  res.status(200).send({ data: user });
+  try {
+    // Validate the request body
+    // const { error } = validatePassword(req.body);
+    // if (error) {
+    //   return res.status(400).send({ message: error.details[0].message });
+    // }
+
+    // Generate a salt and hash the password
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+    // Update the user in the database
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body, password: hashPassword },
+      { new: true }
+    ).select("-password -__v");
+
+    if (!updatedUser) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    // Send the updated user data in the response
+    res.status(200).send({ data: updatedUser });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
 });
 
 // delete user by id
@@ -133,7 +155,7 @@ router.post("/verify-email", async (req, res) => {
 });
 
 // resend email verification
-router.post("/resend-verification", auth,async (req, res) => {
+router.post("/resend-verification", auth, async (req, res) => {
   try {
     const { email } = req.body;
 

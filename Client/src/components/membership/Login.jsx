@@ -138,20 +138,19 @@ function Login({ isModalOpen }) {
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (response.ok) {
         const responseData = await response.json();
         console.log("Login successful");
-         // login({
-        //   data: responseData.data,
-        //   token: responseData.token,
-        //   message: responseData.message,
-        // });
         localStorage.setItem("token", responseData.token);
-        setAuthToken(responseData.token)
+        setAuthToken(responseData.token);
+  
         // Redirect to home page
         navigate("/");
         setPath("/?auth=profile");
+  
+        // Reload the page
+        window.location.reload();
       } else {
         console.error("Login failed");
         alert("Login failed");

@@ -18,20 +18,22 @@ const Profile = ({ handleLogout }) => {
   const [formError, setFormError] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/api/users/${user.data._id}`, {
-        headers: {
-          "x-auth-token": token,
-        },
-      })
-      .then((response) => {
-        setUserProfile(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
-  }, [BASE_URL, user.data._id, token]);
+    if (user?.data?._id) {
+      axios
+        .get(`${BASE_URL}/api/users/${user.data._id}`, {
+          headers: {
+            "x-auth-token": token,
+          },
+        })
+        .then((response) => {
+          setUserProfile(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }
+  }, [BASE_URL, user?.data?._id, token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,7 +65,8 @@ const Profile = ({ handleLogout }) => {
       .then((response) => {
         console.log("Password updated successfully");
         setFormError("");
-        // You may want to clear the password fields here
+        // Reload the page
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error updating password:", error);

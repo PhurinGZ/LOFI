@@ -10,14 +10,19 @@ const userSchema = new mongoose.Schema({
   likedSongs: { type: [String], default: [] },
   playList: { type: [String], default: [] },
   isAdmin: { type: Boolean, default: false },
-  isVerified: {type: Boolean, default: false},
-  role: {type: String, default: "Free"},
-  emailToken: {type: String}
+  isVerified: { type: Boolean, default: false },
+  role: { type: String, default: "Free" },
+  emailToken: { type: String },
 });
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id, name: this.name, isAdmin: this.isAdmin, isVerified: this.isVerified },
+    {
+      _id: this._id,
+      name: this.name,
+      isAdmin: this.isAdmin,
+      isVerified: this.isVerified,
+    },
     process.env.JWTPRIVATEKEY,
     { expiresIn: "7d" }
   );
@@ -33,6 +38,10 @@ const validate = (user) => {
   return schema.validate(user);
 };
 
+const validatePassword = (password) => {
+  return passwordComplexity().validate(password);
+};
+
 const User = mongoose.model("User", userSchema);
 
-module.exports = { User, validate };
+module.exports = { User, validate, validatePassword };
