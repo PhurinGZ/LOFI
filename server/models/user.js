@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   playList: { type: [String], default: [] },
   isAdmin: { type: Boolean, default: false },
   isVerified: {type: Boolean, default: false},
-  role: {type: Boolean, default: false},
+  role: {type: String, default: "Free"},
   emailToken: {type: String}
 });
 

@@ -10,6 +10,7 @@ import { Link, useLocation } from "react-router-dom";
 import Register from "../membership/register";
 import Login from "../membership/Login";
 import { useAuth } from "../../context/authContext";
+import Profile from "../profile/profile";
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -30,7 +31,7 @@ const Home = () => {
 
   const token = localStorage.getItem("token");
 
-  const { user, logout } = useAuth();
+  const { setPath, logout } = useAuth();
 
   // console.log("user : ",user)
 
@@ -159,6 +160,7 @@ const Home = () => {
 
   const handleLogout = () => {
     logout();
+    setPath("/?auth=register")
   };
 
   return (
@@ -202,36 +204,7 @@ const Home = () => {
           ))}
       </div>
       {token && queryUrl === "profile" && (
-        <div className="membership">
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 400,
-              backgroundColor: "#E3F2FD",
-              padding: "2%",
-              color: "black",
-              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-              borderRadius: 8,
-              zIndex: 1000,
-            }}
-            className="modal-overlay"
-          >
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <div className="modal-header">
-                <h2>Profile</h2>
-                {}
-                <button>
-                  <Link to="/">Close</Link>
-                </button>
-                <button onClick={handleLogout}> logout</button>
-              </div>
-              {/* Add your profile content here */}
-            </div>
-          </div>
-        </div>
+        <Profile handleLogout={handleLogout}/>
       )}
 
       {!token && queryUrl === "register" ? (
