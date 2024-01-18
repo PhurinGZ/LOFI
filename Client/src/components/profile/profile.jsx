@@ -6,7 +6,7 @@ import axios from "axios";
 import { useAuth } from "../../context/authContext";
 
 const Profile = ({ handleLogout }) => {
-  const BASE_URL = "http://localhost:8080";
+  const BASE_URL = "http://localhost:8000";
   const { user } = useAuth();
   const token = localStorage.getItem("token");
   const [userProfile, setUserProfile] = useState();
@@ -76,74 +76,92 @@ const Profile = ({ handleLogout }) => {
 
   return (
     <div className="membership">
-      <div className="modalOverlay">
-        <div className="modalHeader">
-          <img
-            src="/public/assets/icons/LOGO.svg"
-            className="logo"
-            alt="Logo"
-          />
-          <Link to="/" className="closeButton">
-            <CloseIcon />
-          </Link>
-        </div>
-        <div className="content">
-          <div className="myInfo">
-            <h1>My information</h1>
-            <p>User Name: {userProfile?.data?.username || "Loading..."}</p>
-            <p>Email: {userProfile?.data?.email || "Loading..."}</p>
+      <div className="modalBackdrop">
+        <div className="modalOverlay">
+          <div className="modalHeader">
+            <img
+              src="/public/assets/icons/LOGO.svg"
+              className="logo"
+              alt="Logo"
+            />
+            <Link to="/" className="closeButton">
+              <CloseIcon />
+            </Link>
           </div>
-          <div className="changepassword">
-            <h1>Change Password</h1>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="currentPassword">Current Password:</label>
-                <input
-                  type="password"
-                  id="currentPassword"
-                  name="currentPassword"
-                  value={passwordForm.currentPassword}
-                  onChange={handleChange}
-                  required
-                />
+          <div className="content">
+            <div className="myInfo">
+              <div className="myinfo-head">
+                <h1>My information</h1>
               </div>
-              <div className="form-group">
-                <label htmlFor="newPassword">New Password:</label>
-                <input
-                  type="password"
-                  id="newPassword"
-                  name="newPassword"
-                  value={passwordForm.newPassword}
-                  onChange={handleChange}
-                  required
-                />
+              <div className="myinfo-content">
+                <span>
+                  <p>User Name: </p>{" "}
+                  <p>{userProfile?.data?.username || "Loading..."}</p>
+                </span>
+                <span style={{ marginTop: "10px" }}>
+                  {" "}
+                  <p>Email:</p>{" "}
+                  <p>{userProfile?.data?.email || "Loading..."}</p>
+                </span>
               </div>
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm Password:</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={passwordForm.confirmPassword}
-                  onChange={handleChange}
-                  required
-                />
+            </div>
+
+            <div className="managemember">
+              <div className="head-managemenber">
+                <h1>Manage member</h1>
               </div>
-              <div className="buttonChangePasswod">
-                {formError && <p className="error-message">{formError}</p>}
-                <button type="submit" className="change-password-button">
-                  Change Password
-                </button>
+              <p>Member: {userProfile?.data?.role || "Loading..."}</p>
+            </div>
+            <div className="changepassword">
+              <div className="head-changepassword">
+                <h1>Change Password</h1>
               </div>
-            </form>
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="currentPassword">Current Password:</label>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    name="currentPassword"
+                    value={passwordForm.currentPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="newPassword">New Password:</label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    value={passwordForm.newPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="confirmPassword">Confirm Password:</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={passwordForm.confirmPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="buttonChangePasswod">
+                  {formError && <p className="error-message">{formError}</p>}
+                  <button type="submit" className="change-password-button">
+                    Change Password
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-          <div className="managemember">
-            <h1>Manage member</h1>
-            <p>Member: {userProfile?.data?.role || "Loading..."}</p>
+          <div className="logoutButton">
+            <button onClick={handleLogout}>Logout</button>
           </div>
-        </div>
-        <div className="logoutButton">
-          <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
     </div>

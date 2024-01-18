@@ -17,7 +17,7 @@ export const ModeProvider = ({ children }) => {
   const [mode, setMode] = useState();
   const [dayNight, setDayNight] = useState("day");
   const [atmosphere, setAtmosphere] = useState();
-  const [changedImage, setChangedImage] = useState(typeLofi[0].video[4]);
+  const [changedImage, setChangedImage] = useState(typeLofi[0].video[2]);
 
   const toggleMode = (selectedMode) => {
     setMode(selectedMode);

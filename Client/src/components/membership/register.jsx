@@ -54,7 +54,7 @@ const Register = ({ isModalOpen }) => {
   const [shakeInputs, setShakeInputs] = useState(false);
 
   const { setPath } = useAuth();
-  const BASE_URL = "http://localhost:8080";
+  const BASE_URL = "http://localhost:8000";
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -111,7 +111,7 @@ const Register = ({ isModalOpen }) => {
         return;
       }
       // Your registration logic
-      const response = await fetch(`http://localhost:8080/api/users`, {
+      const response = await fetch(`http://localhost:8000/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

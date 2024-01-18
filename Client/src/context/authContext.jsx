@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      axios.get("http://localhost:8080/", {
+      axios.get("http://localhost:8000/", {
         headers: {
           "x-auth-token": token
         }

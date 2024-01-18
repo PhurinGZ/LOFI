@@ -13,7 +13,7 @@ const VerifyEmail = () => {
     const verifyEmail = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/users/verify-email`,
+          `http://localhost:8000/api/users/verify-email`,
           {
             method: "POST",
             headers: {
