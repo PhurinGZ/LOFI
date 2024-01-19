@@ -160,24 +160,32 @@ const Home = () => {
 
   const handleLogout = () => {
     logout();
-    setPath("/?auth=register")
+    setPath("/?auth=register");
   };
 
   return (
     <div className="main">
       <div className="fh relative">
         <Header />
-        <div
-          className="background-video video-player"
-          style={{ opacity: currentVideoOpacity }}
-        >
-          <video className="videofirst" src={currentPath} autoPlay loop muted />
-        </div>
-        <div
-          className="background-video video-player"
-          style={{ opacity: nextVideoOpacity }}
-        >
-          <video className="videosecond" src={nextPath} autoPlay loop muted />
+        <div className="Background">
+          <div
+            className="background-video video-player"
+            style={{ opacity: currentVideoOpacity }}
+          >
+            <video
+              className="videofirst"
+              src={currentPath}
+              autoPlay
+              loop
+              muted
+            />
+          </div>
+          <div
+            className="background-video video-player"
+            style={{ opacity: nextVideoOpacity }}
+          >
+            <video className="videosecond" src={nextPath} autoPlay loop muted />
+          </div>
         </div>
         <div>
           <Sidebar />
@@ -204,7 +212,7 @@ const Home = () => {
           ))}
       </div>
       {token && queryUrl === "profile" && (
-        <Profile handleLogout={handleLogout}/>
+        <Profile handleLogout={handleLogout} />
       )}
 
       {!token && queryUrl === "register" ? (

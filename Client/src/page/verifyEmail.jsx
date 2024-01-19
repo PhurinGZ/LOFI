@@ -43,6 +43,7 @@ const VerifyEmail = () => {
   }, [emailToken]);
 
   return (
+    
     <Container
       maxWidth="sm"
       style={{
