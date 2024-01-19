@@ -27,6 +27,7 @@ function App() {
                 path="/verify-email/:emailToken"
                 element={<VerifyEmail />}
               ></Route>
+              <Route path="/reset-password/:token"></Route>
               {/* <Route path="/:auth" element={<Register />} />
               <Route path="/:auth" element={<Login />} /> */}
             </Routes>

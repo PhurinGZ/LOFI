@@ -174,10 +174,10 @@ router.post("/resend-verification", auth, async (req, res) => {
 
     // Send the new email verification
     const mailOptions = {
-      from: process.env.EMAIL, // Replace with your email
+      from: `LOFI BBT ${process.env.EMAIL}`, // Replace with your email
       to: user.email,
       subject: "Email Verification",
-      text: `Click the following link to verify your email:`,
+      // text: `Click the following link to verify your email:`,
       html: `<div style="text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
       <h1 style="color: #007bff; margin-bottom: 20px; font-size: 24px;">Welcome 👋 ${user.username}</h1>
       <p style="color: #333; font-size: 16px; line-height: 1.5em;">To complete your registration, click the following link to verify your email:</p>
@@ -204,5 +204,89 @@ router.post("/resend-verification", auth, async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
+
+// Forget Password
+router.post("/forget-password", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    // Generate a reset token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    // Save the reset token and expiration date in the user document
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // Token valid for 1 hour
+
+    await user.save();
+
+    // Send the password reset email
+    const mailOptions = {
+      from: `LOFI BBT ${process.env.EMAIL}`,
+      to: user.email,
+      subject: "Password Reset",
+      html: `<p>You are receiving this email because you (or someone else) have requested the reset of the password for your account.</p>
+            <p>Please click on the following link to complete the process:</p>
+            <a href='${process.env.BASEURL}/reset-password/${resetToken}'>Reset Password</a>
+            <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+        return res
+          .status(500)
+          .send({ message: "Error sending password reset email" });
+      } else {
+        console.log("Email sent:", info.response);
+        return res
+          .status(200)
+          .send({ message: "Password reset email sent successfully" });
+      }
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
+
+// Reset Password
+router.post("/reset-password/:token", async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).send({ message: "Invalid or expired token" });
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update user's password and reset token information
+    user.password = hashedPassword;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
+
+    await user.save();
+
+    res.status(200).send({ message: "Password reset successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
+
 
 module.exports = router;
