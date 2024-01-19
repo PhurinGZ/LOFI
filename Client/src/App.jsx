@@ -24,7 +24,7 @@ function App() {
               <Route path="/category" element={<Cat />} />
               <Route path="/sidebar" element={<Sidebar />} />
               <Route
-                path="/verify-email"
+                path="/verify-email/:emailToken"
                 element={<VerifyEmail />}
               ></Route>
               {/* <Route path="/:auth" element={<Register />} />
