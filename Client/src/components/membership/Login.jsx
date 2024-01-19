@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { setAuthToken } from "../../auth/auth";
 import "./styles.scss";
+import ForgetPassword from "./forgetPassword";
 
 const CustomTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -52,9 +53,10 @@ const backdropStyle = {
 function Login({ isModalOpen }) {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [formError, setFormError] = useState("");
 
   const [shakeInputs, setShakeInputs] = useState(false);
-  const { setPath,user } = useAuth();
+  const { setPath, user } = useAuth();
   const BASE_URL = "http://localhost:8000";
   const [formData, setFormData] = useState({
     email: "",
@@ -131,6 +133,7 @@ function Login({ isModalOpen }) {
         setShakeInputs(true);
         return;
       }
+
       const response = await fetch(`${BASE_URL}/api/login`, {
         method: "POST",
         headers: {
@@ -138,22 +141,25 @@ function Login({ isModalOpen }) {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         const responseData = await response.json();
         console.log("Login successful");
         localStorage.setItem("token", responseData.token);
         setAuthToken(responseData.token);
-  
+
         // Redirect to home page
         navigate("/");
         setPath("/?auth=profile");
-  
+
         // Reload the page
         window.location.reload();
       } else {
-        console.error("Login failed");
-        alert("Login failed");
+        // Check if the response contains a custom message
+        const responseData = await response.json();
+        const errorMessage = responseData.message || "Login failed";
+        setFormError(errorMessage);
+        console.error(errorMessage);
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -235,7 +241,7 @@ function Login({ isModalOpen }) {
                 }
                 className={shakeInputs && passwordError ? "shake-input" : ""}
               />
-
+              {formError && <p className="error-message">{formError}</p>}
               <Button
                 variant="contained"
                 color="primary"
@@ -271,7 +277,7 @@ function Login({ isModalOpen }) {
               }}
             >
               <span>
-                <a
+                {/* <a
                   href="#"
                   style={{
                     color: "#9747FF",
@@ -284,7 +290,8 @@ function Login({ isModalOpen }) {
                   }}
                 >
                   Forgot Password?
-                </a>
+                </a> */}
+                <ForgetPassword />
               </span>
               Don't have an account?{" "}
               <Link

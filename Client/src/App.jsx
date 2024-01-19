@@ -11,6 +11,8 @@ import VerifyEmail from "./page/verifyEmail";
 // import Register from "./components/membership/register";
 // import Login from "./components/membership/Login";
 import { AuthProvider } from "./context/authContext";
+import ResetPassword from "./page/forgetPassword";
+
 
 function App() {
   return (
@@ -27,7 +29,7 @@ function App() {
                 path="/verify-email/:emailToken"
                 element={<VerifyEmail />}
               ></Route>
-              <Route path="/reset-password/:token"></Route>
+              <Route path="/reset-password/:token" element={<ResetPassword/>}></Route>
               {/* <Route path="/:auth" element={<Register />} />
               <Route path="/:auth" element={<Login />} /> */}
             </Routes>
