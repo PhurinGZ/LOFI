@@ -24,7 +24,7 @@ $secondaryColor: #3d3d3d;
   transform: translate(-50%, -50%);
   width: 90%; /* Adjust to your needs for responsiveness */
   max-width: 400px;
-  height: 80vh; /* Adjust to your needs for responsiveness */
+  height: 65vh; /* Adjust to your needs for responsiveness */
   background-color: #e3f2fd;
   padding: 2%;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -121,11 +121,15 @@ $secondaryColor: #3d3d3d;
       }
 
       .user-profile {
+        width: 230px;
         button {
+          position: absolute;
+          top: 0;
+          right: 10px;
           background-color: #4caf50;
           color: white;
           border: none;
-          padding: 10px 20px;
+          padding: 3px 20px 3px 20px;
           font-size: 14px;
           cursor: pointer;
           border-radius: 4px;
@@ -143,7 +147,6 @@ $secondaryColor: #3d3d3d;
 
         &.unverified p {
           color: #ff6347;
-          background-color: #ffe4e1;
           border-radius: 20%;
         }
       }
@@ -201,7 +204,7 @@ $secondaryColor: #3d3d3d;
   margin-top: 3%;
   // padding-top: 0;
   padding: 5%;
-  max-height: 350px; /* Set a maximum height for the content */
+  max-height: 500px; /* Set a maximum height for the content */
   overflow-y: auto;
   border-radius: 20px;
   &::-webkit-scrollbar {
