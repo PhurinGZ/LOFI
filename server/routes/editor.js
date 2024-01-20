@@ -1,11 +1,35 @@
-const nodemailer = require("nodemailer");
-const router = require("express").Router();
-const bcrypt = require("bcrypt");
+// editorRoutes.js
+
+const express = require("express");
+const router = express.Router();
 const auth = require("../middleware/auth");
-const authAdmin = require("../middleware/admin");
-const validObjectID = require("../middleware/validObjectId");
-const crypto = require("crypto");
 const { Editor } = require("../models/editor");
+
+// API endpoint to get the editor content based on user ID and editor ID
+router.get("/get-content/:userId/:editorId", auth, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const editorId = req.params.editorId;
+
+    // Fetch the content from the database based on user ID and editor ID
+    const content = await Editor.findOne({ user: userId, _id: editorId });
+
+    if (!content) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Content not found." });
+    }
+
+    res.status(200).json({
+      success: true,
+      content: content.content,
+      title: content.title,
+    });
+  } catch (error) {
+    console.error("Error fetching content:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
 
 // API endpoint to save the editor content
 router.post("/save-content", auth, async (req, res) => {
@@ -14,8 +38,8 @@ router.post("/save-content", auth, async (req, res) => {
 
     // Save the content to the database, associating it with the user's ID
     const newContent = new Editor({
-      title,
       content,
+      title,
       user: req.body._id,
     });
     await newContent.save();

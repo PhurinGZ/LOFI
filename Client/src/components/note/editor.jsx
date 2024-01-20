@@ -1,6 +1,6 @@
 // MyEditor.js
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Dialog from "@mui/material/Dialog";
@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import { useAuth } from "../../context/authContext";
 
-const MyEditor = ({ isOpen, handleClose }) => {
+const MyEditor = ({ isOpen, handleClose, editorId }) => {
   const [editorHtml, setEditorHtml] = useState("");
   const [title, setTitle] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
@@ -26,6 +26,31 @@ const MyEditor = ({ isOpen, handleClose }) => {
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
+
+  const fetchContent = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/editor/get-content/${user.data._id}/${editorId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
+
+      setEditorHtml(response.data.content);
+      setTitle(response.data.title || "");
+    } catch (error) {
+      console.error("Error fetching content:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (editorId) {
+      fetchContent();
+    }
+  }, [editorId]);
 
   const saveContentToBackend = async () => {
     try {
@@ -49,7 +74,9 @@ const MyEditor = ({ isOpen, handleClose }) => {
         const { status, data } = error.response;
 
         if (status === 400 && data.message === "no token") {
-          setResponseMessage("No token provided. Please log in and try again.");
+          setResponseMessage(
+            "No token provided. Please log in and try again."
+          );
         } else {
           setResponseMessage(`Error : ${data.message}`);
         }

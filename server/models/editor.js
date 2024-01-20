@@ -10,13 +10,24 @@ const editorSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
   user: {
-    type: mongoose.Schema.Types.ObjectId, // Correct type for ObjectId
-    ref: "User", // Reference to the User model
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 
-// Export the model directly
+// Set createdAt only when the document is created
+editorSchema.pre("save", function (next) {
+  if (!this.createdAt) {
+    this.createdAt = new Date();
+  }
+  next();
+});
+
 const Editor = mongoose.model("Editor", editorSchema);
 
 module.exports = { Editor };
