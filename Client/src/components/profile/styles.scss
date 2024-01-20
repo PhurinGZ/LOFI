@@ -1,14 +1,18 @@
+$primaryColor: #bb98ff;
+$secondaryColor: #3d3d3d;
+
 .membership {
   display: flex;
   align-items: center;
   justify-content: center;
+
   .modalBackdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+    background: rgba(0, 0, 0, 0.5);
     z-index: 999;
   }
 }
@@ -18,8 +22,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: 500px;
+  width: 90%; /* Adjust to your needs for responsiveness */
+  max-width: 400px;
+  height: 80vh; /* Adjust to your needs for responsiveness */
   background-color: #e3f2fd;
   padding: 2%;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -74,41 +79,78 @@
   // height: 12%;
   pointer-events: none;
 }
+
 .myInfo {
-  height: 55px;
+  height: 80px;
   border: 2px solid #bb98ff;
-  // margin-top: 6%;
-  // margin: 10px;
   padding: 5%;
   border-radius: 20px;
   position: relative;
+
   .myinfo-head {
     position: absolute;
     top: -20px;
-    // border: 1px solid red;
     background-color: #e3f2fd;
+
     h1 {
       padding: 5px;
+      color: #333;
+      font-size: 20px;
     }
   }
+
   .myinfo-content {
     position: absolute;
     width: 320px;
-    left: 10%;
-    // top: 50%;
-    // transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
+
     span {
       color: rgba(61, 61, 61, 1);
       display: flex;
-      justify-content: space-between;
+
       p {
-        width: 50%;
+        margin-bottom: 5px;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .text{
+        position: absolute;
+        left: 30%;
+      }
+
+      .user-profile {
+        button {
+          background-color: #4caf50;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          font-size: 14px;
+          cursor: pointer;
+          border-radius: 4px;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: #45a049;
+          }
+        }
+
+        &.verified p {
+          background-color: #d7ffd9;
+          border-radius: 20%;
+        }
+
+        &.unverified p {
+          color: #ff6347;
+          background-color: #ffe4e1;
+          border-radius: 20%;
+        }
       }
     }
   }
 }
+
 
 .changepassword {
   border: 2px solid #bb98ff;
@@ -141,7 +183,6 @@
     position: absolute;
     background-color: #e3f2fd;
     top: -20%;
-
     h1{
       padding: 0px 5px 0px 5px;
     }
@@ -153,9 +194,6 @@
     left: 25%;
     transform: translate(-50%, -50%);
   }
-}
-
-.buttonChangePasswod {
 }
 
 .content {
@@ -240,7 +278,7 @@
     }
 
     .change-password-button {
-      background-color: #BB98FF;;
+      background-color: #bb98ff;
       color: #3d3d3dd3;
       padding: 4px 10px;
       border: none;

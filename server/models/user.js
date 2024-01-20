@@ -13,6 +13,8 @@ const userSchema = new mongoose.Schema({
   isVerified: { type: Boolean, default: false },
   role: { type: String, default: "Free" },
   emailToken: { type: String },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
 });
 
 userSchema.methods.generateAuthToken = function () {

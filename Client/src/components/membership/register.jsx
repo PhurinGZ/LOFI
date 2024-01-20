@@ -56,6 +56,8 @@ const Register = ({ isModalOpen }) => {
   const [passwordError, setPasswordError] = useState(false);
   const [shakeInputs, setShakeInputs] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [formError, setFormError] = useState("");
+  const token = localStorage.getItem("token");
 
   const { setPath } = useAuth();
   const BASE_URL = "http://localhost:8000";
@@ -133,7 +135,11 @@ const Register = ({ isModalOpen }) => {
         console.log("Registration successful");
         navigate("/");
       } else {
-        console.error("Registration failed");
+        // Check if the response contains a custom message
+        const responseData = await response.json();
+        const errorMessage = responseData.message || "Registration failed";
+        setFormError(errorMessage);
+        console.error(errorMessage);
       }
     } catch (error) {
       console.error("Error during registration:", error);
@@ -239,7 +245,7 @@ const Register = ({ isModalOpen }) => {
                     ),
                   }}
                 />
-
+                {formError && <p className="error-message">{formError}</p>}
                 <Button
                   variant="contained"
                   color="primary"

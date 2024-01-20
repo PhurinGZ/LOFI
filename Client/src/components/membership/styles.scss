@@ -1,18 +1,31 @@
 // Define the shake-input class
+
 .shake-input {
-    // Apply the shake animation with a duration of 0.5s
-    animation: shake 0.5s;
-  
-    // Define the keyframes for the shake animation
-    @keyframes shake {
-      0%, 100% {
-        transform: translateX(0);
-      }
-      10%, 30%, 50%, 70%, 90% {
-        transform: translateX(-10px);
-      }
-      20%, 40%, 60%, 80% {
-        transform: translateX(10px);
-      }
+  // Apply the shake animation with a duration of 0.5s
+  animation: shake 0.5s;
+
+  // Define the keyframes for the shake animation
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-10px);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(10px);
     }
   }
+}
+.error-message {
+  color: red;
+  margin-bottom: 8px;
+}

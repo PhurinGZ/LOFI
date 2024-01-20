@@ -38,14 +38,31 @@ const Profile = ({ handleLogout }) => {
         })
         .then((response) => {
           setUserProfile(response.data);
-          console.log(response.data);
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
         });
     }
   }, [BASE_URL, user?.data?._id, token]);
+  useEffect(() => {
+    const handleVerificationChange = () => {
+      if (
+        userProfile &&
+        userProfile.data &&
+        userProfile.data.isVerified !== user.data.isVerified
+      ) {
+        window.location.reload();
+      }
+    };
 
+    window.addEventListener("isVerifiedChange", handleVerificationChange);
+
+    return () => {
+      window.removeEventListener("isVerifiedChange", handleVerificationChange);
+    };
+  }, [userProfile, user?.data?.isVerified]);
+
+  
   const validatePassword = (password) => {
     const errors = [];
 
@@ -108,7 +125,6 @@ const Profile = ({ handleLogout }) => {
       return;
     }
 
-    // Make a request to update the password
     axios
       .put(
         `${BASE_URL}/api/users/${user.data._id}`,
@@ -122,12 +138,36 @@ const Profile = ({ handleLogout }) => {
       .then((response) => {
         console.log("Password updated successfully");
         setFormError("");
-        // Reload the page
         window.location.reload();
       })
       .catch((error) => {
         console.error("Error updating password:", error);
         setFormError("Error updating password. Please try again.");
+      });
+  };
+
+  const handleVerify = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(
+        `${BASE_URL}/api/users/resend-verification`,
+        {
+          email: userProfile?.data?.email,
+        },
+        {
+          headers: {
+            "x-auth-token": token,
+          },
+        }
+      )
+      .then((response) => {
+        window.location.reload();
+        alert("Sent to your email successfully");
+      })
+      .catch((error) => {
+        console.error("Error sending:", error);
+        alert("Failed to send to your email");
       });
   };
 
@@ -153,12 +193,27 @@ const Profile = ({ handleLogout }) => {
               <div className="myinfo-content">
                 <span>
                   <p>User Name: </p>{" "}
-                  <p>{userProfile?.data?.username || "Loading..."}</p>
+                  <span className="text">
+                    <p>{userProfile?.data?.username || "Loading..."}</p>
+                  </span>
                 </span>
                 <span style={{ marginTop: "10px" }}>
                   {" "}
-                  <p>Email:</p>{" "}
-                  <p>{userProfile?.data?.email || "Loading..."}</p>
+                  <p>Email:</p>
+                  <span className="text">
+                    <div
+                      className={`user-profile ${
+                        userProfile?.data?.isVerified
+                          ? "verified"
+                          : "unverified"
+                      }`}
+                    >
+                      <p>{userProfile?.data?.email || "Loading..."}</p>
+                      {!userProfile?.data?.isVerified && (
+                        <button onClick={handleVerify}>Verify</button>
+                      )}
+                    </div>
+                  </span>
                 </span>
               </div>
             </div>

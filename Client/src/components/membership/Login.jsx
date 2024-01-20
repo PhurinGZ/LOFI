@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "./styles.scss";
+import ForgetPassword from "./forgetPassword";
 
 const CustomTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -56,6 +57,7 @@ function Login({ isModalOpen }) {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [formError, setFormError] = useState("");
 
   const [shakeInputs, setShakeInputs] = useState(false);
   const { setPath, user } = useAuth();
@@ -138,6 +140,7 @@ function Login({ isModalOpen }) {
         setShakeInputs(true);
         return;
       }
+
       const response = await fetch(`${BASE_URL}/api/login`, {
         method: "POST",
         headers: {
@@ -159,8 +162,11 @@ function Login({ isModalOpen }) {
         // Reload the page
         window.location.reload();
       } else {
-        console.error("Login failed");
-        alert("Login failed");
+        // Check if the response contains a custom message
+        const responseData = await response.json();
+        const errorMessage = responseData.message || "Login failed";
+        setFormError(errorMessage);
+        console.error(errorMessage);
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -252,7 +258,7 @@ function Login({ isModalOpen }) {
                   ),
                 }}
               />
-
+              {formError && <p className="error-message">{formError}</p>}
               <Button
                 variant="contained"
                 color="primary"
@@ -288,7 +294,7 @@ function Login({ isModalOpen }) {
               }}
             >
               <span>
-                <a
+                {/* <a
                   href="#"
                   style={{
                     color: "#9747FF",
@@ -301,7 +307,8 @@ function Login({ isModalOpen }) {
                   }}
                 >
                   Forgot Password?
-                </a>
+                </a> */}
+                <ForgetPassword />
               </span>
               Don't have an account?{" "}
               <Link
