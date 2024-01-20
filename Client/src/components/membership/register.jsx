@@ -6,6 +6,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../../context/authContext";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 // Custom styled TextField
 const CustomTextField = styled(TextField)({
@@ -52,6 +55,7 @@ const Register = ({ isModalOpen }) => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [shakeInputs, setShakeInputs] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { setPath } = useAuth();
   const BASE_URL = "http://localhost:8000";
@@ -65,18 +69,27 @@ const Register = ({ isModalOpen }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
     // Clear existing errors when the user starts typing
     setUsernameError(false);
     setEmailError(false);
     setPasswordError(false);
 
+    if (name === "email") {
+      // Handle email validation
+      setEmailError(!isEmail);
+    } else if (name === "password") {
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,26}$/;
+      setPasswordError(!passwordRegex.test(value));
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-
 
   const validateForm = () => {
     let isValid = true;
@@ -87,15 +100,12 @@ const Register = ({ isModalOpen }) => {
       isValid = false;
     }
 
-    // Validate email
-    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
-    if (!isEmailValid) {
+    if (!formData.email || emailError) {
       setEmailError(true);
       isValid = false;
     }
 
-    // Validate password
-    if (formData.password.length < 8) {
+    if (!formData.password || passwordError) {
       setPasswordError(true);
       isValid = false;
     }
@@ -207,17 +217,27 @@ const Register = ({ isModalOpen }) => {
                   variant="outlined"
                   fullWidth
                   margin="normal"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
                   error={passwordError}
                   helperText={
                     passwordError
-                      ? "Password must be at least 8 characters!"
+                      ? "Password must contain at least 8+ A-Za-z\d@$!%*?&"
                       : ""
                   }
                   className={shakeInputs && passwordError ? "shake-input" : ""}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    ),
+                  }}
                 />
 
                 <Button

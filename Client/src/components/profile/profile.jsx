@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "./styles.scss";
 import axios from "axios";
 import { useAuth } from "../../context/authContext";
 
 const Profile = ({ handleLogout }) => {
+  const [showPasswordcurrentPassword, setShowPasswordcurrentPassword] =
+    useState(false);
+  const [showPasswordnewPassword, setShowPasswordnewPassword] = useState(false);
+  const [showPasswordconfirmPassword, setShowPasswordconfirmPassword] =
+    useState(false);
   const BASE_URL = "http://localhost:8000";
   const { user } = useAuth();
   const token = localStorage.getItem("token");
@@ -15,7 +23,10 @@ const Profile = ({ handleLogout }) => {
     newPassword: "",
     confirmPassword: "",
   });
-  const [formError, setFormError] = useState("");
+  const [formError, setFormError] = useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
 
   useEffect(() => {
     if (user?.data?._id) {
@@ -35,19 +46,65 @@ const Profile = ({ handleLogout }) => {
     }
   }, [BASE_URL, user?.data?._id, token]);
 
+  const validatePassword = (password) => {
+    const errors = [];
+
+    if (password.length < 8 || password.length > 26) {
+      errors.push("Password must be between 8 and 26 characters");
+    }
+
+    const lowerCaseRegex = /[a-z]/;
+    const upperCaseRegex = /[A-Z]/;
+    const numericRegex = /\d/;
+    const symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+    if (!lowerCaseRegex.test(password)) {
+      errors.push("Password must contain at least one lowercase letter");
+    }
+
+    if (!upperCaseRegex.test(password)) {
+      errors.push("Password must contain at least one uppercase letter");
+    }
+
+    if (!numericRegex.test(password)) {
+      errors.push("Password must contain at least one numeric digit");
+    }
+
+    if (!symbolRegex.test(password)) {
+      errors.push("Password must contain at least one special character");
+    }
+
+    return errors;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPasswordForm({
       ...passwordForm,
       [name]: value,
     });
-  };
 
+    // Validate password on change
+    if (name === "newPassword" || name === "confirmPassword" || name === "currentPassword") {
+      const errors = validatePassword(value);
+      setFormError({
+        ...formError,
+        [name]: errors.length > 0 ? errors[0] : "",
+      });
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add validation logic if needed
+
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
       setFormError("New password and confirm password do not match");
+      return;
+    }
+
+    const passwordErrors = validatePassword(passwordForm.newPassword);
+
+    if (passwordErrors.length > 0) {
+      setFormError(passwordErrors.join(", "));
       return;
     }
 
@@ -120,38 +177,97 @@ const Profile = ({ handleLogout }) => {
                 <div className="form-group">
                   <label htmlFor="currentPassword">Current Password:</label>
                   <input
-                    type="password"
+                    type={showPasswordcurrentPassword ? "text" : "password"}
                     id="currentPassword"
                     name="currentPassword"
                     value={passwordForm.currentPassword}
                     onChange={handleChange}
+                    placeholder="********"
                     required
                   />
+                  <IconButton
+                    onClick={() =>
+                      setShowPasswordcurrentPassword(
+                        !showPasswordcurrentPassword
+                      )
+                    }
+                    edge="end"
+                  >
+                    {showPasswordcurrentPassword ? (
+                      <Visibility />
+                    ) : (
+                      <VisibilityOff />
+                    )}
+                  </IconButton>
+                  <div className="error">
+                    {formError.currentPassword && (
+                      <p className="error-message">{formError.currentPassword}</p>
+                    )}
+                  </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="newPassword">New Password:</label>
                   <input
-                    type="password"
+                    type={showPasswordnewPassword ? "text" : "password"}
                     id="newPassword"
                     name="newPassword"
+                    placeholder="********"
                     value={passwordForm.newPassword}
                     onChange={handleChange}
                     required
                   />
+                  <IconButton
+                    onClick={() =>
+                      setShowPasswordnewPassword(!showPasswordnewPassword)
+                    }
+                    edge="end"
+                  >
+                    {showPasswordnewPassword ? (
+                      <Visibility />
+                    ) : (
+                      <VisibilityOff />
+                    )}
+                  </IconButton>
+                  <div className="error">
+                    {formError.newPassword && (
+                      <p className="error-message">{formError.newPassword}</p>
+                    )}
+                  </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="confirmPassword">Confirm Password:</label>
                   <input
-                    type="password"
+                    type={showPasswordconfirmPassword ? "text" : "password"}
                     id="confirmPassword"
                     name="confirmPassword"
+                    placeholder="********"
                     value={passwordForm.confirmPassword}
                     onChange={handleChange}
                     required
                   />
+                  <IconButton
+                    onClick={() =>
+                      setShowPasswordconfirmPassword(
+                        !showPasswordconfirmPassword
+                      )
+                    }
+                    edge="end"
+                  >
+                    {showPasswordconfirmPassword ? (
+                      <Visibility />
+                    ) : (
+                      <VisibilityOff />
+                    )}
+                  </IconButton>
+                  <div className="error">
+                    {formError.confirmPassword && (
+                      <p className="error-message">
+                        {formError.confirmPassword}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="buttonChangePasswod">
-                  {formError && <p className="error-message">{formError}</p>}
                   <button type="submit" className="change-password-button">
                     Change Password
                   </button>

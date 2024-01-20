@@ -8,6 +8,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { setAuthToken } from "../../auth/auth";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "./styles.scss";
 
 const CustomTextField = styled(TextField)({
@@ -52,9 +55,10 @@ const backdropStyle = {
 function Login({ isModalOpen }) {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [shakeInputs, setShakeInputs] = useState(false);
-  const { setPath,user } = useAuth();
+  const { setPath, user } = useAuth();
   const BASE_URL = "http://localhost:8000";
   const [formData, setFormData] = useState({
     email: "",
@@ -77,8 +81,9 @@ function Login({ isModalOpen }) {
       // Handle email validation
       setEmailError(!isEmail);
     } else if (name === "password") {
-      // Handle password validation
-      setPasswordError(value.length < 8);
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,26}$/;
+      setPasswordError(!passwordRegex.test(value));
     }
 
     setFormData((prevData) => ({
@@ -89,17 +94,17 @@ function Login({ isModalOpen }) {
 
   const validateForm = () => {
     let isValid = true;
-
-    if (!formData.email) {
+  
+    if (!formData.email || emailError) {
       setEmailError(true);
       isValid = false;
     }
-
-    if (!formData.password) {
+  
+    if (!formData.password || passwordError) {
       setPasswordError(true);
       isValid = false;
     }
-
+  
     return isValid;
   };
 
@@ -124,6 +129,8 @@ function Login({ isModalOpen }) {
   //     console.error("Error during login:", error);
   //   }
   // };
+
+
   const handleLogin = async () => {
     try {
       if (!validateForm()) {
@@ -138,17 +145,17 @@ function Login({ isModalOpen }) {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         const responseData = await response.json();
         console.log("Login successful");
         localStorage.setItem("token", responseData.token);
         setAuthToken(responseData.token);
-  
+
         // Redirect to home page
         navigate("/");
         setPath("/?auth=profile");
-  
+
         // Reload the page
         window.location.reload();
       } else {
@@ -223,17 +230,27 @@ function Login({ isModalOpen }) {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
                 error={passwordError}
                 helperText={
                   passwordError
-                    ? "Password must be at least 8 characters!!"
+                    ? "Password must contain at least 8+ A-Za-z\d@$!%*?&"
                     : ""
                 }
                 className={shakeInputs && passwordError ? "shake-input" : ""}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  ),
+                }}
               />
 
               <Button
