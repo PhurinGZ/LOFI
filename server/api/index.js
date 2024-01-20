@@ -10,6 +10,7 @@ const songsRoutes = require("../routes/songs");
 const playlistRoutes = require("../routes/playList");
 const searchRoutes = require("../routes/search");
 const auth = require("../middleware/auth");
+const editor = require("../routes/editor");
 
 const app = express();
 
@@ -25,7 +26,7 @@ connection();
 app.get("/", auth, (req, res) => {
   res.json({ data: req.user });
 });
-
+app.use("/api/editor", editor);
 app.use("/api/users", userRoutes);
 app.use("/api/login", authRoutes);
 app.use("/api/songs", songsRoutes);

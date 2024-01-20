@@ -12,6 +12,7 @@ import VerifyEmail from "./page/verifyEmail";
 // import Login from "./components/membership/Login";
 import { AuthProvider } from "./context/authContext";
 import ResetPassword from "./page/forgetPassword";
+import MyEditor from "./components/note/note";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
               <Route path="/reset-password/:token" element={<ResetPassword/>}></Route>
               {/* <Route path="/:auth" element={<Register />} />
               <Route path="/:auth" element={<Login />} /> */}
+              <Route path="/note" element={<MyEditor />} />
             </Routes>
           </AtmosphereProvider>
         </ModeProvider>

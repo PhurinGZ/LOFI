@@ -259,7 +259,7 @@ router.post("/forget-password", async (req, res) => {
 router.post("/reset-password/:token", async (req, res) => {
   try {
     const { token } = req.params;
-    const { newPassword } = req.body;
+    const { newPassword, currentPassword } = req.body;
 
     const user = await User.findOne({
       resetPasswordToken: token,
@@ -268,6 +268,11 @@ router.post("/reset-password/:token", async (req, res) => {
 
     if (!user) {
       return res.status(400).send({ message: "Invalid or expired token" });
+    }
+
+    // Check if the provided current password matches the user's current password
+    if (!(await bcrypt.compare(currentPassword, user.password))) {
+      return res.status(404).send({ message: "Incorrect current password" });
     }
 
     // Hash the new password
@@ -287,6 +292,7 @@ router.post("/reset-password/:token", async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
+
 
 
 module.exports = router;
