@@ -50,7 +50,7 @@ export const NoteProvider = ({ children }) => {
 
   useEffect(() => {
     fetchNotes();
-    const intervalId = setInterval(fetchNotes, 5000); // Fetch every 5 seconds
+    const intervalId = setInterval(fetchNotes,5000); // Fetch every 5 seconds
 
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, [user]);

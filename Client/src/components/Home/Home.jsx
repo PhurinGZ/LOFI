@@ -54,7 +54,7 @@ const Home = () => {
       setQueryUrl("");
     }
   });
-  console.log(queryUrl);
+  // console.log(queryUrl);
 
   const handleVideoPaths = (imageData) => {
     if (Array.isArray(imageData?.data)) {

@@ -17,9 +17,10 @@ const ListNote = () => {
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Move isModalOpen state to the top
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [id, setId] = useState();
   const [dateTime, setDateTime] = useState();
+
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -39,7 +40,6 @@ const ListNote = () => {
           user.data._id === null ||
           user.data._id === undefined
         ) {
-          // setLoading(false);
           return;
         }
 
@@ -53,7 +53,6 @@ const ListNote = () => {
           }
         );
 
-        // Update the notes in the context
         dispatch({ type: "SET_NOTES", payload: response.data });
         setLoading(false);
       } catch (error) {
@@ -62,9 +61,49 @@ const ListNote = () => {
         setError("Error fetching notes.");
       }
     };
-
-    fetchNotes();
+    if (state) {
+      fetchNotes();
+    }
   }, [user, dispatch]);
+
+  const deleteContent = async (editorId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setLoading(false);
+        console.error("Authentication token not found.");
+        setError("Authentication token not found.");
+        return;
+      }
+
+      if (
+        !user ||
+        !user.data ||
+        user.data._id === null ||
+        user.data._id === undefined
+      ) {
+        return;
+      }
+
+      const response = await axios.delete(
+        `${BASE_URL}/api/editor/delete-content/${user.data._id}/${editorId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
+
+      dispatch({ type: "SET_NOTES", payload: response.data });
+      setLoading(false);
+    } catch (error) {
+      console.error("Error deleting note:", error);
+      setLoading(false);
+      setError("Error deleting note.");
+    }
+  };
 
   const handleCloseModal = () => setOpenModal(false);
 
@@ -82,8 +121,8 @@ const ListNote = () => {
 
   const closeModalEdit = () => {
     setIsModalOpen(false);
-    setDateTime(null); // Reset dateTime to initial state
-    setId(null); // Reset id to initial state
+    setDateTime(null);
+    setId(null);
   };
 
   const handleClickEdit = (id, dateTime) => {
@@ -92,24 +131,27 @@ const ListNote = () => {
     setId(id);
   };
 
-  console.log("id : ", id);
-  console.log("date : ", dateTime);
+  const handleDelete = (id) => {
+    deleteContent(id);
+    // console.log(id);
+  };
+
+  // console.log("id : ", id);
+  // console.log("date : ", dateTime);
+
+  // console.log(state);
 
   return (
     <>
-      {/* Button to open modal */}
       <button onClick={handleOpenModal} className="img-icon-category">
         <img src="/assets/icons/notes.png" alt="" />
       </button>
 
-      {/* Modal */}
       {openModal && (
         <div className="main">
-          {" "}
           <Draggable handle=".title">
             <div className="custom-dialog">
               <div className="title">
-                {" "}
                 <h1>List of Notes </h1>
                 <Button onClick={handleCloseModal} color="primary">
                   Close
@@ -120,13 +162,12 @@ const ListNote = () => {
                 <p>No notes available.</p>
               ) : (
                 <div className="maincontent">
-                  {" "}
                   {state.notes.map((note) => (
                     <div
                       key={note._id}
                       className="content"
-                      onClick={() => handleClickEdit(note._id, note.createdAt)} // Fix the onClick handler
                       style={{ cursor: "pointer" }}
+                      onClick={() => handleClickEdit(note._id, note.createdAt)}
                     >
                       <div className="Title">
                         <h1>Title</h1>
@@ -138,11 +179,20 @@ const ListNote = () => {
                           {new Date(note.createdAt).toLocaleDateString("en-GB")}
                         </p>
                       </div>
+
                       <div className="delete">
-                        <div style={{ width: "20px", height: "23px" }}>
+                        <div
+                          style={{
+                            width: "20px",
+                            height: "23px",
+                          }}
+                        >
                           <Tooltip title="Delete" placement="right-start">
-                            {" "}
-                            <img src="/public/assets/icons/delete.png" alt="" />
+                            <img
+                              src="/public/assets/icons/delete.png"
+                              alt=""
+                              onClick={() => handleDelete(note._id)}
+                            />
                           </Tooltip>
                         </div>
                       </div>

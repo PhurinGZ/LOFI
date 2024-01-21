@@ -39,7 +39,6 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
         }
       );
 
-      dispatch({ type: "ADD_NOTE", payload: response.data });
       console.log("Server response:", response.data);
       setEditorHtml(response.data.content);
       setTitle(response.data.title);
