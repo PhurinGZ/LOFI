@@ -3,16 +3,13 @@
 import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useAuth } from "../../context/authContext";
 import { useNoteContext } from "../../context/noteContext";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const MyEditor = ({ isOpen, handleClose, editorId }) => {
+const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
   const { state, dispatch } = useNoteContext();
   const [editorHtml, setEditorHtml] = useState("");
   const [title, setTitle] = useState("");
@@ -41,9 +38,7 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
         }
       );
 
-      // Update the notes in the context
       dispatch({ type: "ADD_NOTE", payload: response.data });
-
       setResponseMessage(response.data.message);
       console.log("Server response:", response.data);
     } catch (error) {
@@ -64,7 +59,7 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
       }
       const response = await axios.post(
         `${BASE_URL}/api/editor/save-content`,
-        { content: editorHtml, title: title, userId: user.data._id }, // Pass user ID as userId
+        { content: editorHtml, title: title, userId: user.data._id },
         {
           headers: {
             "Content-Type": "application/json",
@@ -75,10 +70,14 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
 
       setResponseMessage(response.data.message);
       console.log("Server response:", response.data);
+
+      if (response.data.success) {
+        setEditorHtml("");
+        setTitle("");
+        handleClose(); // Close the modal
+      }
     } catch (error) {
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         const { status, data } = error.response;
 
         if (status === 400 && data.message === "no token") {
@@ -87,12 +86,10 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
           setResponseMessage(`Error : ${data.message}`);
         }
       } else if (error.request) {
-        // The request was made but no response was received
         setResponseMessage(
           "No response from the server. Please try again later."
         );
       } else {
-        // Something happened in setting up the request that triggered an Error
         setResponseMessage("Unexpected error. Please try again.");
       }
 
@@ -102,6 +99,70 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
 
   const handleSaveClick = () => {
     saveContentToBackend();
+  };
+
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "400px",
+    height: "500px",
+    display: isOpen ? "flex" : "none",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  };
+
+  const contentStyle = {
+    background: "#fff",
+    padding: "30px",
+    borderRadius: "8px",
+    boxShadow: "0 2px 20px rgba(0, 0, 0, 0.2)",
+    maxWidth: "600px",
+    width: "100%",
+  };
+
+  const headerStyle = {
+    textAlign: "start",
+    marginBottom: "15px",
+    fontSize: "1.5em",
+    color: "#333",
+  };
+
+  const inputStyle = {
+    width: "30%",
+    marginBottom: "15px",
+    padding: "10px",
+    fontSize: "1em",
+    border: "1px solid #ddd",
+    borderRadius: "4px",
+    boxSizing: "border-box",
+  };
+
+  const quillStyle = {
+    width: "339px",
+    height: "338px",
+    flexShrink: 0,
+  };
+
+  const buttonStyle = {
+    width: "61px",
+    height: "22px",
+    flexShrink: 0,
+    borderRadius: "10px",
+    background: "#BB98FF",
+    boxShadow: "3px 1px 3.7px 0px rgba(0, 0, 0, 0.25)",
+  };
+
+  const responseStyle = {
+    marginTop: "20px",
+    color: responseMessage.includes("success") ? "green" : "red",
+    textAlign: "center",
+  };
+
+  const ArrowBack = {
+    cursor: "pointer",
   };
 
   const modules = {
@@ -137,16 +198,30 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
   ];
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle>My Editor</DialogTitle>
-      <DialogContent>
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={handleTitleChange}
-          placeholder="Enter title"
-        />
+    <div style={modalStyle}>
+      <div style={contentStyle} className="contentEditor">
+        <div style={headerStyle}>
+          <ArrowBackIcon
+            onClick={handleClose}
+            color="secondary"
+            variant="contained"
+            style={ArrowBack}
+          >
+            Close
+          </ArrowBackIcon>
+          <h2>Note Editor</h2>
+        </div>
+        <div>
+          <input
+            type="text"
+            name="title"
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="Enter title"
+            style={inputStyle}
+          />
+          <p>{dataTime}</p>
+        </div>
         <ReactQuill
           theme="snow"
           value={editorHtml}
@@ -154,28 +229,28 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
           modules={modules}
           formats={formats}
           placeholder="Write something..."
+          style={quillStyle}
         />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleSaveClick} color="primary">
-          Save
-        </Button>
-        <Button onClick={handleClose} color="primary">
-          Close
-        </Button>
-      </DialogActions>
-
-      {responseMessage && (
         <div
           style={{
-            marginTop: "10px",
-            color: responseMessage.includes("success") ? "green" : "red",
+            marginTop: "25%",
+            justifyContent: "flex-end",
+            display: "flex",
           }}
         >
-          {responseMessage}
+          <Button
+            onClick={handleSaveClick}
+            color="primary"
+            variant="contained"
+            style={buttonStyle}
+          >
+            Save
+          </Button>
         </div>
-      )}
-    </Dialog>
+
+        {responseMessage && <div style={responseStyle}>{responseMessage}</div>}
+      </div>
+    </div>
   );
 };
 

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import MyEditor from './editor';
+
+import React, { useState } from "react";
+import MyEditor from "./editor";
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,7 +16,9 @@ const App = () => {
   return (
     <div>
       <button onClick={openModal}>Open Editor Modal</button>
-      <MyEditor isOpen={isModalOpen} handleClose={closeModal} />
+      <div>
+        <MyEditor isOpen={isModalOpen} handleClose={closeModal} />
+      </div>
     </div>
   );
 };
