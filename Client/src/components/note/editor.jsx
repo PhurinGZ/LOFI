@@ -5,6 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import Draggable from 'react-draggable'; // Import Draggable
 import { useAuth } from "../../context/authContext";
 import { useNoteContext } from "../../context/noteContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -103,9 +104,6 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
 
   const modalStyle = {
     position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
     width: "400px",
     height: "500px",
     display: isOpen ? "flex" : "none",
@@ -116,7 +114,7 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
 
   const contentStyle = {
     background: "#fff",
-    padding: "30px",
+    padding: "0px 30px 30px 30px",
     borderRadius: "8px",
     boxShadow: "0 2px 20px rgba(0, 0, 0, 0.2)",
     maxWidth: "600px",
@@ -128,6 +126,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
     marginBottom: "15px",
     fontSize: "1.5em",
     color: "#333",
+    marginTop:"5%",
+    cursor:"move"
   };
 
   const inputStyle = {
@@ -163,6 +163,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
 
   const ArrowBack = {
     cursor: "pointer",
+    position:"absolute",
+    left:"1%"
   };
 
   const modules = {
@@ -198,59 +200,61 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
   ];
 
   return (
-    <div style={modalStyle}>
-      <div style={contentStyle} className="contentEditor">
-        <div style={headerStyle}>
-          <ArrowBackIcon
-            onClick={handleClose}
-            color="secondary"
-            variant="contained"
-            style={ArrowBack}
-          >
-            Close
-          </ArrowBackIcon>
-          <h2>Note Editor</h2>
-        </div>
-        <div>
-          <input
-            type="text"
-            name="title"
-            value={title}
-            onChange={handleTitleChange}
-            placeholder="Enter title"
-            style={inputStyle}
+    <Draggable handle=".header">
+      <div style={modalStyle}>
+        <div style={contentStyle} className="contentEditor">
+          <div style={headerStyle} className="header">
+            <ArrowBackIcon
+              onClick={handleClose}
+              color="secondary"
+              variant="contained"
+              style={ArrowBack}
+            >
+              Close
+            </ArrowBackIcon>
+            <h2 style={{display:"flex",justifyContent:"center"}}>Note Editor</h2>
+          </div>
+          <div>
+            <input
+              type="text"
+              name="title"
+              value={title}
+              onChange={handleTitleChange}
+              placeholder="Enter title"
+              style={inputStyle}
+            />
+            <p>{dataTime}</p>
+          </div>
+          <ReactQuill
+            theme="snow"
+            value={editorHtml}
+            onChange={handleEditorChange}
+            modules={modules}
+            formats={formats}
+            placeholder="Write something..."
+            style={quillStyle}
           />
-          <p>{dataTime}</p>
-        </div>
-        <ReactQuill
-          theme="snow"
-          value={editorHtml}
-          onChange={handleEditorChange}
-          modules={modules}
-          formats={formats}
-          placeholder="Write something..."
-          style={quillStyle}
-        />
-        <div
-          style={{
-            marginTop: "25%",
-            justifyContent: "flex-end",
-            display: "flex",
-          }}
-        >
-          <Button
-            onClick={handleSaveClick}
-            color="primary"
-            variant="contained"
-            style={buttonStyle}
+          <div
+            style={{
+              marginTop: "25%",
+              justifyContent: "flex-end",
+              display: "flex",
+            }}
           >
-            Save
-          </Button>
+            <Button
+              onClick={handleSaveClick}
+              color="primary"
+              variant="contained"
+              style={buttonStyle}
+            >
+              Save
+            </Button>
+          </div>
+  
+          {responseMessage && <div style={responseStyle}>{responseMessage}</div>}
         </div>
-
-        {responseMessage && <div style={responseStyle}>{responseMessage}</div>}
       </div>
-    </div>
+    </Draggable>
   );
 };
 
