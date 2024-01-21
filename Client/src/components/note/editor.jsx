@@ -5,12 +5,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import Draggable from 'react-draggable'; // Import Draggable
+import Draggable from "react-draggable";
 import { useAuth } from "../../context/authContext";
 import { useNoteContext } from "../../context/noteContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
+const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
   const { state, dispatch } = useNoteContext();
   const [editorHtml, setEditorHtml] = useState("");
   const [title, setTitle] = useState("");
@@ -40,17 +40,22 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
       );
 
       dispatch({ type: "ADD_NOTE", payload: response.data });
-      setResponseMessage(response.data.message);
       console.log("Server response:", response.data);
+      setEditorHtml(response.data.content);
+      setTitle(response.data.title);
     } catch (error) {
       console.error("Error fetching content:", error);
     }
   };
 
   useEffect(() => {
-    if (editorId) {
-      fetchContent();
-    }
+    const fetchData = async () => {
+      if (editorId) {
+        await fetchContent();
+      }
+    };
+
+    fetchData();
   }, [editorId]);
 
   const saveContentToBackend = async () => {
@@ -78,28 +83,71 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
         handleClose(); // Close the modal
       }
     } catch (error) {
-      if (error.response) {
-        const { status, data } = error.response;
+      handleAxiosError(error);
+    }
+  };
 
-        if (status === 400 && data.message === "no token") {
-          setResponseMessage("No token provided. Please log in and try again.");
-        } else {
-          setResponseMessage(`Error : ${data.message}`);
-        }
-      } else if (error.request) {
-        setResponseMessage(
-          "No response from the server. Please try again later."
-        );
-      } else {
-        setResponseMessage("Unexpected error. Please try again.");
+  const updateContentToBackend = async () => {
+    try {
+      if (!user || !user.data || !user.data.id) {
+        setResponseMessage("User not found");
       }
+      const response = await axios.post(
+        `${BASE_URL}/api/editor/update-content/${user.data._id}/${editorId}`,
+        { content: editorHtml, title: title },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
 
-      console.error("Error saving content:", error);
+      setResponseMessage(response.data.message);
+      console.log("Server response:", response.data);
+
+      if (response.data.success) {
+        setEditorHtml("");
+        setTitle("");
+        handleClose(); // Close the modal
+      }
+    } catch (error) {
+      handleAxiosError(error);
     }
   };
 
   const handleSaveClick = () => {
     saveContentToBackend();
+  };
+
+  const handleUpdateClick = () => {
+    updateContentToBackend();
+  };
+
+  const handleCloseModal = () => {
+    setTitle("")
+    setEditorHtml("")
+    handleClose(); // Close the modal
+  };
+
+  const handleAxiosError = (error) => {
+    if (error.response) {
+      const { status, data } = error.response;
+
+      if (status === 400 && data.message === "no token") {
+        setResponseMessage("No token provided. Please log in and try again.");
+      } else {
+        setResponseMessage(`Error: ${data.message}`);
+      }
+    } else if (error.request) {
+      setResponseMessage(
+        "No response from the server. Please try again later."
+      );
+    } else {
+      setResponseMessage("Unexpected error. Please try again.");
+    }
+
+    console.error("Error saving content:", error);
   };
 
   const modalStyle = {
@@ -126,8 +174,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
     marginBottom: "15px",
     fontSize: "1.5em",
     color: "#333",
-    marginTop:"5%",
-    cursor:"move"
+    marginTop: "5%",
+    cursor: "move",
   };
 
   const inputStyle = {
@@ -163,8 +211,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
 
   const ArrowBack = {
     cursor: "pointer",
-    position:"absolute",
-    left:"1%"
+    position: "absolute",
+    left: "1%",
   };
 
   const modules = {
@@ -205,14 +253,16 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
         <div style={contentStyle} className="contentEditor">
           <div style={headerStyle} className="header">
             <ArrowBackIcon
-              onClick={handleClose}
+              onClick={handleCloseModal}
               color="secondary"
               variant="contained"
               style={ArrowBack}
             >
               Close
             </ArrowBackIcon>
-            <h2 style={{display:"flex",justifyContent:"center"}}>Note Editor</h2>
+            <h2 style={{ display: "flex", justifyContent: "center" }}>
+              Note Editor
+            </h2>
           </div>
           <div>
             <input
@@ -223,7 +273,7 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
               placeholder="Enter title"
               style={inputStyle}
             />
-            <p>{dataTime}</p>
+            <p>{dateTime}</p>
           </div>
           <ReactQuill
             theme="snow"
@@ -241,17 +291,30 @@ const MyEditor = ({ isOpen, handleClose, editorId, dataTime }) => {
               display: "flex",
             }}
           >
-            <Button
-              onClick={handleSaveClick}
-              color="primary"
-              variant="contained"
-              style={buttonStyle}
-            >
-              Save
-            </Button>
+            {editorId ? (
+              <Button
+                onClick={handleUpdateClick}
+                color="primary"
+                variant="contained"
+                style={buttonStyle}
+              >
+                Update
+              </Button>
+            ) : (
+              <Button
+                onClick={handleSaveClick}
+                color="primary"
+                variant="contained"
+                style={buttonStyle}
+              >
+                Save
+              </Button>
+            )}
           </div>
-  
-          {responseMessage && <div style={responseStyle}>{responseMessage}</div>}
+
+          {responseMessage && (
+            <div style={responseStyle}>{responseMessage}</div>
+          )}
         </div>
       </div>
     </Draggable>

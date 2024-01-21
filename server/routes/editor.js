@@ -69,4 +69,70 @@ router.get("/:userId/notes", auth, async (req, res) => {
   }
 });
 
+// API endpoint to update the editor content
+router.put("/update-content/:userId/:editorId", auth, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const editorId = req.params.editorId;
+    const { content, title } = req.body;
+
+    // Find the existing content in the database
+    const existingContent = await Editor.findOne({
+      user: userId,
+      _id: editorId,
+    });
+
+    if (!existingContent) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Content not found." });
+    }
+
+    // Update the content fields
+    existingContent.content = content;
+    existingContent.title = title;
+
+    // Save the updated content
+    await existingContent.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Content updated successfully.",
+      updatedContent: existingContent,
+    });
+  } catch (error) {
+    console.error("Error updating content:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
+
+// API endpoint to delete the editor content based on user ID and editor ID
+router.delete("/delete-content/:userId/:editorId", auth, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const editorId = req.params.editorId;
+
+    // Delete the content from the database based on user ID and editor ID
+    const deletedContent = await Editor.findOneAndDelete({
+      user: userId,
+      _id: editorId,
+    });
+
+    if (!deletedContent) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Content not found." });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Content deleted successfully.",
+      deletedContent,
+    });
+  } catch (error) {
+    console.error("Error deleting content:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
+
 module.exports = router;

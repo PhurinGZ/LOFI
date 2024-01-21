@@ -17,6 +17,9 @@ const ListNote = () => {
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Move isModalOpen state to the top
+  const [id, setId] = useState();
+  const [dateTime, setDateTime] = useState();
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -36,7 +39,7 @@ const ListNote = () => {
           user.data._id === null ||
           user.data._id === undefined
         ) {
-          //   setLoading(false);
+          // setLoading(false);
           return;
         }
 
@@ -64,7 +67,7 @@ const ListNote = () => {
   }, [user, dispatch]);
 
   const handleCloseModal = () => setOpenModal(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleOpenModal = () => {
     setOpenModal(true);
   };
@@ -79,7 +82,18 @@ const ListNote = () => {
 
   const closeModalEdit = () => {
     setIsModalOpen(false);
+    setDateTime(null); // Reset dateTime to initial state
+    setId(null); // Reset id to initial state
   };
+
+  const handleClickEdit = (id, dateTime) => {
+    setIsModalOpen(true);
+    setDateTime(dateTime);
+    setId(id);
+  };
+
+  console.log("id : ", id);
+  console.log("date : ", dateTime);
 
   return (
     <>
@@ -108,7 +122,12 @@ const ListNote = () => {
                 <div className="maincontent">
                   {" "}
                   {state.notes.map((note) => (
-                    <div key={note._id} className="content">
+                    <div
+                      key={note._id}
+                      className="content"
+                      onClick={() => handleClickEdit(note._id, note.createdAt)} // Fix the onClick handler
+                      style={{ cursor: "pointer" }}
+                    >
                       <div className="Title">
                         <h1>Title</h1>
                         <p>{note.title}</p>
@@ -144,7 +163,12 @@ const ListNote = () => {
         </div>
       )}
       <div className="Editor">
-        <MyEditor isOpen={isModalOpen} handleClose={closeModalEdit} />
+        <MyEditor
+          isOpen={isModalOpen}
+          handleClose={closeModalEdit}
+          editorId={id}
+          dateTime={dateTime}
+        />
       </div>
     </>
   );
