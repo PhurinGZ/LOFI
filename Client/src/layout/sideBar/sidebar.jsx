@@ -6,6 +6,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Catagory from "../catagory/catagory";
 import Atmospherebtn from "../../components/atmospheresrtting/Atmospherebtn";
 import { useAuth } from "../../context/authContext";
+import ListNote from "../../components/note/listNote";
 
 function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -64,7 +65,7 @@ function Sidebar() {
             <li>
               <span href="#">
                 <Tooltip title="Notes" placement="right-start">
-                  <img src="/assets/icons/notes.png" alt="" />
+                 <ListNote />
                 </Tooltip>
               </span>
             </li>
