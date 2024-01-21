@@ -10,8 +10,10 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useAuth } from "../../context/authContext";
+import { useNoteContext } from "../../context/noteContext";
 
 const MyEditor = ({ isOpen, handleClose, editorId }) => {
+  const { state, dispatch } = useNoteContext();
   const [editorHtml, setEditorHtml] = useState("");
   const [title, setTitle] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
@@ -39,8 +41,11 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
         }
       );
 
-      setEditorHtml(response.data.content);
-      setTitle(response.data.title || "");
+      // Update the notes in the context
+      dispatch({ type: "ADD_NOTE", payload: response.data });
+
+      setResponseMessage(response.data.message);
+      console.log("Server response:", response.data);
     } catch (error) {
       console.error("Error fetching content:", error);
     }
@@ -54,9 +59,12 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
 
   const saveContentToBackend = async () => {
     try {
+      if (!user || !user.data || !user.data.id) {
+        setResponseMessage("User not found");
+      }
       const response = await axios.post(
         `${BASE_URL}/api/editor/save-content`,
-        { content: editorHtml, title: title, _id: user.data._id },
+        { content: editorHtml, title: title, userId: user.data._id }, // Pass user ID as userId
         {
           headers: {
             "Content-Type": "application/json",
@@ -74,9 +82,7 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
         const { status, data } = error.response;
 
         if (status === 400 && data.message === "no token") {
-          setResponseMessage(
-            "No token provided. Please log in and try again."
-          );
+          setResponseMessage("No token provided. Please log in and try again.");
         } else {
           setResponseMessage(`Error : ${data.message}`);
         }

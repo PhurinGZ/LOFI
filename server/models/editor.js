@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { User } = require("./user");
 
 const editorSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -16,7 +17,7 @@ const editorSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "User", // Use the model name here
   },
 });
 
