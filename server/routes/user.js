@@ -91,23 +91,46 @@ router.get("/:id", [validObjectID, auth], async (req, res) => {
   res.status(200).send({ data: user });
 });
 
-//  update user by id
+// update user by id
 router.put("/:id", [validObjectID, auth], async (req, res) => {
   try {
     // Validate the request body
-    // const { error } = validatePassword(req.body);
-    // if (error) {
-    //   return res.status(400).send({ message: error.details[0].message });
-    // }
+    const { error } = validatePassword(req.body.password);
+    if (error) {
+      return res.status(400).send({ message: error.details[0].message });
+    }
 
-    // Generate a salt and hash the password
+    // Retrieve the current user from the database
+    const currentUser = await User.findById(req.params.id);
+    if (!currentUser) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    // Log relevant information for debugging
+    console.log("Request Body:", req.body);
+    console.log("Current User Password:", currentUser.password);
+
+    // Compare the old password with the one in the database
+    const isOldPasswordValid = await bcrypt.compare(
+      req.body.oldPassword,
+      currentUser.password
+    );
+
+    // Log the result of the comparison
+    console.log("Is Old Password Valid:", isOldPasswordValid);
+
+    if (!isOldPasswordValid) {
+      return res.status(401).send({ message: "Current password is incorrect" });
+    }
+
+    // Generate a salt and hash the new password
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashPassword = await bcrypt.hash(req.body.password, salt);
 
     // Update the user in the database
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body, password: hashPassword },
+      { password: hashPassword },
       { new: true }
     ).select("-password -__v");
 
@@ -118,8 +141,9 @@ router.put("/:id", [validObjectID, auth], async (req, res) => {
     // Send the updated user data in the response
     res.status(200).send({ data: updatedUser });
   } catch (error) {
+    // Log detailed error information
     console.error("Error updating user:", error);
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error", error });
   }
 });
 
@@ -292,7 +316,5 @@ router.post("/reset-password/:token", async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
-
-
 
 module.exports = router;

@@ -44,6 +44,7 @@ const validatePassword = (password) => {
   return passwordComplexity().validate(password);
 };
 
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = { User, validate, validatePassword };

@@ -28,6 +28,8 @@ const Profile = ({ handleLogout }) => {
     confirmPassword: "",
   });
 
+  const [ErrorTotal, setErrorTotal] = useState("");
+
   useEffect(() => {
     if (user?.data?._id) {
       axios
@@ -62,7 +64,6 @@ const Profile = ({ handleLogout }) => {
     };
   }, [userProfile, user?.data?.isVerified]);
 
-  
   const validatePassword = (password) => {
     const errors = [];
 
@@ -102,7 +103,11 @@ const Profile = ({ handleLogout }) => {
     });
 
     // Validate password on change
-    if (name === "newPassword" || name === "confirmPassword" || name === "currentPassword") {
+    if (
+      name === "newPassword" ||
+      name === "confirmPassword" ||
+      name === "currentPassword"
+    ) {
       const errors = validatePassword(value);
       setFormError({
         ...formError,
@@ -114,21 +119,26 @@ const Profile = ({ handleLogout }) => {
     e.preventDefault();
 
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      setFormError("New password and confirm password do not match");
+      setFormError({
+        confirmPassword: "New password and confirm password do not match",
+      });
       return;
     }
 
     const passwordErrors = validatePassword(passwordForm.newPassword);
 
     if (passwordErrors.length > 0) {
-      setFormError(passwordErrors.join(", "));
+      setFormError({ newPassword: passwordErrors.join(", ") });
       return;
     }
 
     axios
       .put(
         `${BASE_URL}/api/users/${user.data._id}`,
-        { password: passwordForm.newPassword },
+        {
+          password: passwordForm.newPassword,
+          oldPassword: passwordForm.currentPassword,
+        },
         {
           headers: {
             "x-auth-token": token,
@@ -137,12 +147,20 @@ const Profile = ({ handleLogout }) => {
       )
       .then((response) => {
         console.log("Password updated successfully");
-        setFormError("");
+        // setFormError({});
         window.location.reload();
       })
       .catch((error) => {
         console.error("Error updating password:", error);
-        setFormError("Error updating password. Please try again.");
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          setErrorTotal(error.response.data.message);
+        } else {
+          setErrorTotal("Error updating password. Please try again.");
+        }
       });
   };
 
@@ -256,7 +274,9 @@ const Profile = ({ handleLogout }) => {
                   </IconButton>
                   <div className="error">
                     {formError.currentPassword && (
-                      <p className="error-message">{formError.currentPassword}</p>
+                      <p className="error-message">
+                        {formError.currentPassword}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -322,6 +342,8 @@ const Profile = ({ handleLogout }) => {
                     )}
                   </div>
                 </div>
+
+                {ErrorTotal && <p>{ErrorTotal}</p>}
                 <div className="buttonChangePasswod">
                   <button type="submit" className="change-password-button">
                     Change Password

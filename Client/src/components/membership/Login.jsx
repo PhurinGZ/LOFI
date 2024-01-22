@@ -68,7 +68,7 @@ function Login({ isModalOpen }) {
   });
   const navigate = useNavigate();
 
-  console.log(user);
+  // console.log(user);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -151,7 +151,7 @@ function Login({ isModalOpen }) {
 
       if (response.ok) {
         const responseData = await response.json();
-        console.log("Login successful");
+        // console.log("Login successful");
         localStorage.setItem("token", responseData.token);
         setAuthToken(responseData.token);
 
@@ -166,7 +166,7 @@ function Login({ isModalOpen }) {
         const responseData = await response.json();
         const errorMessage = responseData.message || "Login failed";
         setFormError(errorMessage);
-        console.error(errorMessage);
+        // console.error(errorMessage);
       }
     } catch (error) {
       console.error("Error during login:", error);

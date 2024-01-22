@@ -1,6 +1,6 @@
 // ListNote.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Draggable from "react-draggable";
@@ -9,6 +9,7 @@ import { useAuth } from "../../context/authContext";
 import Tooltip from "@mui/material/Tooltip";
 import "./styles.scss";
 import MyEditor from "./editor";
+import NoteUnverifyEmail from "./noteUnverifyEmail";
 
 const ListNote = () => {
   const { state, dispatch } = useNoteContext();
@@ -21,8 +22,8 @@ const ListNote = () => {
   const [id, setId] = useState();
   const [dateTime, setDateTime] = useState();
 
-  useEffect(() => {
-    const fetchNotes = async () => {
+  const deleteContent = useCallback(
+    async (editorId) => {
       try {
         const token = localStorage.getItem("token");
 
@@ -34,22 +35,11 @@ const ListNote = () => {
         }
 
         if (!user || !user.data || !user.data._id) {
-          setLoading(false);
-          // console.error("User data not available.");
-          // setError("User data not available.");
           return;
         }
 
-        // ตรวจสอบว่า state.notes เป็นอาร์เรย์
-        if (!Array.isArray(state.notes)) {
-          console.error("state.notes is not an array");
-          setLoading(false);
-          setError("Invalid state.notes data.");
-          return;
-        }
-
-        const response = await axios.get(
-          `${BASE_URL}/api/editor/${user.data._id}/notes`,
+        const response = await axios.delete(
+          `${BASE_URL}/api/editor/delete-content/${user.data._id}/${editorId}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -61,35 +51,15 @@ const ListNote = () => {
         dispatch({ type: "SET_NOTES", payload: response.data });
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching notes:", error);
+        console.error("Error deleting note:", error);
         setLoading(false);
-        setError("Error fetching notes.");
+        setError("Error deleting note.");
       }
-    };
+    },
+    [user, dispatch]
+  );
 
-    // ตรวจสอบว่า state.notes ถูกต้องก่อนที่จะเรียก fetchNotes
-    if (Array.isArray(state.notes)) {
-      fetchNotes();
-    }
-  }, [user, dispatch, state.notes]);
-
-  useEffect(() => {
-    // This useEffect will be triggered when 'id' or 'dateTime' changes
-    if (id !== null && dateTime !== null) {
-       
-      // setDateTime("");
-      // setId("");
-    } else {
-      // Add this condition to check if id and dateTime are both not null
-      if (id === null && dateTime === null) {
-        setIsModalOpen(false);
-        setDateTime("");
-        setId("");
-      }
-    }
-  }, [id, dateTime]);
-
-  const deleteContent = async (editorId) => {
+  const fetchNotes = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
 
@@ -100,17 +70,20 @@ const ListNote = () => {
         return;
       }
 
-      if (
-        !user ||
-        !user.data ||
-        user.data._id === null ||
-        user.data._id === undefined
-      ) {
+      if (!user || !user.data || !user.data._id) {
+        setLoading(false);
         return;
       }
 
-      const response = await axios.delete(
-        `${BASE_URL}/api/editor/delete-content/${user.data._id}/${editorId}`,
+      if (!Array.isArray(state.notes)) {
+        console.error("state.notes is not an array");
+        setLoading(false);
+        setError("Invalid state.notes data.");
+        return;
+      }
+
+      const response = await axios.get(
+        `${BASE_URL}/api/editor/${user.data._id}/notes`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -122,25 +95,36 @@ const ListNote = () => {
       dispatch({ type: "SET_NOTES", payload: response.data });
       setLoading(false);
     } catch (error) {
-      console.error("Error deleting note:", error);
+      console.error("Error fetching notes:", error);
       setLoading(false);
-      setError("Error deleting note.");
+      setError("Error fetching notes.");
     }
-  };
+  }, [user, dispatch, state.notes]);
+
+  useEffect(() => {
+    if (Array.isArray(state.notes)) {
+      fetchNotes();
+    }
+  }, [fetchNotes]);
+
+  useEffect(() => {
+    if (id !== null && dateTime !== null) {
+      // setDateTime("");
+      // setId("");
+    } else {
+      if (id === null && dateTime === null) {
+        setIsModalOpen(false);
+        setDateTime("");
+        setId("");
+      }
+    }
+  }, [id, dateTime]);
 
   const handleCloseModal = () => setOpenModal(false);
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
+  const handleOpenModal = () => setOpenModal(true);
 
-  if (loading) {
-    return <p>Loading notes...</p>;
-  }
-
-  const openModalEdit = () => {
-    setIsModalOpen(true);
-  };
+  const openModalEdit = () => setIsModalOpen(true);
 
   const closeModalEdit = () => {
     setIsModalOpen(false);
@@ -154,17 +138,18 @@ const ListNote = () => {
     setId(id);
   };
 
-  const handleDelete = (id) => {
-    deleteContent(id);
-    setDateTime("");
-    setId("");
-    // console.log(id);
+  const handleDelete = async (id, event) => {
+    try {
+      // Prevent event propagation
+      event.stopPropagation();
+
+      await deleteContent(id);
+      setDateTime("");
+      setId("");
+    } catch (error) {
+      console.error("Error deleting note:", error);
+    }
   };
-
-  // console.log("id : ", id);
-  // console.log("date : ", dateTime);
-
-  // console.log(state);
 
   return (
     <>
@@ -181,9 +166,11 @@ const ListNote = () => {
                   Close
                 </Button>
               </div>
-              {error ? <p className="error-message">{error}</p> : null}
+              {error && <p className="error-message">{error}</p>}
               {Array.isArray(state.notes) ? (
-                state.notes.length === 0 ? (
+                user && !user.data.isVerified ? (
+                  <NoteUnverifyEmail />
+                ) : state.notes.length === 0 ? (
                   <div
                     style={{
                       display: "flex",
@@ -209,22 +196,15 @@ const ListNote = () => {
                         key={note._id}
                         className="content"
                         style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          handleClickEdit(note._id, note.createdAt)
+                        }
                       >
-                        <div
-                          className="Title"
-                          onClick={() =>
-                            handleClickEdit(note._id, note.createdAt)
-                          }
-                        >
+                        <div className="Title">
                           <h1>Title</h1>
                           <p>{note.title}</p>
                         </div>
-                        <div
-                          className="Date"
-                          onClick={() =>
-                            handleClickEdit(note._id, note.createdAt)
-                          }
-                        >
+                        <div className="Date">
                           <h1>Date</h1>
                           <p>
                             {new Date(note.createdAt).toLocaleDateString(
@@ -232,19 +212,15 @@ const ListNote = () => {
                             )}
                           </p>
                         </div>
-
                         <div className="delete">
-                          <div
-                            style={{
-                              width: "20px",
-                              height: "23px",
-                            }}
-                          >
+                          <div style={{ width: "20px", height: "23px" }}>
                             <Tooltip title="Delete" placement="right-start">
                               <img
                                 src="/assets/icons/delete.png"
                                 alt=""
-                                onClick={() => handleDelete(note._id)}
+                                onClick={(event) =>
+                                  handleDelete(note._id, event)
+                                }
                               />
                             </Tooltip>
                           </div>
@@ -254,16 +230,31 @@ const ListNote = () => {
                   </div>
                 )
               ) : (
-                <p>Error loading notes</p>
+                <></>
+                // <p>Error loading notes</p>
               )}
-              <p style={{position:"absolute",bottom:"10px", left:"10px",color:"#3d3d3d"}}> total { state.notes.length}</p>
-              <div className="write">
-                <img
-                  onClick={() => openModalEdit()}
-                  src="/assets/icons/pen.png"
-                  alt=""
-                />
-              </div>
+              {user && user.data.isVerified && (
+                <>
+                  <p
+                    style={{
+                      position: "absolute",
+                      bottom: "10px",
+                      left: "10px",
+                      color: "#3d3d3d",
+                    }}
+                  >
+                    {" "}
+                    total {state.notes.length}
+                  </p>
+                  <div className="write">
+                    <img
+                      onClick={openModalEdit}
+                      src="/assets/icons/pen.png"
+                      alt=""
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </Draggable>
         </div>

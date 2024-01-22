@@ -10,7 +10,7 @@ import ListNote from "../../components/note/listNote";
 
 function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { path,setPath } = useAuth();
+  const { path,user } = useAuth();
 
   const handleBarIconClick = () => {
     // console.log('isMenuOpen before:', isMenuOpen);

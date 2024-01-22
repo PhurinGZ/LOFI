@@ -19,6 +19,39 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
   const token = localStorage.getItem("token");
   const { user } = useAuth();
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchContent = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/api/editor/get-content/${user.data._id}/${editorId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": token,
+            },
+          }
+        );
+
+        if (isMounted) {
+          setEditorHtml(response.data.content);
+          setTitle(response.data.title);
+        }
+      } catch (error) {
+        console.error("Error fetching content:", error);
+      }
+    };
+
+    if (editorId && isOpen) {
+      fetchContent();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [editorId, isOpen]);
+
   const handleEditorChange = (html) => {
     setEditorHtml(html);
   };
@@ -26,36 +59,6 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
-
-  const fetchContent = async () => {
-    try {
-      const response = await axios.get(
-        `${BASE_URL}/api/editor/get-content/${user.data._id}/${editorId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-        }
-      );
-
-      console.log("Server response:", response.data);
-      setEditorHtml(response.data.content);
-      setTitle(response.data.title);
-    } catch (error) {
-      console.error("Error fetching content:", error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (editorId) {
-        await fetchContent();
-      }
-    };
-
-    fetchData();
-  }, [editorId]);
 
   const saveContentToBackend = async () => {
     try {
@@ -91,7 +94,7 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
       if (!user || !user.data || !user.data.id) {
         setResponseMessage("User not found");
       }
-      const response = await axios.post(
+      const response = await axios.put(
         `${BASE_URL}/api/editor/update-content/${user.data._id}/${editorId}`,
         { content: editorHtml, title: title },
         {
@@ -103,7 +106,7 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
       );
 
       setResponseMessage(response.data.message);
-      console.log("Server response:", response.data);
+      // console.log("Server response:", response.data);
 
       if (response.data.success) {
         setEditorHtml("");
@@ -124,8 +127,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
   };
 
   const handleCloseModal = () => {
-    setTitle("")
-    setEditorHtml("")
+    setTitle("");
+    setEditorHtml("");
     handleClose(); // Close the modal
   };
 

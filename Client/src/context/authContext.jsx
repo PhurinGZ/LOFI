@@ -12,25 +12,45 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
+  const getUser = async (userId) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/users/${userId}`,
+        {
+          headers: {
+            "x-auth-token": token,
+          },
+        }
+      );
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      axios.get("http://localhost:8000/", {
-        headers: {
-          "x-auth-token": token
-        }
-      })
+      axios
+        .get("http://localhost:8000/", {
+          headers: {
+            "x-auth-token": token,
+          },
+        })
         .then((response) => {
-          setUser(response.data);
-          console.log(response.data);
+          getUser(response.data.data._id);
+          // setUser(response.data);
+          // console.log(response.data);
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
         });
     }
   }, []);
-
+  // console.log(user?.data); 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setPath(token ? "/?auth=profile" : "/?auth=register");
