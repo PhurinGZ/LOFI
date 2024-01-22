@@ -9,8 +9,9 @@ import Draggable from "react-draggable";
 import { useAuth } from "../../context/authContext";
 import { useNoteContext } from "../../context/noteContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import "./styles.scss";
 
-const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
+const MyEditor = ({ isOpen, handleClose, editorId }) => {
   const { state, dispatch } = useNoteContext();
   const [editorHtml, setEditorHtml] = useState("");
   const [title, setTitle] = useState("");
@@ -164,11 +165,12 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
 
   const contentStyle = {
     background: "#fff",
-    padding: "0px 30px 30px 30px",
+    padding: "20px",
     borderRadius: "8px",
     boxShadow: "0 2px 20px rgba(0, 0, 0, 0.2)",
     maxWidth: "600px",
     width: "100%",
+    height : "550px"
   };
 
   const headerStyle = {
@@ -176,24 +178,34 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     marginBottom: "15px",
     fontSize: "1.5em",
     color: "#333",
-    marginTop: "5%",
+    // marginTop: "5%",
     cursor: "move",
   };
 
   const inputStyle = {
-    width: "30%",
+    width: "40%",
     marginBottom: "15px",
     padding: "10px",
     fontSize: "1em",
-    border: "1px solid #ddd",
-    borderRadius: "4px",
+    border: "1px solid #BB98FF",
+    borderRadius: "5px",
     boxSizing: "border-box",
+    outline: "none",
   };
 
   const quillStyle = {
-    width: "339px",
-    height: "338px",
-    flexShrink: 0,
+    ".ql-container.ql-snow": {
+      border: "none",
+    },
+    ".ql-snow .ql-editor": {
+      border: "none",
+      height: "300px", 
+      width: "100%"
+    },
+    // width: "339px",
+    // height: "338px",
+    // flexShrink: 0,
+    // border: "none",
   };
 
   const buttonStyle = {
@@ -203,6 +215,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     borderRadius: "10px",
     background: "#BB98FF",
     boxShadow: "3px 1px 3.7px 0px rgba(0, 0, 0, 0.25)",
+    position : "absolute",
+    bottom : "0px"
   };
 
   const responseStyle = {
@@ -217,18 +231,22 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     left: "1%",
   };
 
+
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
+        { list: 'ordered' },
+        { list: 'bullet' },
+        { indent: '-1' },
+        { indent: '+1' },
       ],
-      ["link", "image"],
-      ["clean"],
+      ['link', 'image'],
+      ['clean'],
+      [{ color: [] }],
+      [{ background: [] }], // เพิ่มปุ่มปากกาไฮไลท์
     ],
     clipboard: {
       matchVisual: false,
@@ -247,7 +265,19 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     "indent",
     "link",
     "image",
+    'color',
+    'background',
   ];
+
+  const dateTime = new Date().toISOString();
+
+  const formattedDate = new Date(dateTime).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+  });
+
+  console.log(formattedDate);
 
   return (
     <Draggable handle=".header">
@@ -262,11 +292,16 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
             >
               Close
             </ArrowBackIcon>
-            <h2 style={{ display: "flex", justifyContent: "center" }}>
+            <h1 style={{ display: "flex", justifyContent: "center" }}>
               Note Editor
-            </h2>
+            </h1>
           </div>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <input
               type="text"
               name="title"
@@ -275,7 +310,9 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
               placeholder="Enter title"
               style={inputStyle}
             />
-            <p>{dateTime}</p>
+            <p style={{ padding: "10px", marginBottom: "10px" }}>
+              {formattedDate}
+            </p>
           </div>
           <ReactQuill
             theme="snow"
@@ -284,7 +321,7 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
             modules={modules}
             formats={formats}
             placeholder="Write something..."
-            style={quillStyle}
+            styles={quillStyle}
           />
           <div
             style={{
