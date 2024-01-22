@@ -21,7 +21,6 @@ const ListNote = () => {
   const [id, setId] = useState();
   const [dateTime, setDateTime] = useState();
 
-
   useEffect(() => {
     const fetchNotes = async () => {
       try {
@@ -34,12 +33,18 @@ const ListNote = () => {
           return;
         }
 
-        if (
-          !user ||
-          !user.data ||
-          user.data._id === null ||
-          user.data._id === undefined
-        ) {
+        if (!user || !user.data || !user.data._id) {
+          setLoading(false);
+          // console.error("User data not available.");
+          // setError("User data not available.");
+          return;
+        }
+
+        // ตรวจสอบว่า state.notes เป็นอาร์เรย์
+        if (!Array.isArray(state.notes)) {
+          console.error("state.notes is not an array");
+          setLoading(false);
+          setError("Invalid state.notes data.");
           return;
         }
 
@@ -61,10 +66,28 @@ const ListNote = () => {
         setError("Error fetching notes.");
       }
     };
-    if (state) {
+
+    // ตรวจสอบว่า state.notes ถูกต้องก่อนที่จะเรียก fetchNotes
+    if (Array.isArray(state.notes)) {
       fetchNotes();
     }
-  }, [user, dispatch]);
+  }, [user, dispatch, state.notes]);
+
+  useEffect(() => {
+    // This useEffect will be triggered when 'id' or 'dateTime' changes
+    if (id !== null && dateTime !== null) {
+       
+      // setDateTime("");
+      // setId("");
+    } else {
+      // Add this condition to check if id and dateTime are both not null
+      if (id === null && dateTime === null) {
+        setIsModalOpen(false);
+        setDateTime("");
+        setId("");
+      }
+    }
+  }, [id, dateTime]);
 
   const deleteContent = async (editorId) => {
     try {
@@ -133,6 +156,8 @@ const ListNote = () => {
 
   const handleDelete = (id) => {
     deleteContent(id);
+    setDateTime("");
+    setId("");
     // console.log(id);
   };
 
@@ -146,7 +171,6 @@ const ListNote = () => {
       <button onClick={handleOpenModal} className="img-icon-category">
         <img src="/assets/icons/notes.png" alt="" />
       </button>
-
       {openModal && (
         <div className="main">
           <Draggable handle=".title">
@@ -158,53 +182,85 @@ const ListNote = () => {
                 </Button>
               </div>
               {error ? <p className="error-message">{error}</p> : null}
-              {state.notes.length === 0 ? (
-                <p>No notes available.</p>
-              ) : (
-                <div className="maincontent">
-                  {state.notes.map((note) => (
-                    <div
-                      key={note._id}
-                      className="content"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => handleClickEdit(note._id, note.createdAt)}
+              {Array.isArray(state.notes) ? (
+                state.notes.length === 0 ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      height: "70%",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontSize: "2rem",
+                        color: "#3D3D3D",
+                        opacity: "0.3",
+                      }}
                     >
-                      <div className="Title">
-                        <h1>Title</h1>
-                        <p>{note.title}</p>
-                      </div>
-                      <div className="Date">
-                        <h1>Date</h1>
-                        <p>
-                          {new Date(note.createdAt).toLocaleDateString("en-GB")}
-                        </p>
-                      </div>
-
-                      <div className="delete">
+                      No notes available....
+                    </p>
+                  </div>
+                ) : (
+                  <div className="maincontent">
+                    {state.notes.map((note) => (
+                      <div
+                        key={note._id}
+                        className="content"
+                        style={{ cursor: "pointer" }}
+                      >
                         <div
-                          style={{
-                            width: "20px",
-                            height: "23px",
-                          }}
+                          className="Title"
+                          onClick={() =>
+                            handleClickEdit(note._id, note.createdAt)
+                          }
                         >
-                          <Tooltip title="Delete" placement="right-start">
-                            <img
-                              src="/public/assets/icons/delete.png"
-                              alt=""
-                              onClick={() => handleDelete(note._id)}
-                            />
-                          </Tooltip>
+                          <h1>Title</h1>
+                          <p>{note.title}</p>
+                        </div>
+                        <div
+                          className="Date"
+                          onClick={() =>
+                            handleClickEdit(note._id, note.createdAt)
+                          }
+                        >
+                          <h1>Date</h1>
+                          <p>
+                            {new Date(note.createdAt).toLocaleDateString(
+                              "en-GB"
+                            )}
+                          </p>
+                        </div>
+
+                        <div className="delete">
+                          <div
+                            style={{
+                              width: "20px",
+                              height: "23px",
+                            }}
+                          >
+                            <Tooltip title="Delete" placement="right-start">
+                              <img
+                                src="/assets/icons/delete.png"
+                                alt=""
+                                onClick={() => handleDelete(note._id)}
+                              />
+                            </Tooltip>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )
+              ) : (
+                <p>Error loading notes</p>
               )}
-
+              <p style={{position:"absolute",bottom:"10px", left:"10px",color:"#3d3d3d"}}> total { state.notes.length}</p>
               <div className="write">
                 <img
-                  onClick={openModalEdit}
-                  src="/public/assets/icons/pen.png"
+                  onClick={() => openModalEdit()}
+                  src="/assets/icons/pen.png"
                   alt=""
                 />
               </div>
@@ -212,6 +268,7 @@ const ListNote = () => {
           </Draggable>
         </div>
       )}
+
       <div className="Editor">
         <MyEditor
           isOpen={isModalOpen}
