@@ -11,7 +11,7 @@ import { useNoteContext } from "../../context/noteContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./styles.scss";
 
-const MyEditor = ({ isOpen, handleClose, editorId }) => {
+const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
   const { state, dispatch } = useNoteContext();
   const [editorHtml, setEditorHtml] = useState("");
   const [title, setTitle] = useState("");
@@ -266,7 +266,7 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
     'background',
   ];
 
-  const dateTime = new Date().toISOString();
+  // const dateTime = new Date().toISOString();
 
   const formattedDate = new Date(dateTime).toLocaleDateString("en-GB", {
     day: "numeric",
