@@ -1,3 +1,4 @@
+// route/user.js
 const nodemailer = require("nodemailer");
 const router = require("express").Router();
 const { User, validate, validatePassword } = require("../models/user");

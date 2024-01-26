@@ -11,13 +11,18 @@ const playlistRoutes = require("../routes/playList");
 const searchRoutes = require("../routes/search");
 const auth = require("../middleware/auth");
 const editor = require("../routes/editor");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 
 const app = express();
 
-// **Middleware Ordering:**
+// Middleware Ordering:
 // Ensure correct middleware ordering
-app.use(cors()); // Apply CORS before parsing JSON
+app.use(cors({ credentials: true })); // Apply CORS before parsing JSON
 app.use(express.json()); // Parse JSON bodies
+app.use(cookieParser()); // Parse cookies
+app.use(bodyParser.urlencoded({ extended: false })); // Parse URL-encoded bodies
+
 
 // Database connection
 connection();

@@ -26,7 +26,7 @@ userSchema.methods.generateAuthToken = function () {
       isVerified: this.isVerified,
     },
     process.env.JWTPRIVATEKEY,
-    { expiresIn: "7d" }
+    { expiresIn: "3d" }
   );
   return token;
 };
