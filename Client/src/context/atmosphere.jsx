@@ -1,5 +1,11 @@
 // atmosphereContext.jsx
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { sound } from "../data/atmosphere";
 import { useMode } from "./modeContext";
 
@@ -16,50 +22,67 @@ export const useAtmosphereContext = () => {
 };
 
 export const AtmosphereProvider = ({ children }) => {
-  const [volumes, setVolumes] = useState(sound.map(() => 30)); // Set default volume to 30
-  const [isPlaying, setIsPlaying] = useState(Array(sound.length).fill(false));
+  const [volumes, setVolumes] = useState(new Array(sound.length).fill(30)); // Set default volume to 30
+  const [isPlaying, setIsPlaying] = useState(
+    new Array(sound.length).fill(false)
+  );
   const { atmosphere, setAtmosphere } = useMode();
 
-  const handleSliderChange = (id, newValue, name) => {
-    if (!Number.isFinite(newValue)) {
-      return;
-    }
+  const handleSliderChange = useCallback(
+    (id, newValue, name) => {
+      if (!Number.isFinite(newValue)) {
+        return;
+      }
 
-    const newVolumes = [...volumes];
-    const newIsPlaying = [...isPlaying];
+      const newVolumes = [...volumes];
+      const newIsPlaying = [...isPlaying];
 
-    if (newValue === 0) {
-      newIsPlaying[id] = false;
-    } else {
-      newIsPlaying[id] = true;
-    }
+      if (newValue === 0) {
+        newIsPlaying[id] = false;
+      } else {
+        newIsPlaying[id] = true;
+      }
 
-    newVolumes[id] = newValue;
+      newVolumes[id] = newValue;
 
-    setVolumes(newVolumes);
-    setIsPlaying(newIsPlaying);
-  };
+      setVolumes(newVolumes);
+      setIsPlaying(newIsPlaying);
+    },
+    [volumes, isPlaying, setVolumes, setIsPlaying]
+  );
 
-  const toggleIsPlaying = (id) => {
-    setIsPlaying((prevIsPlaying) => {
-      const newIsPlaying = [...prevIsPlaying];
-      newIsPlaying[id] = !newIsPlaying[id];
-      // console.log("newIsPlaying : ", newIsPlaying);
-      return newIsPlaying;
-    });
-  };
+  const toggleIsPlaying = useCallback(
+    (id) => {
+      setIsPlaying((prevIsPlaying) => {
+        const newIsPlaying = [...prevIsPlaying];
+        newIsPlaying[id] = !newIsPlaying[id];
+        return newIsPlaying;
+      });
+    },
+    [setIsPlaying]
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      volumes,
+      handleSliderChange,
+      isPlaying,
+      toggleIsPlaying,
+      setVolumes,
+      setIsPlaying,
+    }),
+    [
+      volumes,
+      handleSliderChange,
+      isPlaying,
+      toggleIsPlaying,
+      setVolumes,
+      setIsPlaying,
+    ]
+  );
 
   return (
-    <AtmosphereContext.Provider
-      value={{
-        volumes,
-        handleSliderChange,
-        isPlaying,
-        toggleIsPlaying,
-        setVolumes,
-        setIsPlaying,
-      }}
-    >
+    <AtmosphereContext.Provider value={contextValue}>
       {children}
     </AtmosphereContext.Provider>
   );

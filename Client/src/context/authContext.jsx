@@ -2,6 +2,14 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  return config;
+});
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -10,20 +18,12 @@ export const AuthProvider = ({ children }) => {
 
   const login = (userData) => {
     setUser(userData);
+    // getUser(userData._id); // Skip fetching user data on login if it was already fetched
   };
 
   const getUser = async (userId) => {
-    const token = localStorage.getItem("token");
-
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/users/${userId}`,
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        }
-      );
+      const response = await axios.get(`http://localhost:8000/api/users/${userId}`);
       setUser(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -35,24 +35,16 @@ export const AuthProvider = ({ children }) => {
 
     if (token) {
       axios
-        .get("http://localhost:8000/", {
-          headers: {
-            "x-auth-token": token,
-          },
-        })
+        .get("http://localhost:8000/")
         .then((response) => {
           getUser(response.data.data._id);
-          // setUser(response.data);
-          // console.log(response.data);
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
         });
     }
-  }, []);
-  // console.log(user?.data); 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+
+    // Set path
     setPath(token ? "/?auth=profile" : "/?auth=register");
   }, []);
 

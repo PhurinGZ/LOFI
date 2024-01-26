@@ -1,16 +1,23 @@
 // NoteContext.jsx
-
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { useAuth } from './authContext';
+import { debounce } from 'lodash';
 
 const NoteContext = createContext();
 
 export const NoteProvider = ({ children }) => {
-  const BASE_URL = 'http://localhost:8000';
+  const api = axios.create({
+    baseURL: 'http://localhost:8000',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
   const initialState = {
     notes: [],
   };
+
   const { user } = useAuth();
 
   const noteReducer = (state, action) => {
@@ -35,9 +42,8 @@ export const NoteProvider = ({ children }) => {
         return;
       }
 
-      const response = await axios.get(`${BASE_URL}/api/editor/${user.data._id}/notes`, {
+      const response = await api.get(`/api/editor/${user.data._id}/notes`, {
         headers: {
-          'Content-Type': 'application/json',
           'x-auth-token': token,
         },
       });
@@ -48,15 +54,18 @@ export const NoteProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    fetchNotes();
-    const intervalId = setInterval(fetchNotes,5000); // Fetch every 5 seconds
+  const debouncedFetchNotes = debounce(fetchNotes, 5000);
 
-    return () => clearInterval(intervalId); // Cleanup on component unmount
+  useEffect(() => {
+    debouncedFetchNotes();
+
+    return () => debouncedFetchNotes.cancel(); // Cancel debounced fetch on component unmount
   }, [user]);
 
+  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+
   return (
-    <NoteContext.Provider value={{ state, dispatch }}>
+    <NoteContext.Provider value={contextValue}>
       {children}
     </NoteContext.Provider>
   );
