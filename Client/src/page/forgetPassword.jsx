@@ -18,13 +18,16 @@ const ResetPassword = () => {
         return;
       }
 
-      const response = await fetch(`${BASE_URL}/api/users/reset-password/${token}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ newPassword }),
-      });
+      const response = await fetch(
+        `${BASE_URL}/api/users/reset-password/${token}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ newPassword }),
+        }
+      );
 
       if (response.ok) {
         setSuccess(true);
@@ -45,10 +48,13 @@ const ResetPassword = () => {
   return (
     <div>
       {success ? (
-         <div className="container">
-         <h1>Password Reset Successful</h1>
-         <p>Your password has been reset successfully. You can now proceed to login.</p>
-     </div>
+        <div className="container">
+          <h1>Password Reset Successful</h1>
+          <p>
+            Your password has been reset successfully. You can now proceed to
+            login.
+          </p>
+        </div>
       ) : (
         <div>
           <h2>Reset Password</h2>
