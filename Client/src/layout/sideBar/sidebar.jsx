@@ -55,6 +55,15 @@ function Sidebar() {
                 </Tooltip>
               </span>
             </li>
+
+            <li className="S-li">
+              <span href="#">
+              <Tooltip title="Note" placement="right-start">
+                 <ListNote />
+                </Tooltip>
+              </span>
+            </li>
+
             <li className="S-li">
               <span href="#">
                 <Tooltip title="Calendar" placement="right-start">
@@ -62,14 +71,6 @@ function Sidebar() {
                 </Tooltip>
               </span>
             </li>
-            <li className="S-li">
-              <span href="#">
-                <Tooltip title="Notes" placement="right-start">
-                 <ListNote />
-                </Tooltip>
-              </span>
-            </li>
-
             <li className="S-li"style={{ marginTop: "100px" }}>
               <span href="#">
                 <Tooltip title="Settings" placement="right-start">

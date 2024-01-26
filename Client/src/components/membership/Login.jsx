@@ -293,7 +293,16 @@ function Login({ isModalOpen }) {
                 display: "flex",
               }}
             >
-              <span>
+              <span
+               style={{
+                color: "#9747FF",
+                fontFamily: "Inter",
+                fontSize: 15,
+                fontStyle: "normal",
+                fontWeight: 200,
+                lineHeight: "normal",
+                paddingRight: "10px",
+              }}>
                 {/* <a
                   href="#"
                   style={{

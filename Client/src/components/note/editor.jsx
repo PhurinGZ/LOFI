@@ -213,7 +213,7 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     background: "#BB98FF",
     boxShadow: "3px 1px 3.7px 0px rgba(0, 0, 0, 0.25)",
     position : "absolute",
-    bottom : "50px"
+    bottom : "-20px"
   };
 
   const responseStyle = {
@@ -278,8 +278,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
 
   return (
     <Draggable handle=".header">
-      <div style={modalStyle}>
-        <div style={contentStyle} className="contentEditor">
+      <div style={modalStyle} className="contentEditor">
+        <div style={contentStyle} >
           <div style={headerStyle} className="header">
             <ArrowBackIcon
               onClick={handleCloseModal}

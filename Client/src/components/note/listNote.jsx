@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Draggable from "react-draggable";
+import { useNavigate } from 'react-router-dom';
 import { useNoteContext } from "../../context/noteContext";
 import { useAuth } from "../../context/authContext";
 import Tooltip from "@mui/material/Tooltip";
@@ -14,6 +15,7 @@ import NoteUnverifyEmail from "./noteUnverifyEmail";
 const ListNote = () => {
   const { state, dispatch } = useNoteContext();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const BASE_URL = "http://localhost:8000";
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
@@ -122,7 +124,16 @@ const ListNote = () => {
 
   const handleCloseModal = () => setOpenModal(false);
 
-  const handleOpenModal = () => setOpenModal(true);
+  const handleOpenModal = () => {
+    // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
+    if (user) {
+      setOpenModal(true);
+    } else {
+      // ถ้ายังไม่ได้เข้าสู่ระบบ ให้ทำการ Redirect ไปยังหน้า login
+      // หรือแสดง component login ตามที่คุณต้องการ
+      navigate("/?auth=login"); // ใช้ useNavigate ทำการ redirect
+    }
+  };
 
   const openModalEdit = () => setIsModalOpen(true);
 
@@ -153,9 +164,11 @@ const ListNote = () => {
 
   return (
     <>
-      <button onClick={handleOpenModal} className="img-icon-category">
-        <img src="/assets/icons/notes.png" alt="" />
-      </button>
+      <Tooltip title="Note" placement="right-start">
+        <button onClick={handleOpenModal} className="img-icon-category">
+          <img src="/assets/icons/notes.png" alt="" />
+        </button>
+      </Tooltip>
       {openModal && (
         <div className="main">
           <Draggable handle=".title">

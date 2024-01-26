@@ -7,6 +7,9 @@ import {
   DialogActions,
   Button,
   TextField,
+  DialogContentText,
+  createTheme,
+  ThemeProvider,
 } from "@mui/material";
 
 const ForgetPassword = () => {
@@ -28,7 +31,7 @@ const ForgetPassword = () => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/users/forget-password`,
-        { email }, // Send email as an object in the request body
+        { email },
         {
           headers: {
             "Content-Type": "application/json",
@@ -60,37 +63,89 @@ const ForgetPassword = () => {
 
   const closeModal = () => {
     setShowModal(false);
-    setFormError(""); // Clear form error when closing the modal
+    setFormError("");
   };
+
+  const theme = createTheme({
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+              {
+                border: "2px solid #bb98ff",
+                outline: "none",
+              },
+          },
+        },
+      },
+    },
+  });
 
   return (
     <div>
-      <button onClick={openModal}>Forgot Password?</button>
+      <a onClick={openModal}>Forgot Password?</a>
 
       <Dialog open={showModal} onClose={closeModal}>
-        <DialogTitle sx={{ color: "black", fontSize: "18px" }}>
-          Password Reset
-        </DialogTitle>
-        <DialogContent sx={{ marginTop: "10px", fontSize: "14px" }}>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={handleEmailChange}
-              fullWidth
-            />
-            {formError && <p className="error-message">{formError}</p>}
-            <DialogActions>
-              <Button onClick={closeModal} disabled={loading}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={loading}>
-                {loading ? "Sending..." : "Send Email"}
-              </Button>
-            </DialogActions>
-          </form>
-        </DialogContent>
+        <ThemeProvider theme={theme}>
+          <DialogTitle sx={{ color: "black", fontSize: "18px" }}>
+            Password Reset
+          </DialogTitle>
+          <DialogContent sx={{ marginTop: "10px", fontSize: "14px" }}>
+            <DialogContentText>
+              To initiate a password reset, please enter your email address
+              here. We will send the password reset information to your email.
+            </DialogContentText>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                label="Email"
+                type="email"
+                value={email}
+                onChange={handleEmailChange}
+                fullWidth
+                sx={{
+                  marginTop: "30px",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: " #bb98ff",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#bb98ff",
+                    },
+                  },
+                }}
+              />
+              {formError && <p className="error-message">{formError}</p>}
+              <DialogActions>
+                <Button
+                  onClick={closeModal}
+                  disabled={loading}
+                  sx={{
+                    border: "2px solid #D3D3D3",
+                    "&:hover": {
+                      backgroundColor: "#D3D3D3",
+                    },
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  sx={{
+                    border: "2px solid #bb98ff",
+                    "&:hover": {
+                      backgroundColor: "#bb98ff",
+                      color:"#fff",
+                    },
+                  }}
+                >
+                  {loading ? "Sending..." : "Send Email"}
+                </Button>
+              </DialogActions>
+            </form>
+          </DialogContent>
+        </ThemeProvider>
       </Dialog>
     </div>
   );
