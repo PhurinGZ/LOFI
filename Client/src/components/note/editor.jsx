@@ -158,9 +158,6 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
     width: "400px",
     height: "500px",
     display: isOpen ? "flex" : "none",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   };
 
   const contentStyle = {
@@ -216,7 +213,7 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
     background: "#BB98FF",
     boxShadow: "3px 1px 3.7px 0px rgba(0, 0, 0, 0.25)",
     position : "absolute",
-    bottom : "0px"
+    bottom : "50px"
   };
 
   const responseStyle = {
@@ -351,9 +348,9 @@ const MyEditor = ({ isOpen, handleClose, editorId }) => {
             )}
           </div>
 
-          {responseMessage && (
+          {/* {responseMessage && (
             <div style={responseStyle}>{responseMessage}</div>
-          )}
+          )} */}
         </div>
       </div>
     </Draggable>

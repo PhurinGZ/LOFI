@@ -35,8 +35,8 @@ function Sidebar() {
           />
         </div>
         <div className={`menuBar ${isMenuOpen ? "display-block" : ""}`}>
-          <ul>
-            <li>
+          <ul className="S-ul">
+            <li className="S-li">
               <span href="#">
                 <Tooltip title="Category" placement="right-start">
                   <span>
@@ -46,7 +46,7 @@ function Sidebar() {
               </span>
             </li>
 
-            <li>
+            <li className="S-li">
               <span>
                 <Tooltip title="Atmospheresetting" placement="right-start">
                   <span>
@@ -55,14 +55,14 @@ function Sidebar() {
                 </Tooltip>
               </span>
             </li>
-            <li>
+            <li className="S-li">
               <span href="#">
                 <Tooltip title="Calendar" placement="right-start">
                   <img src="/assets/icons/timetable.png" alt="" />
                 </Tooltip>
               </span>
             </li>
-            <li>
+            <li className="S-li">
               <span href="#">
                 <Tooltip title="Notes" placement="right-start">
                  <ListNote />
@@ -70,14 +70,14 @@ function Sidebar() {
               </span>
             </li>
 
-            <li style={{ marginTop: "100px" }}>
+            <li className="S-li"style={{ marginTop: "100px" }}>
               <span href="#">
                 <Tooltip title="Settings" placement="right-start">
                   <img src="/assets/icons/setting.png" alt="" />
                 </Tooltip>
               </span>
             </li>
-            <li>
+            <li className="S-li">
               <span href="#">
                 <Tooltip title="Login" placement="right-start">
                   <Link to={path} >

@@ -343,7 +343,7 @@ const Profile = ({ handleLogout }) => {
                   </div>
                 </div>
 
-                {ErrorTotal && <p>{ErrorTotal}</p>}
+                {ErrorTotal && <p style={{color:"red"}}>{ErrorTotal}</p>}
                 <div className="buttonChangePasswod">
                   <button type="submit" className="change-password-button">
                     Change Password
