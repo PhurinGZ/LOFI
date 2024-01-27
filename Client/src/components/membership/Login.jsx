@@ -13,6 +13,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "./styles.scss";
 import ForgetPassword from "./forgetPassword";
+import * as api from "../../api/axios";
 
 const CustomTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -96,17 +97,17 @@ function Login({ isModalOpen }) {
 
   const validateForm = () => {
     let isValid = true;
-  
+
     if (!formData.email || emailError) {
       setEmailError(true);
       isValid = false;
     }
-  
+
     if (!formData.password || passwordError) {
       setPasswordError(true);
       isValid = false;
     }
-  
+
     return isValid;
   };
 
@@ -132,46 +133,41 @@ function Login({ isModalOpen }) {
   //   }
   // };
 
-
   const handleLogin = async () => {
-    try {
-      if (!validateForm()) {
-        // Form validation failed, apply shaking animation to inputs
-        setShakeInputs(true);
-        return;
-      }
-
-      const response = await fetch(`${BASE_URL}/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        // console.log("Login successful");
-        localStorage.setItem("token", responseData.token);
-        setAuthToken(responseData.token);
-
-        // Redirect to home page
-        navigate("/");
-        setPath("/?auth=profile");
-
-        // Reload the page
-        window.location.reload();
-      } else {
-        // Check if the response contains a custom message
-        const responseData = await response.json();
-        const errorMessage = responseData.message || "Login failed";
-        setFormError(errorMessage);
-        // console.error(errorMessage);
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
+  try {
+    if (!validateForm()) {
+      // Form validation failed, apply shaking animation to inputs
+      setShakeInputs(true);
+      return;
     }
-  };
+
+    const response = await api.login(formData);
+
+    console.log(response);
+
+    if (response.status === 200) {
+      // Assuming successful response status is 200
+      // const responseData = await response.json();
+      localStorage.setItem("token", response.data.token);
+      setAuthToken(response.data.token);
+
+      // Redirect to home page
+      navigate("/");
+      setPath("/?auth=profile");
+
+      // Reload the page
+      window.location.reload();
+    } else {
+      // Check if the response contains a custom message
+      const errorMessage = response.data.message || "Login failed";
+      setFormError(errorMessage);
+      console.error(errorMessage);
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+  }
+};
+
 
   const handleClose = () => {
     setPath("/?auth=login");
@@ -243,7 +239,7 @@ function Login({ isModalOpen }) {
                 error={passwordError}
                 helperText={
                   passwordError
-                    ? "Password must contain at least 8+ A-Za-z\d@$!%*?&"
+                    ? "Password must contain at least 8+ A-Za-zd@$!%*?&"
                     : ""
                 }
                 className={shakeInputs && passwordError ? "shake-input" : ""}
@@ -294,15 +290,16 @@ function Login({ isModalOpen }) {
               }}
             >
               <span
-               style={{
-                color: "#9747FF",
-                fontFamily: "Inter",
-                fontSize: 15,
-                fontStyle: "normal",
-                fontWeight: 200,
-                lineHeight: "normal",
-                paddingRight: "10px",
-              }}>
+                style={{
+                  color: "#9747FF",
+                  fontFamily: "Inter",
+                  fontSize: 15,
+                  fontStyle: "normal",
+                  fontWeight: 200,
+                  lineHeight: "normal",
+                  paddingRight: "10px",
+                }}
+              >
                 {/* <a
                   href="#"
                   style={{

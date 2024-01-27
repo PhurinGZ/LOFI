@@ -9,6 +9,7 @@ import { useAuth } from "../../context/authContext";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import * as api from "../../api/axios";
 
 // Custom styled TextField
 const CustomTextField = styled(TextField)({
@@ -123,23 +124,21 @@ const Register = ({ isModalOpen }) => {
         return;
       }
       // Your registration logic
-      const response = await fetch(`http://localhost:8000/api/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await api.register(formData);
 
-      if (response.ok) {
+      console.log(response);
+
+      if (response.status === 200) {
         console.log("Registration successful");
         navigate("/");
       } else {
         // Check if the response contains a custom message
-        const responseData = await response.json();
-        const errorMessage = responseData.message || "Registration failed";
-        setFormError(errorMessage);
-        console.error(errorMessage);
+        // const responseData = await response.json();
+        if (response.status != 200) {
+          const errorMessage = response.data.message || "Registration failed";
+          setFormError(errorMessage);
+          console.error(errorMessage);
+        }
       }
     } catch (error) {
       console.error("Error during registration:", error);
@@ -230,7 +229,7 @@ const Register = ({ isModalOpen }) => {
                   error={passwordError}
                   helperText={
                     passwordError
-                      ? "Password must contain at least 8+ A-Za-z\d@$!%*?&"
+                      ? "Password must contain at least 8+ A-Za-zd@$!%*?&"
                       : ""
                   }
                   className={shakeInputs && passwordError ? "shake-input" : ""}

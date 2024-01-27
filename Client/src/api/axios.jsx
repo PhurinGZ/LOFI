@@ -54,3 +54,29 @@ export const deleteNotes = (userId, editorId) =>
       "x-auth-token": token,
     },
   });
+
+export const forgetPassword = (email) =>
+  axios.post(
+    `${BASE_URL}/api/users/forget-password`,
+    { email },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+    }
+  );
+
+  export const login = (formData) =>
+  axios.post(`${BASE_URL}/api/login`, formData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  export const register = (formData) =>
+  axios.post(`${BASE_URL}/api/users`, formData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });

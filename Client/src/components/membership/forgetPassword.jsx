@@ -11,10 +11,9 @@ import {
   createTheme,
   ThemeProvider,
 } from "@mui/material";
+import * as api from '../../api/axios'
 
 const ForgetPassword = () => {
-  const BASE_URL = "http://localhost:8000";
-  const token = localStorage.getItem("token");
   const [email, setEmail] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [formError, setFormError] = useState("");
@@ -29,17 +28,7 @@ const ForgetPassword = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}/api/users/forget-password`,
-        { email },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-        }
-      );
-
+      const response = await api.forgetPassword(email)
       if (response.status === 200) {
         console.log("Password reset email sent successfully");
         window.location.reload();
