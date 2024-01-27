@@ -1,28 +1,29 @@
 // ListNote.js
-
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import Button from "@mui/material/Button";
 import Draggable from "react-draggable";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useNoteContext } from "../../context/noteContext";
 import { useAuth } from "../../context/authContext";
 import Tooltip from "@mui/material/Tooltip";
 import "./styles.scss";
 import MyEditor from "./editor";
 import NoteUnverifyEmail from "./noteUnverifyEmail";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchNotes, deleteNote } from "../../actions/user";
 
 const ListNote = () => {
-  const { state, dispatch } = useNoteContext();
+  const dispatch = useDispatch();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const BASE_URL = "http://localhost:8000";
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [id, setId] = useState();
-  const [dateTime, setDateTime] = useState();
+  const [id, setId] = useState(null);
+  const [dateTime, setDateTime] = useState(null);
+
+  const notes = useSelector((state) => state.note.notes);
 
   const deleteContent = useCallback(
     async (editorId) => {
@@ -40,17 +41,7 @@ const ListNote = () => {
           return;
         }
 
-        const response = await axios.delete(
-          `${BASE_URL}/api/editor/delete-content/${user.data._id}/${editorId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": token,
-            },
-          }
-        );
-
-        dispatch({ type: "SET_NOTES", payload: response.data });
+        await dispatch(deleteNote(user.data._id, editorId));
         setLoading(false);
       } catch (error) {
         console.error("Error deleting note:", error);
@@ -61,77 +52,30 @@ const ListNote = () => {
     [user, dispatch]
   );
 
-  const fetchNotes = useCallback(async () => {
-    try {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        setLoading(false);
-        console.error("Authentication token not found.");
-        setError("Authentication token not found.");
-        return;
-      }
-
-      if (!user || !user.data || !user.data._id) {
-        setLoading(false);
-        return;
-      }
-
-      if (!Array.isArray(state.notes)) {
-        console.error("state.notes is not an array");
-        setLoading(false);
-        setError("Invalid state.notes data.");
-        return;
-      }
-
-      const response = await axios.get(
-        `${BASE_URL}/api/editor/${user.data._id}/notes`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-        }
-      );
-
-      dispatch({ type: "SET_NOTES", payload: response.data });
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching notes:", error);
-      setLoading(false);
-      setError("Error fetching notes.");
+  const fetchUserNotes = useCallback(() => {
+    if (user && user.data && user.data._id) {
+      dispatch(fetchNotes(user.data._id));
     }
-  }, [user, dispatch, state.notes]);
+  }, [user, dispatch]);
 
   useEffect(() => {
-    if (Array.isArray(state.notes)) {
-      fetchNotes();
-    }
-  }, [fetchNotes]);
+    fetchUserNotes();
 
-  useEffect(() => {
-    if (id !== null && dateTime !== null) {
-      // setDateTime("");
-      // setId("");
-    } else {
-      if (id === null && dateTime === null) {
-        setIsModalOpen(false);
-        setDateTime("");
-        setId("");
-      }
-    }
-  }, [id, dateTime]);
+    // Fetch notes every 5 seconds (adjust as needed)
+    const intervalId = setInterval(fetchUserNotes, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [fetchUserNotes]);
 
   const handleCloseModal = () => setOpenModal(false);
 
   const handleOpenModal = () => {
-    // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
     if (user) {
       setOpenModal(true);
     } else {
-      // ถ้ายังไม่ได้เข้าสู่ระบบ ให้ทำการ Redirect ไปยังหน้า login
-      // หรือแสดง component login ตามที่คุณต้องการ
-      navigate("/?auth=login"); // ใช้ useNavigate ทำการ redirect
+      navigate("/?auth=login");
     }
   };
 
@@ -151,12 +95,11 @@ const ListNote = () => {
 
   const handleDelete = async (id, event) => {
     try {
-      // Prevent event propagation
       event.stopPropagation();
 
       await deleteContent(id);
-      setDateTime("");
-      setId("");
+      setDateTime(null);
+      setId(null);
     } catch (error) {
       console.error("Error deleting note:", error);
     }
@@ -180,10 +123,10 @@ const ListNote = () => {
                 </Button>
               </div>
               {error && <p className="error-message">{error}</p>}
-              {Array.isArray(state.notes) ? (
+              {Array.isArray(notes) ? (
                 user && !user.data.isVerified ? (
                   <NoteUnverifyEmail />
-                ) : state.notes.length === 0 ? (
+                ) : notes.length === 0 ? (
                   <div
                     style={{
                       display: "flex",
@@ -204,7 +147,7 @@ const ListNote = () => {
                   </div>
                 ) : (
                   <div className="maincontent">
-                    {state.notes.map((note) => (
+                    {notes.map((note) => (
                       <div
                         key={note._id}
                         className="content"
@@ -244,7 +187,6 @@ const ListNote = () => {
                 )
               ) : (
                 <></>
-                // <p>Error loading notes</p>
               )}
               {user && user.data.isVerified && (
                 <>
@@ -257,7 +199,7 @@ const ListNote = () => {
                     }}
                   >
                     {" "}
-                    total {state.notes.length}
+                    total {notes.length}
                   </p>
                   <div className="write">
                     <img
@@ -272,15 +214,14 @@ const ListNote = () => {
           </Draggable>
         </div>
       )}
-
-      <div className="Editor">
+      {isModalOpen && (
         <MyEditor
-          isOpen={isModalOpen}
+          isModalOpen={isModalOpen}
           handleClose={closeModalEdit}
-          editorId={id}
           dateTime={dateTime}
+          editorId={id}
         />
-      </div>
+      )}
     </>
   );
 };

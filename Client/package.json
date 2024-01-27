@@ -16,6 +16,7 @@
     "@mui/icons-material": "^5.15.0",
     "@mui/material": "^5.15.0",
     "@react-spring/web": "^9.7.3",
+    "@reduxjs/toolkit": "^2.1.0",
     "@vercel/speed-insights": "^1.0.2",
     "axios": "^1.6.5",
     "joi": "^17.12.0",

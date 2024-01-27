@@ -1,57 +1,60 @@
 // MyEditor.js
 
 import React, { useState, useEffect } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import Button from "@mui/material/Button";
-import axios from "axios";
-import Draggable from "react-draggable";
+
+import { useDispatch } from "react-redux";
 import { useAuth } from "../../context/authContext";
 import { useNoteContext } from "../../context/noteContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Button from "@mui/material/Button";
+import Draggable from "react-draggable";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import * as noteActions from "../../actions/user"; // Updated import
+
 import "./styles.scss";
 
-const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
-  const { state, dispatch } = useNoteContext();
+const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
+  const { user } = useAuth();
+  const { state } = useNoteContext();
   const [editorHtml, setEditorHtml] = useState("");
   const [title, setTitle] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
-  const BASE_URL = "http://localhost:8000";
-  const token = localStorage.getItem("token");
-  const { user } = useAuth();
+  
+
+  const dispatch = useDispatch(); // Use useDispatch to get the dispatch function
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchContent = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/api/editor/get-content/${user.data._id}/${editorId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": token,
-            },
+        if (user && user.data && user.data._id) {
+          const userData = user.data;
+          const response = await dispatch(
+            noteActions.fetchContent(userData._id, editorId)
+          );
+          // console.log(response)
+          const data = response;
+          // console.log(data.content);
+          if (isMounted) {
+            setEditorHtml(data.content);
+            setTitle(data.title);
           }
-        );
-
-        if (isMounted) {
-          setEditorHtml(response.data.content);
-          setTitle(response.data.title);
         }
       } catch (error) {
         console.error("Error fetching content:", error);
       }
     };
 
-    if (editorId && isOpen) {
+    if (editorId && isModalOpen) {
       fetchContent();
     }
 
     return () => {
       isMounted = false;
     };
-  }, [editorId, isOpen]);
+  }, [user, editorId, isModalOpen]);
 
   const handleEditorChange = (html) => {
     setEditorHtml(html);
@@ -61,76 +64,48 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     setTitle(event.target.value);
   };
 
-  const saveContentToBackend = async () => {
+  const handleSaveClick = async () => {
     try {
-      if (!user || !user.data || !user.data.id) {
-        setResponseMessage("User not found");
-      }
-      const response = await axios.post(
-        `${BASE_URL}/api/editor/save-content`,
-        { content: editorHtml, title: title, userId: user.data._id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-        }
-      );
+      const response = await dispatch(
+        noteActions.saveContent(editorHtml, title, user.data._id)
+      ); // Dispatch saveContent action
+      setResponseMessage(response.message);
+      console.log("Server response:", response);
 
-      setResponseMessage(response.data.message);
-      console.log("Server response:", response.data);
-
-      if (response.data.success) {
+      if (response.success) {
         setEditorHtml("");
         setTitle("");
         handleClose(); // Close the modal
       }
     } catch (error) {
-      handleAxiosError(error);
+      console.error("Error saving content:", error);
+      setResponseMessage("Error saving content");
     }
   };
 
-  const updateContentToBackend = async () => {
+  const handleUpdateClick = async () => {
     try {
-      if (!user || !user.data || !user.data.id) {
-        setResponseMessage("User not found");
-      }
-      const response = await axios.put(
-        `${BASE_URL}/api/editor/update-content/${user.data._id}/${editorId}`,
-        { content: editorHtml, title: title },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-        }
-      );
+      const response = await dispatch(
+        noteActions.updateContent(editorHtml, title, user.data._id, editorId)
+      ); // Dispatch updateContent action
+      setResponseMessage(response.message);
+      console.log("Server response:", response);
 
-      setResponseMessage(response.data.message);
-      // console.log("Server response:", response.data);
-
-      if (response.data.success) {
+      if (response.success) {
         setEditorHtml("");
         setTitle("");
         handleClose(); // Close the modal
       }
     } catch (error) {
-      handleAxiosError(error);
+      console.error("Error updating content:", error);
+      setResponseMessage("Error updating content");
     }
-  };
-
-  const handleSaveClick = () => {
-    saveContentToBackend();
-  };
-
-  const handleUpdateClick = () => {
-    updateContentToBackend();
   };
 
   const handleCloseModal = () => {
     setTitle("");
     setEditorHtml("");
-    handleClose(); // Close the modal
+    handleClose();
   };
 
   const handleAxiosError = (error) => {
@@ -157,7 +132,7 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     position: "absolute",
     width: "400px",
     height: "500px",
-    display: isOpen ? "flex" : "none",
+    display: isModalOpen ? "flex" : "none",
   };
 
   const contentStyle = {
@@ -167,7 +142,7 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     boxShadow: "0 2px 20px rgba(0, 0, 0, 0.2)",
     maxWidth: "600px",
     width: "100%",
-    height : "550px"
+    height: "550px",
   };
 
   const headerStyle = {
@@ -196,8 +171,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     },
     ".ql-snow .ql-editor": {
       border: "none",
-      height: "300px", 
-      width: "100%"
+      height: "300px",
+      width: "100%",
     },
     // width: "339px",
     // height: "338px",
@@ -212,8 +187,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     borderRadius: "10px",
     background: "#BB98FF",
     boxShadow: "3px 1px 3.7px 0px rgba(0, 0, 0, 0.25)",
-    position : "absolute",
-    bottom : "-20px"
+    position: "absolute",
+    bottom: "-20px",
   };
 
   const responseStyle = {
@@ -228,20 +203,18 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     left: "1%",
   };
 
-
-
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      ["bold", "italic", "underline", "strike", "blockquote"],
       [
-        { list: 'ordered' },
-        { list: 'bullet' },
-        { indent: '-1' },
-        { indent: '+1' },
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
       ],
-      ['link', 'image'],
-      ['clean'],
+      ["link", "image"],
+      ["clean"],
       [{ color: [] }],
       [{ background: [] }], // เพิ่มปุ่มปากกาไฮไลท์
     ],
@@ -262,8 +235,8 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     "indent",
     "link",
     "image",
-    'color',
-    'background',
+    "color",
+    "background",
   ];
 
   // const dateTime = new Date().toISOString();
@@ -274,12 +247,14 @@ const MyEditor = ({ isOpen, handleClose, editorId, dateTime }) => {
     year: "numeric",
   });
 
-  console.log(formattedDate);
+  // console.log(formattedDate);
+  // console.log(dateTime)
+  // console.log(editorId)
 
   return (
     <Draggable handle=".header">
       <div style={modalStyle} className="contentEditor">
-        <div style={contentStyle} >
+        <div style={contentStyle}>
           <div style={headerStyle} className="header">
             <ArrowBackIcon
               onClick={handleCloseModal}

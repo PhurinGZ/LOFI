@@ -1,80 +1,36 @@
 // NoteContext.jsx
-import React, { createContext, useContext, useReducer, useEffect, useMemo } from 'react';
-import axios from 'axios';
-import { useAuth } from './authContext';
-import { debounce } from 'lodash';
+import { createContext, useContext, useEffect, useMemo } from "react";
+import { useAuth } from "./authContext";
+import { debounce } from "lodash";
+import { useDispatch } from "react-redux";
+import { fetchNotes } from "../actions/user";
 
 const NoteContext = createContext();
 
 export const NoteProvider = ({ children }) => {
-  const api = axios.create({
-    baseURL: 'http://localhost:8000',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  const initialState = {
-    notes: [],
-  };
-
   const { user } = useAuth();
+  const dispatch = useDispatch();
 
-  const noteReducer = (state, action) => {
-    switch (action.type) {
-      case 'SET_NOTES':
-        return { ...state, notes: action.payload };
-      case 'ADD_NOTE':
-        return { ...state, notes: [...state.notes, action.payload] };
-      default:
-        return state;
-    }
-  };
-
-  const [state, dispatch] = useReducer(noteReducer, initialState);
-
-  const fetchNotes = async () => {
-    try {
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-        console.error('Authentication token not found.');
-        return;
-      }
-
-      const response = await api.get(`/api/editor/${user.data._id}/notes`, {
-        headers: {
-          'x-auth-token': token,
-        },
-      });
-
-      dispatch({ type: 'SET_NOTES', payload: response.data });
-    } catch (error) {
-      console.error('Error fetching notes:', error);
-    }
-  };
-
-  const debouncedFetchNotes = debounce(fetchNotes, 5000);
+  const debouncedFetchNotes = debounce(() => {
+    dispatch(fetchNotes(user.data._id));
+  }, 5000);
 
   useEffect(() => {
     debouncedFetchNotes();
+    return () => debouncedFetchNotes.cancel();
+  }, [user, dispatch, debouncedFetchNotes]);
 
-    return () => debouncedFetchNotes.cancel(); // Cancel debounced fetch on component unmount
-  }, [user]);
-
-  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+  const contextValue = useMemo(() => ({ dispatch }), [dispatch]);
 
   return (
-    <NoteContext.Provider value={contextValue}>
-      {children}
-    </NoteContext.Provider>
+    <NoteContext.Provider value={contextValue}>{children}</NoteContext.Provider>
   );
 };
 
 export const useNoteContext = () => {
   const context = useContext(NoteContext);
   if (!context) {
-    throw new Error('useNoteContext must be used within a NoteProvider');
+    throw new Error("useNoteContext must be used within a NoteProvider");
   }
   return context;
 };
