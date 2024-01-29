@@ -7,6 +7,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "./styles.scss";
 import axios from "axios";
 import { useAuth } from "../../context/authContext";
+import * as api from "../../api/axios";
 
 const Profile = ({ handleLogout }) => {
   const [showPasswordcurrentPassword, setShowPasswordcurrentPassword] =
@@ -32,18 +33,16 @@ const Profile = ({ handleLogout }) => {
 
   useEffect(() => {
     if (user?.data?._id) {
-      axios
-        .get(`${BASE_URL}/api/users/${user.data._id}`, {
-          headers: {
-            "x-auth-token": token,
-          },
-        })
-        .then((response) => {
+      const fetchUserData = async () => {
+        try {
+          const response = await api.getUserData(user.data._id);
           setUserProfile(response.data);
-        })
-        .catch((error) => {
+        } catch (error) {
           console.error("Error fetching user data:", error);
-        });
+        }
+      };
+      // Call the function when needed
+      fetchUserData();
     }
   }, [BASE_URL, user?.data?._id, token]);
   useEffect(() => {
@@ -115,6 +114,28 @@ const Profile = ({ handleLogout }) => {
       });
     }
   };
+
+  // Inside your component or wherever you need to update the password
+  const handlePasswordUpdate = async () => {
+    try {
+      const response = await api.updatePassword(user.data._id, passwordForm);
+      console.log("Password updated successfully", response.data.message);
+      // setFormError({});
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating password:", error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setErrorTotal(error.response.data.message);
+      } else {
+        setErrorTotal("Error updating password. Please try again.");
+      }
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -132,61 +153,36 @@ const Profile = ({ handleLogout }) => {
       return;
     }
 
-    axios
-      .put(
-        `${BASE_URL}/api/users/${user.data._id}`,
-        {
-          password: passwordForm.newPassword,
-          oldPassword: passwordForm.currentPassword,
-        },
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        }
-      )
-      .then((response) => {
-        console.log("Password updated successfully");
-        // setFormError({});
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error("Error updating password:", error);
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          setErrorTotal(error.response.data.message);
-        } else {
-          setErrorTotal("Error updating password. Please try again.");
-        }
-      });
+    // Call the function when needed
+    handlePasswordUpdate();
+  };
+
+  const handleResendVerification = async () => {
+    try {
+      const email = userProfile?.data?.email; 
+      const response = await api.resendVerificationEmail(email);
+      window.location.reload();
+      alert("Sent to your email successfully");
+    } catch (error) {
+      console.error("Error sending:", error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setErrorTotal(error.response.data.message);
+        alert("Failed to send to your email", error.response.data.message);
+      } else {
+        setErrorTotal("Error updating password. Please try again.");
+      }
+    }
   };
 
   const handleVerify = (e) => {
     e.preventDefault();
 
-    axios
-      .post(
-        `${BASE_URL}/api/users/resend-verification`,
-        {
-          email: userProfile?.data?.email,
-        },
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        }
-      )
-      .then((response) => {
-        window.location.reload();
-        alert("Sent to your email successfully");
-      })
-      .catch((error) => {
-        console.error("Error sending:", error);
-        alert("Failed to send to your email");
-      });
+    // Call the function when needed
+    handleResendVerification();
   };
 
   return (
@@ -343,7 +339,7 @@ const Profile = ({ handleLogout }) => {
                   </div>
                 </div>
 
-                {ErrorTotal && <p style={{color:"red"}}>{ErrorTotal}</p>}
+                {ErrorTotal && <p style={{ color: "red" }}>{ErrorTotal}</p>}
                 <div className="buttonChangePasswod">
                   <button type="submit" className="change-password-button">
                     Change Password

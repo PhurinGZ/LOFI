@@ -67,16 +67,79 @@ export const forgetPassword = (email) =>
     }
   );
 
-  export const login = (formData) =>
+export const login = (formData) =>
   axios.post(`${BASE_URL}/api/login`, formData, {
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-  export const register = (formData) =>
+export const register = (formData) =>
   axios.post(`${BASE_URL}/api/users`, formData, {
     headers: {
       "Content-Type": "application/json",
     },
   });
+
+export const resetPassword = (newPassword, token) =>
+  axios.post(
+    `${BASE_URL}/api/users/reset-password/${token}`,
+    { newPassword }, // Send newPassword as an object
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  export const verifyEmail = async (emailToken) => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/users/verify-email`,
+        { emailToken },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      return response.data; // Return the data for successful response
+    } catch (error) {
+      throw error.response?.data; // Throw the error response for unsuccessful response
+    }
+  };
+  
+  export const getUserData = (userId) =>
+  axios.get(`${BASE_URL}/api/users/${userId}`, {
+    headers: {
+      "x-auth-token": token,
+    },
+  });
+
+  export const updatePassword = (userId, passwordForm) =>
+  axios.put(
+    `${BASE_URL}/api/users/${userId}`,
+    {
+      password: passwordForm.newPassword,
+      oldPassword: passwordForm.currentPassword,
+    },
+    {
+      headers: {
+        "x-auth-token": token,
+      },
+    }
+  );
+
+  export const resendVerificationEmail = (email) =>
+  axios.post(
+    `${BASE_URL}/api/users/resend-verification`,
+    {
+      email: email,
+    },
+    {
+      headers: {
+        "x-auth-token": token,
+      },
+    }
+  );

@@ -5,10 +5,11 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
+import * as api from '../api/axios';
+
 const ResetPassword = () => {
   const { token } = useParams();
   const history = useNavigate();
-  const BASE_URL = "http://localhost:8000";
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -32,24 +33,15 @@ const ResetPassword = () => {
         return;
       }
 
-      const response = await fetch(
-        `${BASE_URL}/api/users/reset-password/${token}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ newPassword }),
-        }
-      );
+      const response = await api.resetPassword(newPassword, token)
 
-      if (response.ok) {
+      if (response.status === 200) {
         setSuccess(true);
       } else {
         if (response.status === 404) {
           setError("Token not found or expired"); // Adjust the message based on your API response
         } else {
-          const data = await response.json();
+          const data = await response.data;
           setError(data.message || "Error resetting password");
         }
       }

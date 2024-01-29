@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Typography, CircularProgress, Button } from "@mui/material";
-
-// Import the desired Google Font
-import "@fontsource/roboto"; // Example: Using Roboto
+import * as api from "../api/axios";
 
 const VerifyEmail = () => {
   const [verificationStatus, setVerificationStatus] = useState("Verifying...");
@@ -12,30 +10,16 @@ const VerifyEmail = () => {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8000/api/users/verify-email`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ emailToken }), // Assuming emailToken is the token parameter
-          }
-        );
+        const data = await api.verifyEmail(emailToken);
 
-        if (response.ok) {
-          const data = await response.json();
-          setVerificationStatus(
-            `Email verified successfully for user ${data.name}`
-          );
-          // Redirect to a different page or perform any other action upon successful verification
-        } else {
-          const errorData = await response.json();
-          setVerificationStatus(`Email verification failed: ${errorData}`);
-        }
+        setVerificationStatus(
+          `Email verified successfully for user ${data.username}`
+        );
+        // Redirect to a different page or perform any other action upon successful verification
       } catch (error) {
         console.error("Error:", error);
-        setVerificationStatus("Error occurred during email verification");
+        const errorMessage = error.message || "Unknown error occurred";
+        setVerificationStatus(`Email verification failed: ${errorMessage}`);
       }
     };
 
@@ -43,7 +27,6 @@ const VerifyEmail = () => {
   }, [emailToken]);
 
   return (
-    
     <Container
       maxWidth="sm"
       style={{
@@ -53,7 +36,7 @@ const VerifyEmail = () => {
         padding: "20px",
         borderRadius: "8px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-        fontFamily: "Roboto, sans-serif", // Set the desired font family
+        fontFamily: "Roboto, sans-serif",
       }}
     >
       <Typography variant="h4" gutterBottom style={{ color: "#333" }}>

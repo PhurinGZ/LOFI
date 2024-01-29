@@ -158,7 +158,8 @@ router.delete("/:id", [validObjectID, authAdmin], async (req, res) => {
 router.post("/verify-email", async (req, res) => {
   try {
     const emailToken = req.body.emailToken;
-    if (!emailToken) return res.status(404).json("emailToken not found...");
+    if (!emailToken)
+      return res.status(400).json({ message: "emailToken not found..." });
 
     const user = await User.findOne({ emailToken });
 
@@ -169,15 +170,19 @@ router.post("/verify-email", async (req, res) => {
 
       res.status(200).json({
         _id: user.id,
-        name: user.name,
+        username: user.username,
         email: user.email,
         isVerified: user.isVerified,
       });
-    } else res.status(404).json("Email veification failed, invalid token! ");
+    } else {
+      res.status(404).json({ message: "Email verification failed, invalid token!" });
+    }
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 
 // resend email verification
 router.post("/resend-verification", auth, async (req, res) => {
