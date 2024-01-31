@@ -62,7 +62,6 @@ function Login({ isModalOpen }) {
 
   const [shakeInputs, setShakeInputs] = useState(false);
   const { setPath, user } = useAuth();
-  const BASE_URL = "http://localhost:8000";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
