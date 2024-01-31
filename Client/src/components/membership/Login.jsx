@@ -11,25 +11,11 @@ import { setAuthToken } from "../../auth/auth";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import "./styles.scss";
 import ForgetPassword from "./forgetPassword";
 import * as api from "../../api/axios";
+import "./styles.scss";
 
-const CustomTextField = styled(TextField)({
-  "& .MuiOutlinedInput-root": {
-    borderRadius: 20,
-    "& fieldset": {
-      border: "1px solid #9747FF",
-    },
-    "&:hover fieldset": {
-      borderColor: "#9747FF",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#9747FF",
-    },
-  },
-});
-
+// Move styles to a separate CSS file or use Styled Components
 const style = {
   position: "absolute",
   top: "50%",
@@ -54,7 +40,22 @@ const backdropStyle = {
   zIndex: 100,
 };
 
-function Login({ isModalOpen }) {
+const CustomTextField = styled(TextField)({
+  "& .MuiOutlinedInput-root": {
+    borderRadius: 20,
+    "& fieldset": {
+      border: "1px solid #9747FF",
+    },
+    "&:hover fieldset": {
+      borderColor: "#9747FF",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#9747FF",
+    },
+  },
+});
+
+const Login = ({ isModalOpen }) => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -68,24 +69,43 @@ function Login({ isModalOpen }) {
   });
   const navigate = useNavigate();
 
-  // console.log(user);
+  const validateForm = () => {
+    let isValid = true;
+
+    if (!formData.email || !isEmailValid(formData.email)) {
+      setEmailError(true);
+      isValid = false;
+    }
+
+    if (!formData.password || !isPasswordValid(formData.password)) {
+      setPasswordError(true);
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  const isEmailValid = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const isPasswordValid = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,26}$/;
+    return passwordRegex.test(password);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-    // Reset validation errors and shaking animation when user starts typing
     setEmailError(false);
     setPasswordError(false);
     setShakeInputs(false);
 
     if (name === "email") {
-      // Handle email validation
-      setEmailError(!isEmail);
+      setEmailError(!isEmailValid(value));
     } else if (name === "password") {
-      const passwordRegex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,26}$/;
-      setPasswordError(!passwordRegex.test(value));
+      setPasswordError(!isPasswordValid(value));
     }
 
     setFormData((prevData) => ({
@@ -94,79 +114,35 @@ function Login({ isModalOpen }) {
     }));
   };
 
-  const validateForm = () => {
-    let isValid = true;
-
-    if (!formData.email || emailError) {
-      setEmailError(true);
-      isValid = false;
-    }
-
-    if (!formData.password || passwordError) {
-      setPasswordError(true);
-      isValid = false;
-    }
-
-    return isValid;
-  };
-
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await fetch("/api/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     if (response.ok) {
-  //       console.log("Login successful");
-  //       alert("Login successful")
-  //     } else {
-  //       console.error("Login failed");
-  //       alert("Login failed")
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-  //   }
-  // };
-
   const handleLogin = async () => {
-  try {
-    if (!validateForm()) {
-      // Form validation failed, apply shaking animation to inputs
-      setShakeInputs(true);
-      return;
+    try {
+      if (!validateForm()) {
+        setShakeInputs(true);
+        return;
+      }
+
+      const response = await api.login(formData);
+
+      console.log(response);
+
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token);
+        setAuthToken(response.data.token);
+
+        navigate("/");
+        setPath("/?auth=profile");
+        window.location.reload()
+      } else {
+        const errorMessage = response.data.message || "Login failed";
+        setFormError(errorMessage);
+        console.error(errorMessage);
+      }
+    } catch (error) {
+      setFormError(error.response.data.message);
+      console.error("Error during login:", error);
+      console.error("Error details:", error.response.data.message || error.data.message || error);
     }
-
-    const response = await api.login(formData);
-
-    console.log(response);
-
-    if (response.status === 200) {
-      // Assuming successful response status is 200
-      // const responseData = await response.json();
-      localStorage.setItem("token", response.data.token);
-      setAuthToken(response.data.token);
-
-      // Redirect to home page
-      navigate("/");
-      setPath("/?auth=profile");
-
-      // Reload the page
-      window.location.reload();
-    } else {
-      // Check if the response contains a custom message
-      const errorMessage = response.data.message || "Login failed";
-      setFormError(errorMessage);
-      console.error(errorMessage);
-    }
-  } catch (error) {
-    console.error("Error during login:", error);
-  }
-};
-
+  };
 
   const handleClose = () => {
     setPath("/?auth=login");
@@ -299,20 +275,6 @@ function Login({ isModalOpen }) {
                   paddingRight: "10px",
                 }}
               >
-                {/* <a
-                  href="#"
-                  style={{
-                    color: "#9747FF",
-                    fontFamily: "Inter",
-                    fontSize: 15,
-                    fontStyle: "normal",
-                    fontWeight: 200,
-                    lineHeight: "normal",
-                    paddingRight: "10px",
-                  }}
-                >
-                  Forgot Password?
-                </a> */}
                 <ForgetPassword />
               </span>
               Don't have an account?{" "}
@@ -336,6 +298,6 @@ function Login({ isModalOpen }) {
       )}
     </div>
   );
-}
+};
 
 export default Login;

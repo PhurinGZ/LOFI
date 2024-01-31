@@ -32,7 +32,7 @@ const Profile = ({ handleLogout }) => {
   const [ErrorTotal, setErrorTotal] = useState("");
 
   useEffect(() => {
-    if (user?.data?._id) {
+    if (user?.data._id) {
       const fetchUserData = async () => {
         try {
           const response = await api.getUserData(user.data._id);
@@ -45,6 +45,7 @@ const Profile = ({ handleLogout }) => {
       fetchUserData();
     }
   }, [BASE_URL, user?.data?._id, token]);
+  
   useEffect(() => {
     const handleVerificationChange = () => {
       if (
