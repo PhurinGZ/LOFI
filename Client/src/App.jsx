@@ -7,27 +7,6 @@ import Sidebar from "./layout/sideBar/sidebar";
 import { ModeProvider } from "./context/modeContext";
 import { AtmosphereProvider } from "./context/atmosphere";
 import VerifyEmail from "./page/verifyEmail";
-<<<<<<< Updated upstream
-
-function App() {
-  return (
-    <BrowserRouter>
-      <ModeProvider>
-        <AtmosphereProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/demo" element={<Demo />} />
-            <Route path="/category" element={<Cat />} />
-            <Route path="/sidebar" element={<Sidebar />} />
-            <Route
-              path="/verify-email/:emailToken"
-              element={<VerifyEmail />}
-            ></Route>
-          </Routes>
-        </AtmosphereProvider>
-      </ModeProvider>
-    </BrowserRouter>
-=======
 import { AuthProvider } from "./context/authContext";
 import ResetPassword from "./page/forgetPassword";
 import MyEditor from "./components/note/note";
@@ -69,7 +48,6 @@ function App() {
         </AuthProvider>
       </BrowserRouter>
     // </Provider>
->>>>>>> Stashed changes
   );
 }
 

@@ -6,8 +6,7 @@ import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect } from "react";
 import { useMode } from "../../context/modeContext";
 import AtmosphereButton from "../atmosphereIcons/atmosphere";
-<<<<<<< Updated upstream
-=======
+
 import { useLocation } from "react-router-dom";
 import Register from "../membership/register";
 import Login from "../membership/Login";
@@ -19,7 +18,6 @@ const useQuery = () => {
   const { search } = useLocation();
   return useMemo(() => new URLSearchParams(search), [search]);
 };
->>>>>>> Stashed changes
 
 const Home = () => {
   const [currentVideoOpacity, setCurrentVideoOpacity] = useState(1);
@@ -32,8 +30,7 @@ const Home = () => {
   const [showModaltarot, setShowModaltarot] = useState(false);
   const [isVisibletext, setIsVisibletext] = useState(true);
 
-<<<<<<< Updated upstream
-=======
+
   const token = localStorage.getItem("token");
 
   const { setPath, logout } = useAuth();
@@ -42,13 +39,12 @@ const Home = () => {
 
   // membership
   const [isModalOpen, setModalOpen] = useState(false);
->>>>>>> Stashed changes
+
   const { mode, dayNight, atmosphere, changedImage, setAtmosphere } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
   const mergeMode = (dayNight || "day") + "-" + atmosphere;
 
-<<<<<<< Updated upstream
-=======
+
   useEffect(() => {
     if (query.get("auth")) {
       setQueryUrl(query.get("auth"));
@@ -73,7 +69,7 @@ const Home = () => {
 //   return () => clearInterval(showInterval);
 // }, []);
 
->>>>>>> Stashed changes
+
   const handleVideoPaths = (imageData) => {
     if (Array.isArray(imageData?.data)) {
       imageData.data.forEach((pathLofi) => {
@@ -219,8 +215,7 @@ const Home = () => {
             </div>
           ))}
       </div>
-<<<<<<< Updated upstream
-=======
+
       {token && queryUrl === "profile" && (
         <Profile handleLogout={handleLogout} />
       )}
@@ -265,7 +260,7 @@ const Home = () => {
         showModaltarot={showModaltarot}
         setShowModaltarot={setShowModaltarot}
       />
->>>>>>> Stashed changes
+
       <span className="audioplayer">
         <Demo mode={selectedMode} />
       </span>
