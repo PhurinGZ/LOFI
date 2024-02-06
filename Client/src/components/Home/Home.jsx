@@ -3,7 +3,7 @@ import "./Home.scss";
 import Header from "../../layout/header/head";
 import { Romantic, chil, Sad, happy, sexy } from "../../data/songData";
 import Sidebar from "../../layout/sideBar/sidebar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useMode } from "../../context/modeContext";
 import AtmosphereButton from "../atmosphereIcons/atmosphere";
 
@@ -20,12 +20,15 @@ const useQuery = () => {
 };
 
 const Home = () => {
+  let query = useQuery();
+  const [queryUrl, setQueryUrl] = useState();
   const [currentVideoOpacity, setCurrentVideoOpacity] = useState(1);
   const [nextVideoOpacity, setNextVideoOpacity] = useState(0);
   const [nextPath, setNextPath] = useState("");
   const [currentPath, setCurrentPath] = useState("");
   const [isVisible, setIsVisble] = useState(true);
   const [prevChangeImage, setPrevChangeImage] = useState("");
+  
   const [showInteractButton, setShowInteractButton] = useState(false);
   const [showModaltarot, setShowModaltarot] = useState(false);
   const [isVisibletext, setIsVisibletext] = useState(true);
@@ -43,7 +46,7 @@ const Home = () => {
   const { mode, dayNight, atmosphere, changedImage, setAtmosphere } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
   const mergeMode = (dayNight || "day") + "-" + atmosphere;
-
+  
 
   useEffect(() => {
     if (query.get("auth")) {
@@ -175,21 +178,34 @@ const Home = () => {
     }
   }, [dayNight, atmosphere, changedImage?.data]);
 
+  const handleLogout = () => {
+    logout();
+    setPath("/?auth=register");
+  };
+
   return (
     <div className="main">
       <div className="fh relative">
         <Header />
-        <div
-          className="background-video video-player"
-          style={{ opacity: currentVideoOpacity }}
-        >
-          <video className="videofirst" src={currentPath} autoPlay loop muted />
-        </div>
-        <div
-          className="background-video video-player"
-          style={{ opacity: nextVideoOpacity }}
-        >
-          <video className="videosecond" src={nextPath} autoPlay loop muted />
+        <div className="Background">
+          <div
+            className="background-video video-player"
+            style={{ opacity: currentVideoOpacity }}
+          >
+            <video
+              className="videofirst"
+              src={currentPath}
+              autoPlay
+              loop
+              muted
+            />
+          </div>
+          <div
+            className="background-video video-player"
+            style={{ opacity: nextVideoOpacity }}
+          >
+            <video className="videosecond" src={nextPath} autoPlay loop muted />
+          </div>
         </div>
         <div>
           <Sidebar />
@@ -215,7 +231,7 @@ const Home = () => {
             </div>
           ))}
       </div>
-
+      
       {token && queryUrl === "profile" && (
         <Profile handleLogout={handleLogout} />
       )}
