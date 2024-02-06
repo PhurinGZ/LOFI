@@ -230,12 +230,12 @@ function Catagory() {
                           ) : (
                             <video src="" />
                           )}
-                          <span style={{color:"#fff"}}>{type.nameType}</span>
+                          <span>{type.nameType}</span>
                           <div className="coti-img">
                             <AddPhotoAlternateIcon
                               fontSize="small"
                               marginBottom="10px"
-                              style={{ margin: "4px",}}
+                              style={{ margin: "4px" }}
                             />{" "}
                             <p>{type.video ? type.video.length : 0}</p>
                           </div>

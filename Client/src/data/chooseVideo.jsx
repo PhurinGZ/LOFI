@@ -11,7 +11,6 @@ import {
   reality5,
   reality6,
   reality7,
-  interact1,
 } from "./videoBackgroundData";
 
 const typeLofi = [
@@ -69,9 +68,7 @@ const typeLofi = [
   {
     id: 2,
     nameType: "Interact",
-    video: [
-      { id: 0, name: "interact", data: interact1 },
-    ],
+    video: [],
   },
 ];
 

@@ -11,6 +11,7 @@ function Time() {
         return () => clearInterval(intervalId);
       }, []);
 
+      const timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
   return (
     <div>   <p>{currentTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
     </div>
