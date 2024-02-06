@@ -17,21 +17,34 @@ import Displaycard from "./components/cardtarot/displaycard";
 function App() {
   return (
     <BrowserRouter>
+    <AuthProvider>
       <ModeProvider>
         <AtmosphereProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/demo" element={<Demo />} />
-            <Route path="/category" element={<Cat />} />
-            <Route path="/sidebar" element={<Sidebar />} />
-            <Route
-              path="/verify-email/:emailToken"
-              element={<VerifyEmail />}
-            ></Route>
-          </Routes>
+          <NoteProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/demo" element={<Demo />} />
+              <Route path="/category" element={<Cat />} />
+              <Route path="/sidebar" element={<Sidebar />} />
+              <Route
+                path="/verify-email/:emailToken"
+                element={<VerifyEmail />}
+              ></Route>
+              <Route
+                path="/reset-password/:token"
+                element={<ResetPassword />}
+              ></Route>
+              {/* <Route path="/:auth" element={<Register />} />
+          <Route path="/:auth" element={<Login />} /> */}
+              <Route path="/note" element={<MyEditor />} />
+              <Route path="/list-note" element={<ListNote />} />
+              <Route path="/displaycard" element={<Displaycard />} />
+            </Routes>
+          </NoteProvider>
         </AtmosphereProvider>
       </ModeProvider>
-    </BrowserRouter>
+    </AuthProvider>
+  </BrowserRouter>
   );
 }
 
