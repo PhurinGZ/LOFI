@@ -6,20 +6,74 @@ import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect } from "react";
 import { useMode } from "../../context/modeContext";
 import AtmosphereButton from "../atmosphereIcons/atmosphere";
+<<<<<<< Updated upstream
+=======
+import { useLocation } from "react-router-dom";
+import Register from "../membership/register";
+import Login from "../membership/Login";
+import { useAuth } from "../../context/authContext";
+import Profile from "../profile/profile";
+import Displaycard from "../cardtarot/displaycard";
+
+const useQuery = () => {
+  const { search } = useLocation();
+  return useMemo(() => new URLSearchParams(search), [search]);
+};
+>>>>>>> Stashed changes
 
 const Home = () => {
   const [currentVideoOpacity, setCurrentVideoOpacity] = useState(1);
   const [nextVideoOpacity, setNextVideoOpacity] = useState(0);
   const [nextPath, setNextPath] = useState("");
   const [currentPath, setCurrentPath] = useState("");
-  const [isNextPath, setIsNextPath] = useState(false);
   const [isVisible, setIsVisble] = useState(true);
   const [prevChangeImage, setPrevChangeImage] = useState("");
+  const [showInteractButton, setShowInteractButton] = useState(false);
+  const [showModaltarot, setShowModaltarot] = useState(false);
+  const [isVisibletext, setIsVisibletext] = useState(true);
 
+<<<<<<< Updated upstream
+=======
+  const token = localStorage.getItem("token");
+
+  const { setPath, logout } = useAuth();
+
+  // console.log("user : ",user)
+
+  // membership
+  const [isModalOpen, setModalOpen] = useState(false);
+>>>>>>> Stashed changes
   const { mode, dayNight, atmosphere, changedImage, setAtmosphere } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
   const mergeMode = (dayNight || "day") + "-" + atmosphere;
 
+<<<<<<< Updated upstream
+=======
+  useEffect(() => {
+    if (query.get("auth")) {
+      setQueryUrl(query.get("auth"));
+      setModalOpen(true);
+    } else {
+      setModalOpen(false);
+      setQueryUrl("");
+    }
+  });
+
+// useEffect(() => {
+//   const showDuration = 4000; 
+//   const hideDuration = 10000; 
+
+//   const showInterval = setInterval(() => {
+//     setIsVisibletext(true);
+//     setTimeout(() => {
+//       setIsVisibletext(false);
+//     }, hideDuration);
+//   }, showDuration + hideDuration ); 
+
+//   return () => clearInterval(showInterval);
+// }, []);
+
+>>>>>>> Stashed changes
   const handleVideoPaths = (imageData) => {
     if (Array.isArray(imageData?.data)) {
       imageData.data.forEach((pathLofi) => {
@@ -92,16 +146,18 @@ const Home = () => {
     }
   };
 
+  const handleopentarot = () => {
+    setShowModaltarot(true);
+  };
+
   useEffect(() => {
     if (prevChangeImage !== changedImage.name) {
       setAtmosphere("");
       setPrevChangeImage(changedImage.name);
     }
-  });
 
-  useEffect(() => {
     setIsVisble(changedImage.name !== "reality");
-  });
+  }, [changedImage.name, prevChangeImage]);
 
   useEffect(() => {
     const modesMap = { chill: chil, romantic: Romantic, sad: Sad, sexy, happy };
@@ -114,11 +170,12 @@ const Home = () => {
         handleVideoPaths(changedImage);
       } else if (changedImage.name === "reality" && changedImage.data) {
         handleVideoPathsReality(changedImage);
+      } else if (changedImage.name === "interact" && changedImage.data) {
+        handleVideoPathsReality(changedImage);
+        setShowInteractButton(true);
+      } else {
+        setShowInteractButton(false);
       }
-    }
-
-    if (nextPath) {
-      setIsNextPath(true);
     }
   }, [dayNight, atmosphere, changedImage?.data]);
 
@@ -162,6 +219,53 @@ const Home = () => {
             </div>
           ))}
       </div>
+<<<<<<< Updated upstream
+=======
+      {token && queryUrl === "profile" && (
+        <Profile handleLogout={handleLogout} />
+      )}
+
+      {!token && (queryUrl === "register" || queryUrl === "login") && (
+        <div className="membership">
+          {queryUrl === "register" ? (
+            <Register isModalOpen={isModalOpen} />
+          ) : (
+            <Login isModalOpen={isModalOpen} />
+          )}
+        </div>
+      )}
+
+      {showInteractButton && (
+        <div>
+          <button onClick={handleopentarot} className="btn-interact"></button>
+          <div className="container-text">
+            {isVisibletext && (
+              <div className="text-massage">
+                <div className="text-mass">
+                  <h3
+                    style={{ padding: "10px 0px 0px 10px", fontSize: "1.5rem" }}
+                  >
+                    สวัสดีค่ะ👋👋👋{" "}
+                  </h3>
+                  <p
+                    style={{ padding: "0px 0px 0px 25px", fontSize: "1.2rem" }}
+                  >
+                    ฉันสามารถดูดวงได้นะคะ <br /> ลองคลิ๊กที่ลูกแก้วดูสิคะ
+                  </p>
+                </div>
+                <div className="dot1"></div>
+                <div className="dot2"></div>
+                <div className="dot3"></div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      <Displaycard
+        showModaltarot={showModaltarot}
+        setShowModaltarot={setShowModaltarot}
+      />
+>>>>>>> Stashed changes
       <span className="audioplayer">
         <Demo mode={selectedMode} />
       </span>
