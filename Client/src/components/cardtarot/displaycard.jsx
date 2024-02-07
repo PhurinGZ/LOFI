@@ -107,7 +107,7 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
             <CloseIcon
               onClick={closeModal}
               style={{
-                color: "#fff",
+                color: "#2c2828",
                 cursor: "pointer",
                 position: "absolute",
                 right: "10px",
@@ -186,7 +186,7 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
             <CloseIcon
               onClick={closeModal}
               style={{
-                color: "#fff",
+                color: "#2c2828",
                 cursor: "pointer",
                 position: "absolute",
                 right: "10px",
@@ -205,14 +205,15 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
               <strong
                 style={{
                   position: "absolute",
-                  bottom: "35%",
+                  bottom: "30%",
                   left: "8%",
-                  color: "#fff",
+                  color: "#2c2828",
                   fontSize: "1.5rem",
                 }}
               >
                 {" "}
                 {randomCards[0]?.name}
+               <br />(  {randomCards[0].name_thai})
               </strong>
             </div>
 
@@ -223,10 +224,10 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
                 top: "30%",
                 left: "30%",
                 width: "60%",
-                color: "#fff",
+                color: "#2c2828",
               }}
             >
-              <strong style={{ fontSize: "1.5rem" }}> ความหมาย </strong>{" "}
+              
               {randomCards[0]?.meaning_up}
             </span>
             <button

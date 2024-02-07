@@ -1,7 +1,7 @@
 .back-caard {
   width: 1200px;
   height: 600px;
-  background-color: rgba(23, 8, 24, 1);
+  background-color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
   border-radius: 5px;
@@ -13,14 +13,16 @@
   z-index: 10;
 
   .title {
-    padding: 10px;
+    padding: 10px 50px 10px 50px;
     width: fit-content;
     height: fit-content;
-    background-color: rgba(151, 71, 255, 1);
-    border-radius: 10px;
+    border-bottom: 2px solid rgba(151, 71, 255, 1);
+    border-right: 2px solid rgba(151, 71, 255, 1);
+    border-left: 2px solid rgba(151, 71, 255, 1);
+    border-radius: 50px;
     margin-top: 10px;
-    box-shadow: 5px 5px 8px #646363;
-    color: #fff;
+    font-size: 1.5rem;
+    color: #2c2828;
   }
 
   .contentcard {
@@ -49,12 +51,12 @@
       transition: transform 0.3s ease; /* เพิ่ม transition เพื่อทำให้มีการเคลื่อนไหวนุ่มๆ */
 
       &:hover {
-        box-shadow: 0px 0px 10px 0px #ffffff;
+        box-shadow: 0px 0px 10px 0px rgba(151, 71, 255, 1);
         transform: rotate(0) translate(calc(var(--i) * 30px), -20px); /* ปรับค่า translateY ที่ hover */
       }
       &.hovered {
         transform: rotate(0) translate(calc(var(--i) * 30px), -20px);
-        box-shadow: 0px 0px 10px 0px #ffffff;
+        box-shadow: 0px 0px 20px 0px rgba(151, 71, 255, 1);
       }
 
       img {
@@ -89,7 +91,7 @@
 .back-caard2 {
   width: 1200px;
   height: 600px;
-  background-color: rgba(23, 8, 24, 1);
+  background-color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
   border-radius: 5px;
@@ -100,14 +102,16 @@
   flex-direction: column;
   z-index: 10;
   .title {
-    padding: 10px;
+    padding: 10px 50px 10px 50px;
     width: fit-content;
     height: fit-content;
-    background-color: rgba(151, 71, 255, 1);
-    border-radius: 10px;
+    border-bottom: 2px solid rgba(151, 71, 255, 1);
+    border-right: 2px solid rgba(151, 71, 255, 1);
+    border-left: 2px solid rgba(151, 71, 255, 1);
+    border-radius: 50px;
     margin-top: 10px;
-    box-shadow: 5px 5px 8px #646363;
-    color: #fff;
+    font-size: 1.5rem;
+    color: #2c2828;
   }
 
   .contentcard {
@@ -119,20 +123,19 @@
 
     .tarot-card {
       position: absolute;
+      padding: 2px;
       left: 80px;
       width: 180px;
       height: 250px;
-      background-color: #ffff;
+      background: none;
       border-radius: 5px;
       overflow: hidden;
-      border: 2px solid #ebc1e2;
-      box-shadow: 5px 5px 8px #f5a3ee;
+      border: 2px solid rgba(151, 71, 255, 1);
+      box-shadow: 5px 5px 8px #c692e9;
       img {
         width: 100%;
-        height: 100%
+        height: 100%;
       }
-
-     
     }
   }
 
@@ -149,7 +152,6 @@
     color: #fff;
     cursor: pointer;
   }
-
 }
 
 .backdrop {
