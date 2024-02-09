@@ -12,7 +12,7 @@ import ResetPassword from "./page/forgetPassword";
 import MyEditor from "./components/note/note";
 import ListNote from "./components/note/listNote";
 import { NoteProvider } from "./context/noteContext";
-import Displaycard from "./components/cardtarot/displaycard";
+import LinkYoutube from "./components/link_youtube/linkYoutube";
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
           <Route path="/:auth" element={<Login />} /> */}
               <Route path="/note" element={<MyEditor />} />
               <Route path="/list-note" element={<ListNote />} />
-              <Route path="/displaycard" element={<Displaycard />} />
+              <Route path="/linkyoutube" element={<LinkYoutube />} />
             </Routes>
           </NoteProvider>
         </AtmosphereProvider>

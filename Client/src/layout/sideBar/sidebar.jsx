@@ -7,6 +7,7 @@ import Catagory from "../catagory/catagory";
 import Atmospherebtn from "../../components/atmospheresrtting/Atmospherebtn";
 import { useAuth } from "../../context/authContext";
 import ListNote from "../../components/note/listNote";
+import LinkYoutube from "../../components/link_youtube/linkYoutube";
 
 function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ function Sidebar() {
   return (
     <>
       <div className={`sidebar ${isMenuOpen ? "open" : ""}`}>
-        <div className="barIcon" onClick={handleBarIconClick}>
+        {/* <div className="barIcon" onClick={handleBarIconClick}>
           <img
             src={
               isMenuOpen
@@ -33,7 +34,7 @@ function Sidebar() {
             }
             alt=""
           />
-        </div>
+        </div> */}
         <div className={`menuBar ${isMenuOpen ? "display-block" : ""}`}>
           <ul className="S-ul">
             <li className="S-li">
@@ -66,8 +67,8 @@ function Sidebar() {
 
             <li className="S-li">
               <span href="#">
-                <Tooltip title="Calendar" placement="right-start">
-                  <img src="/assets/icons/timetable.png" alt="" />
+                <Tooltip title="Youtube" placement="right-start">
+                  <LinkYoutube />
                 </Tooltip>
               </span>
             </li>

@@ -7,6 +7,7 @@ import { useAtmosphereContext } from "../../context/atmosphere";
 import { sound } from "../../data/atmosphere";
 import "./style.scss";
 
+
 const AtmosphereButton = ({ name }) => {
   const { atmosphere, setAtmosphere } = useMode();
   const {
@@ -63,22 +64,32 @@ const AtmosphereButton = ({ name }) => {
   }, [isPlaying, volumes, soundPath]);
 
   const handleToggle = () => {
+    // Clone the volumes array to avoid mutating the original state
     const newVolumes = [...volumes];
-    newVolumes[id] = 30;
+
+    // Check current value at newVolumes[id]
+    if (newVolumes[id] === 30) {
+      // If current value is 30, set it to 0
+      newVolumes[id] = 0;
+    } else {
+      // If current value is not 30, set it to 30
+      newVolumes[id] = 30;
+    }
+
+    // Set the updated volumes array
     setVolumes(newVolumes);
+
+    // Toggle playing state
     toggleIsPlaying(id);
 
+    // Update atmosphere if name is "rain"
     if (name === "rain") {
       setAtmosphere(atmosphere === "rain" ? "" : "rain");
     }
 
+    // Update slide visibility based on atmosphere
     if (atmosphere === "rain") {
       setIsSlideVisible(false);
-    } else {
-      setIsSlideVisible(true);
-      setTimeout(() => {
-        setIsSlideVisible(false);
-      }, 15000);
     }
   };
 

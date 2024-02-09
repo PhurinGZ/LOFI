@@ -28,11 +28,10 @@ const Home = () => {
   const [currentPath, setCurrentPath] = useState("");
   const [isVisible, setIsVisble] = useState(true);
   const [prevChangeImage, setPrevChangeImage] = useState("");
-  
+
   const [showInteractButton, setShowInteractButton] = useState(false);
   const [showModaltarot, setShowModaltarot] = useState(false);
-  const [isVisibletext, setIsVisibletext] = useState(true);
-
+  const [isVisibletext, setIsVisibletext] = useState(false);
 
   const token = localStorage.getItem("token");
 
@@ -46,7 +45,6 @@ const Home = () => {
   const { mode, dayNight, atmosphere, changedImage, setAtmosphere } = useMode();
   const [selectedMode, setSelectedMode] = useState(chil);
   const mergeMode = (dayNight || "day") + "-" + atmosphere;
-  
 
   useEffect(() => {
     if (query.get("auth")) {
@@ -57,21 +55,6 @@ const Home = () => {
       setQueryUrl("");
     }
   });
-
-// useEffect(() => {
-//   const showDuration = 4000; 
-//   const hideDuration = 10000; 
-
-//   const showInterval = setInterval(() => {
-//     setIsVisibletext(true);
-//     setTimeout(() => {
-//       setIsVisibletext(false);
-//     }, hideDuration);
-//   }, showDuration + hideDuration ); 
-
-//   return () => clearInterval(showInterval);
-// }, []);
-
 
   const handleVideoPaths = (imageData) => {
     if (Array.isArray(imageData?.data)) {
@@ -167,13 +150,19 @@ const Home = () => {
     if (changedImage && changedImage.name) {
       if (changedImage.name.includes("lofi") && changedImage.data) {
         handleVideoPaths(changedImage);
+        setShowInteractButton(false);
+        setIsVisibletext(false);
       } else if (changedImage.name === "reality" && changedImage.data) {
         handleVideoPathsReality(changedImage);
+        setShowInteractButton(false);
+        setIsVisibletext(false);
       } else if (changedImage.name === "interact" && changedImage.data) {
         handleVideoPathsReality(changedImage);
         setShowInteractButton(true);
+        setIsVisibletext(true);
       } else {
         setShowInteractButton(false);
+        setIsVisibletext(false);
       }
     }
   }, [dayNight, atmosphere, changedImage?.data]);
@@ -231,7 +220,7 @@ const Home = () => {
             </div>
           ))}
       </div>
-      
+
       {token && queryUrl === "profile" && (
         <Profile handleLogout={handleLogout} />
       )}

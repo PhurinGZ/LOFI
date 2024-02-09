@@ -18,8 +18,6 @@ function Catagory() {
   const [open, setOpen] = useState(false);
   const { setChangedImage, toggleMode } = useMode();
 
-  
-
   const [isSliderSecondVisiblechang, setIsSliderSecondVisiblechang] =
     useState(true);
   const [data, setData] = useState([]);
@@ -230,12 +228,20 @@ function Catagory() {
                           ) : (
                             <video src="" />
                           )}
-                          <span style={{color:"#fff"}}>{type.nameType}</span>
+                          <span
+                            style={{
+                              color: "#fff",
+                              fontFamily: "Roboto, sans-serif",
+                              textShadow:"1px 1px 2px #fff",
+                            }}
+                          >
+                            {type.nameType}
+                          </span>
                           <div className="coti-img">
                             <AddPhotoAlternateIcon
                               fontSize="small"
                               marginBottom="10px"
-                              style={{ margin: "4px",}}
+                              style={{ margin: "4px" }}
                             />{" "}
                             <p>{type.video ? type.video.length : 0}</p>
                           </div>

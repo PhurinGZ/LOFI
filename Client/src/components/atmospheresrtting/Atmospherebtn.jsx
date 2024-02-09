@@ -14,8 +14,8 @@ function Atmospherebtn() {
   const [isAtmospheresetting, setIsAtmospheresetting] = useState(false);
   const { setAtmosphere, changedImage } = useMode();
   const [prevChangeImage, setPrevChangeImage] = useState("");
-
   const audioRefs = sound.map(() => useRef(null));
+
 
   // console.log("prevChangeImage : ", prevChangeImage);
   // console.log("currentChangeImage : ", changedImage.name);
@@ -79,8 +79,15 @@ function Atmospherebtn() {
       }
     }
 
-    handleSliderChange(id, newValue, name);
+    if (newValue === 30) {
+      volumes[id] = 0; // Set volume to 30 when the slider value is 30
+    } else {
+      volumes[id] = newValue; // Set the volume to the slider value
+    }
+
+    handleSliderChange(id, volumes[id], name);
   };
+
 
   return (
     <div>
@@ -89,10 +96,12 @@ function Atmospherebtn() {
           <img src="assets/icons/turntable.png" alt="" />
         </button>
       </div>
+
       <Draggable handle=".header-atmos">
         <div
           className={`bg-atmos ${isAtmospheresetting ? "display-block" : ""}`}
         >
+          {console.log(isAtmospheresetting)}
           <div className="header-atmos">
             <span> Atmosphere setting </span>
             <CloseIcon

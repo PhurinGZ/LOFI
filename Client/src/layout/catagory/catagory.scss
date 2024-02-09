@@ -1,4 +1,6 @@
 /* catagory.scss */
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap");
+
 .category-modal-container {
   position: absolute;
   top: 30%;
@@ -31,11 +33,10 @@
   span {
     color: #fff;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    font-family: Inter;
-    font-style: normal;
     font-weight: 600;
-    line-height: normal;
     margin-left: 20px;
+    font-family: "Roboto", sans-serif;
+    text-shadow: 2px 2px 4px #000000;
   }
 }
 
@@ -46,8 +47,11 @@
   margin: 5px;
   span {
     padding: 5px;
+    font-weight: 600;
     margin-right: 15px;
-    color: rgba(138, 43, 226, 1);
+    color: rgb(155, 65, 240);
+    text-shadow: 2px 2px 4px #ffffff;
+    font-family: "Roboto", sans-serif;
   }
 }
 
@@ -161,8 +165,10 @@
 
   .cardtext {
     padding: 5px;
-    color: #000000;
-    text-decoration: none;
+    color: #272626;
+    font-family: "Roboto", sans-serif;
+    
+
   }
 }
 
@@ -248,21 +254,19 @@
     left: auto;
     margin: 5px;
   }
-    .card-image{
-      width: 200px;
-      height: 155px;
+  .card-image {
+    width: 200px;
+    height: 155px;
+  }
+  .card-image-third {
+    width: 200px;
+    height: 155px;
+  }
 
-    }
-    .card-image-third {
-      width: 200px;
-      height: 155px;
-    }
-
-    .custom-slick-next {
-      display: none;
-    }
-    .custom-slick-prev {
-      display: none;
-    }
- 
+  .custom-slick-next {
+    display: none;
+  }
+  .custom-slick-prev {
+    display: none;
+  }
 }

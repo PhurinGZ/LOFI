@@ -22,7 +22,7 @@ export const useAtmosphereContext = () => {
 };
 
 export const AtmosphereProvider = ({ children }) => {
-  const [volumes, setVolumes] = useState(new Array(sound.length).fill(30)); // Set default volume to 30
+  const [volumes, setVolumes] = useState(new Array(sound.length).fill(0)); // Set default volume to 30
   const [isPlaying, setIsPlaying] = useState(
     new Array(sound.length).fill(false)
   );
