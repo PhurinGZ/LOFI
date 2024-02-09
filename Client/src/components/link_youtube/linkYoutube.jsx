@@ -4,6 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import YoutubeSearchedForIcon from "@mui/icons-material/YoutubeSearchedFor";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Draggable from "react-draggable";
+import Tooltip from "@mui/material/Tooltip";
 
 function LinkYoutube() {
   const [youtubeLink, setYoutubeLink] = useState("");
@@ -46,10 +47,12 @@ function LinkYoutube() {
 
   return (
     <div>
-      <YouTubeIcon
-        onClick={() => setIsOpenInput(true)}
-        sx={{ fontSize: "30px", color: "#fff" }}
-      />
+      <Tooltip title="Youtube" placement="right-start">
+        <YouTubeIcon
+          onClick={() => setIsOpenInput(true)}
+          sx={{ fontSize: "35px", color: "#fff", padding:"0" }}
+        />
+      </Tooltip>
       <div className="contentlink">
         {isOpenInput && (
           <Draggable handle=".contentInput">
