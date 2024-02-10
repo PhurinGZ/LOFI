@@ -1,0 +1,13 @@
+.game {
+  position: relative;
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(4, var(--size));
+    grid-template-rows: repeat(4, var(--size));
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #BB98FF;
+  }
+}

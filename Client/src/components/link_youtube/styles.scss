@@ -1,54 +1,41 @@
-.contentlink {
-  position: absolute;
-  top:50%;
-  left: 90%;
 
-  .contentInput {
-    width: 300px;
-    border: 1px solid #ffffff;
-    padding: 5px;
-    border-radius: 5px;
-    display: flex;
-    cursor: move;
-    justify-content: space-between;
-    border: 0.5px solid rgba(255, 255, 255, 0.2);
-    background: rgba(187, 152, 255, 1);
-    backdrop-filter: blur(5px);
-    
 
-    input {
-      border: 0.5px solid rgba(61, 61, 61, 1);
-      outline: none;
-      background: none;
-      width: 250px;
-      height: 15px;
-      border-radius: 5px;
-      background: rgba(187, 152, 255, .5);
-      color: rgba(61, 61, 61, 1);
-      ::placeholder {
-        color: #ffffff; // สีขาว
-      }
-    }
-  }
+
   .App {
     min-width: 390px;
-    min-height: 270px;
+    min-height: 154px;
     resize: both;
     overflow: hidden;
+    position: absolute;
+    left: 600px;
+    top: 0px;
     &::-webkit-scrollbar {
       display: none;
     }
     &.resizable {
       resize: both;
     }
-
+    input {
+      border: 0.5px solid rgb(255, 255, 255);
+      outline: none;
+      background: none;
+      width: 150px;
+      height: 20px;
+      border-radius: 5px;
+      color: rgb(255, 255, 255);
+      &::placeholder {
+        color: #ffffff;
+        opacity: 0.5; 
+        padding: 5px;
+      }
+    }
     .video-container {
       width: 100%;
-      height: 100%;
+      height: 90%;
       iframe {
         width: 100%;
         height: 100%;
       }
     }
   }
-}
+

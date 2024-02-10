@@ -8,19 +8,17 @@ import Atmospherebtn from "../../components/atmospheresrtting/Atmospherebtn";
 import { useAuth } from "../../context/authContext";
 import ListNote from "../../components/note/listNote";
 import LinkYoutube from "../../components/link_youtube/linkYoutube";
+import Fifteen from "../../components/mini-game/fifteen";
 
 function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { path,user } = useAuth();
+  const { path, user } = useAuth();
 
   const handleBarIconClick = () => {
     // console.log('isMenuOpen before:', isMenuOpen);
     setIsMenuOpen(!isMenuOpen);
     // console.log('isMenuOpen after:', isMenuOpen);
   };
-
-  
-
 
   return (
     <>
@@ -59,8 +57,8 @@ function Sidebar() {
 
             <li className="S-li">
               <span href="#">
-              <Tooltip title="Note" placement="right-start">
-                 <ListNote />
+                <Tooltip title="Note" placement="right-start">
+                  <ListNote />
                 </Tooltip>
               </span>
             </li>
@@ -72,7 +70,16 @@ function Sidebar() {
                 </Tooltip>
               </span>
             </li>
-            <li className="S-li"style={{ marginTop: "100px" }}>
+
+            <li className="S-li">
+              <span href="#">
+                <Tooltip title="#" placement="right-start">
+                  <Fifteen />
+                </Tooltip>
+              </span>
+            </li>
+
+            <li className="S-li" style={{ marginTop: "100px" }}>
               <span href="#">
                 <Tooltip title="Settings" placement="right-start">
                   <img src="/assets/icons/setting.png" alt="" />
@@ -82,7 +89,7 @@ function Sidebar() {
             <li className="S-li">
               <span href="#">
                 <Tooltip title="Login" placement="right-start">
-                  <Link to={path} >
+                  <Link to={path}>
                     <img src="/assets/icons/user.png" alt="" />
                   </Link>
                 </Tooltip>

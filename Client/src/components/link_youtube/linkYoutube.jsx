@@ -9,8 +9,9 @@ import Tooltip from "@mui/material/Tooltip";
 function LinkYoutube() {
   const [youtubeLink, setYoutubeLink] = useState("");
   const [videoID, setVideoID] = useState("");
-  const [isOpenInput, setIsOpenInput] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
+  const [isOpenLink, setIsOpenLink] = useState(false);
+  const [hidelink, setHideLink] = useState(true);
+  const [hideicons, setIcons] = useState(false);
 
   const playVideo = () => {
     const id = extractVideoID(youtubeLink);
@@ -35,103 +36,78 @@ function LinkYoutube() {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       playVideo();
-      setShowVideo(true);
-      setIsOpenInput(false);
+      setIcons(true);
+      setHideLink(false);
+           
     }
   };
 
-  const clickClossInput = () => {
-    setIsOpenInput(false);
-    setShowVideo(false);
+  const clickOpen = () => {
+    setIsOpenLink(true);
   };
 
   return (
     <div>
       <Tooltip title="Youtube" placement="right-start">
         <YouTubeIcon
-          onClick={() => setIsOpenInput(true)}
-          sx={{ fontSize: "35px", color: "#fff", padding:"0" }}
+          onClick={clickOpen}
+          sx={{ fontSize: "35px", color: "#fff", padding: "0" }}
         />
       </Tooltip>
-      <div className="contentlink">
-        {isOpenInput && (
-          <Draggable handle=".contentInput">
-            <div className="contentInput">
-              <input
-                type="text"
-                id="youtubeLink"
-                placeholder="Paste URL Youtube"
-                value={youtubeLink}
-                onChange={(e) => setYoutubeLink(e.target.value)}
-                onKeyPress={handleKeyPress}
-              />
-              <CloseIcon
-                style={{ color: "#3D3D3D", cursor: "pointer" }}
-                onClick={() => setIsOpenInput(false)}
-              />
-            </div>
-          </Draggable>
-        )}
-
-        {showVideo && (
-          <Draggable handle=".head">
-            <div className="App">
-              <div
-                className="head"
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  padding: "5px",
-                  border: "1px solid #fff",
-                  borderRadius: "10px 10px 0px 0px",
-                  cursor: "move",
-                }}
-              >
-                {" "}
-                <YoutubeSearchedForIcon
-                  style={{ color: "#fff" }}
-                  onClick={() => {
-                    setIsOpenInput(true);
-                    setShowVideo(false);
-                  }}
-                />
-                <CloseIcon
-                  style={{ color: "#fff", cursor: "pointer" }}
-                  onClick={clickClossInput}
-                />
-                {isOpenInput && (
-                  <Draggable handle=".contentInput">
-                    <div className="contentInput">
-                      <input
-                        type="text"
-                        id="youtubeLink"
-                        placeholder="Paste URL Youtube"
-                        value={youtubeLink}
-                        onChange={(e) => setYoutubeLink(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                      />
-                      <CloseIcon
-                        style={{ color: "#3D3D3D", cursor: "pointer" }}
-                        onClick={() => setIsOpenInput(false)}
-                      />
-                    </div>
-                  </Draggable>
+      {isOpenLink && (
+        <Draggable handle=".head">
+          <div className="App">
+            <div
+              className="head"
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                padding: "5px",
+                background: "#BB98FF",
+                borderRadius: "10px 10px 0px 0px",
+                cursor: "move",
+              }}
+            >
+              <div className="head-container">
+                {hidelink && (
+                  <input
+                    type="text"
+                    id="youtubeLink"
+                    placeholder="Paste URL Youtube"
+                    value={youtubeLink}
+                    onChange={(e) => setYoutubeLink(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                  />
+                )}
+                {hideicons && (
+                  <YoutubeSearchedForIcon
+                    style={{ color: "#fff" }}
+                    onClick={() => {
+                      setHideLink(true);
+                      setIcons(false);
+                    }}
+                  />
                 )}
               </div>
-              {videoID && (
-                <div className="video-container">
-                  <iframe
-                    title="YouTube Video"
-                    src={`https://www.youtube.com/embed/${videoID}`}
-                    frameBorder="0"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              )}
+              <CloseIcon
+                style={{ color: "#fff", cursor: "pointer" }}
+                onClick={()=>{setIsOpenLink(false);}}
+              />
             </div>
-          </Draggable>
-        )}
-      </div>
+
+            {videoID && (
+              <div className="video-container">
+                <iframe
+                  title="YouTube Video"
+                  src={`https://www.youtube.com/embed/${videoID}`}
+                  frameBorder="0"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            )}
+          </div>
+        </Draggable>
+      )}
     </div>
   );
 }

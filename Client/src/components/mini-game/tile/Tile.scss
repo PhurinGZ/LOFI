@@ -1,0 +1,40 @@
+.number {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tile);
+  font-size: 50px;
+  color: white;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: left .4s ease-in-out, top .4s ease-in-out;
+
+  &.correct {
+    background: var(--correct);
+  }
+
+  &.slot--0 { left: 0px; top: 0; }
+  &.slot--1 { left: calc(var(--size)); top: 0; }
+  &.slot--2 { left: calc(2 * var(--size)); top: 0; }
+  &.slot--3 { left: calc(3 * var(--size)); top: 0; }
+  &.slot--4 { left: 0; top: calc(var(--size)); }
+  &.slot--5 { left: calc(var(--size)); top: calc(var(--size)); }
+  &.slot--6 { left: calc(2 * var(--size)); top: calc(var(--size)); }
+  &.slot--7 { left: calc(3 * var(--size)); top: calc(var(--size)); }
+  &.slot--8 { left: 0; top: calc(2 * var(--size)); }
+  &.slot--9 { left: calc(var(--size)); top: calc(2 * var(--size)); }
+  &.slot--10 { left: calc(2 * var(--size)); top: calc(2 * var(--size)); }
+  &.slot--11 { left: calc(3 * var(--size)); top: calc(2 * var(--size)); }
+  &.slot--12 { left: 0; top: calc(3 * var(--size)); }
+  &.slot--13 { left: calc(var(--size)); top: calc(3 * var(--size)); }
+  &.slot--14 { left: calc(2 * var(--size)); top: calc(3 * var(--size)); }
+  &.slot--15 { left: calc(3 * var(--size)); top: calc(3 * var(--size)); }
+
+  &.disabled {
+    pointer-events: none;
+    background-color: transparent;
+  }
+}
