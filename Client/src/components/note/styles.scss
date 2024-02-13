@@ -1,0 +1,205 @@
+.custom-dialog {
+  background: #fff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 400px;
+  height: 500px;
+  position: absolute;
+  top: -150px;
+  left: 150px;
+  .title {
+    display: flex;
+    justify-content: space-between;
+    cursor: move;
+    h1 {
+      margin-top: 10px;
+      margin-left: 10px;
+      padding: 5px 10px 5px 10px;
+      background-color: #bb98ff;
+      flex-shrink: 0;
+      border-radius: 10px;
+      height: fit-content;
+      
+    }
+  }
+  .maincontent {
+    height: 85%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .content {
+      padding: 10px;
+      width: 80%;
+      flex-shrink: 0;
+      border-radius: 10px;
+      border: 2px solid #bb98ff;
+      background: #e3f2fd;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      display: grid;
+      grid-template-columns:  2fr 2fr 1fr;;
+      gap: 16px;
+      .Title {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        h1 {
+          color: #3d3d3d;
+          text-shadow: 1px 1px 0.6px rgba(0, 0, 0, 0.25);
+          font-family: Inter;
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          width: fit-content;
+        }
+        p {
+          color: #3d3d3d;
+          font-size: 1rem;
+        }
+      }
+
+      .Date {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        h1 {
+          color: #3d3d3d;
+          text-shadow: 1px 1px 0.6px rgba(0, 0, 0, 0.25);
+          font-family: Inter;
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          width: fit-content;
+        }
+        p {
+          color: #3d3d3d;
+          font-size: 1rem;
+        }
+      }
+      .delete {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0px 20px 0px 0px;
+        img {
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+        
+          
+        }
+      }
+    }
+  }
+
+  .write {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: -2px -3px 4px 0px rgba(0, 0, 0, 0.25) inset;
+    background-color: #bb98ff;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    overflow: hidden;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    img {
+      width: 80%;
+      height: 80%;
+    }
+  }
+}
+
+.Editor {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.img-icon-category {
+  max-width: fit-content;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+
+// styles editor-----------------------------------------------styles editor
+.contentEditor{
+  position: absolute;
+  // top: -300px;
+  left: 600px;
+}
+
+.quill {
+  border: 1px solid #bb98ff; /* ปรับสีและความหนาตามต้องการ */
+  border-radius: 10px;
+  height: 350px;
+  background: none;
+  overflow: hidden;
+  
+  
+}
+
+/* ปรับขนาดของ .ql-editor ที่มีคลาส .ql-blank */
+.quill .ql-snow .ql-editor.ql-blank {
+  color: #000;
+  ol{
+    li{
+      width: 1000%;
+      height: auto;
+      
+    }
+  }
+
+
+  
+}
+.ql-container.ql-snow {
+  border: none !important; /* !important ใช้เพื่อให้มั่นใจว่าจะมีผลทับทั้งหมด */
+}
+.ql-toolbar.ql-snow {
+
+  top: 10px;
+  border: none !important;
+  border-bottom: 1px solid #bb98ff !important; /* !important ใช้เพื่อให้มั่นใจว่าจะมีผลทับทั้งหมด */
+  
+}
+
+
+.quill {
+  .ql-snow {
+    .ql-editor {
+      overflow: auto; // ใช้ auto เพื่อทำให้ scrollbar ปรากฏเมื่อมีเนื้อหาเกินขนาด
+      color: #000;
+
+      // ซ่อน scrollbar แต่ยังให้สามารถเลื่อนได้
+      &::-webkit-scrollbar {
+        width: 0.5em; // กำหนดความกว้างของ scrollbar
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: transparent; // ทำให้ thumb ของ scrollbar เป็นสี透ทน
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: transparent; // ทำให้ track ของ scrollbar เป็นสี透ทน
+      }
+    }
+  }
+}

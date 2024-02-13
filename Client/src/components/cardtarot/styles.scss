@@ -1,0 +1,165 @@
+.back-caard {
+  width: 1200px;
+  height: 600px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  z-index: 10;
+
+  .title {
+    padding: 10px 50px 10px 50px;
+    width: fit-content;
+    height: fit-content;
+    border-bottom: 2px solid rgba(151, 71, 255, 1);
+    border-right: 2px solid rgba(151, 71, 255, 1);
+    border-left: 2px solid rgba(151, 71, 255, 1);
+    border-radius: 50px;
+    margin-top: 10px;
+    font-size: 1.5rem;
+    color: #2c2828;
+  }
+
+  .contentcard {
+    top: 30px;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    transform: rotate(calc(var(--i) * 5deg))
+      translate(calc(var(--i) * 120px), -50px);
+    cursor: pointer;
+
+    .tarot-card {
+      position: absolute;
+      width: 180px;
+      height: 250px;
+      background-color: #ffff;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(0) translate(calc(var(--i) * 30px), 0); /* ปรับตำแหน่งเริ่มต้น */
+      box-shadow: 0px 0px 5px 0px #272727;
+      border: 0.5px solid #747373;
+      transition: transform 0.3s ease; /* เพิ่ม transition เพื่อทำให้มีการเคลื่อนไหวนุ่มๆ */
+
+      &:hover {
+        box-shadow: 0px 0px 10px 0px rgba(151, 71, 255, 1);
+        transform: rotate(0) translate(calc(var(--i) * 30px), -20px); /* ปรับค่า translateY ที่ hover */
+      }
+      &.hovered {
+        transform: rotate(0) translate(calc(var(--i) * 30px), -20px);
+        box-shadow: 0px 0px 20px 0px rgba(151, 71, 255, 1);
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+      }
+    }
+    .card-hovered {
+      /* สไลด์บอร์ดหลังคลิก */
+      .back-caard {
+        transform: translateY(-50%);
+        box-shadow: 0px 0px 10px 0px #ffffff;
+      }
+    }
+  }
+  .bin-summit {
+    position: absolute;
+    bottom: 30px;
+    padding: 10px;
+    width: 200px;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: rgba(151, 71, 255, 1);
+    box-shadow: 0px 0px 10px 0px #ffffff;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+.back-caard2 {
+  width: 1200px;
+  height: 600px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  z-index: 10;
+  .title {
+    padding: 10px 50px 10px 50px;
+    width: fit-content;
+    height: fit-content;
+    border-bottom: 2px solid rgba(151, 71, 255, 1);
+    border-right: 2px solid rgba(151, 71, 255, 1);
+    border-left: 2px solid rgba(151, 71, 255, 1);
+    border-radius: 50px;
+    margin-top: 10px;
+    font-size: 1.5rem;
+    color: #2c2828;
+  }
+
+  .contentcard {
+    top: 30px;
+    position: relative;
+    width: 100%;
+    height: 80%;
+    display: flex;
+
+    .tarot-card {
+      position: absolute;
+      padding: 2px;
+      left: 80px;
+      width: 180px;
+      height: 250px;
+      background: none;
+      border-radius: 5px;
+      overflow: hidden;
+      border: 2px solid rgba(151, 71, 255, 1);
+      box-shadow: 5px 5px 8px #c692e9;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .bin-summit {
+    position: absolute;
+    bottom: 30px;
+    padding: 10px;
+    width: 200px;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: rgba(151, 71, 255, 1);
+    box-shadow: 0px 0px 10px 0px #ffffff;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* สีพื้นหลังทึบๆ โปร่งใส */
+  z-index: 10; /* ตั้งค่า z-index ให้สูงกว่าทุกองค์ประกอบอื่น เพื่อให้ถูกแสดงทับบนส่วนอื่นๆ ของเว็บ */
+}

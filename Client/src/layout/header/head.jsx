@@ -26,7 +26,9 @@ const Header = () => {
   useEffect(() => {
     if (changedImage.name === "reality") {
       setIsVisble(false);
-    } else {
+    }else if (changedImage.name === "interact") {
+      setIsVisble(false);
+    }else {
       setIsVisble(true);
     }
   });

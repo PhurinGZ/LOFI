@@ -168,6 +168,16 @@ const reality7 = [
   },
 ];
 
+//-----------------------------------------------------interact
+
+const interact1 = [
+  {
+    id: 0,
+    mode: "interact",
+    src: "/assets/video/interact-video/interact1.mp4",
+  },
+];
+
 export {
   pathLofi1,
   pathLofi2,
@@ -181,5 +191,6 @@ export {
   reality5,
   reality6,
   reality7,
+  interact1,
 
 };

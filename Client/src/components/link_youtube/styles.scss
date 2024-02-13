@@ -1,0 +1,41 @@
+
+
+
+  .App {
+    min-width: 390px;
+    min-height: 154px;
+    resize: both;
+    overflow: hidden;
+    position: absolute;
+    left: 600px;
+    top: 0px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &.resizable {
+      resize: both;
+    }
+    input {
+      border: 0.5px solid rgb(255, 255, 255);
+      outline: none;
+      background: none;
+      width: 150px;
+      height: 20px;
+      border-radius: 5px;
+      color: rgb(255, 255, 255);
+      &::placeholder {
+        color: #ffffff;
+        opacity: 0.5; 
+        padding: 5px;
+      }
+    }
+    .video-container {
+      width: 100%;
+      height: 90%;
+      iframe {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+

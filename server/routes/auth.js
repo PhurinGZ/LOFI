@@ -1,3 +1,4 @@
+// auth.js
 const router = require("express").Router();
 const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
@@ -12,8 +13,15 @@ router.post("/", async (req, res) => {
     return res.status(400).send({ message: "Invalid email or password" });
 
   const token = user.generateAuthToken();
-  res.status(200).send({ data: token, message: "Signing in please wait..." });
-});
 
+  // Save the token in a cookie
+  res.cookie("token", token, { httpOnly: true, secure: false });
+
+  res.status(200).send({
+    data: user,
+    token: token,
+    message: "Signing in please wait...",
+  });
+});
 
 module.exports = router;
