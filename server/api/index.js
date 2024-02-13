@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // Parse URL-encoded bodies
 connection();
 
 // Default route
-app.get("/", auth, (req, res) => {
+app.get("/api", auth, (req, res) => {
   res.json({ data: req.user });
 });
 
