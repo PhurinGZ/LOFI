@@ -1,7 +1,7 @@
 // api/axios.js
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "https://lofi-server.vercel.app"  //"http://localhost:8000";
 
 const token = localStorage.getItem("token");
 
