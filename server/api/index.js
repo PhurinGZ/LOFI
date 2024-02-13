@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const dotenv = require("dotenv");
 const connection = require("../db");
 const userRoutes = require("../routes/user");
 const authRoutes = require("../routes/auth");
@@ -11,11 +12,15 @@ const editor = require("../routes/editor");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 
+dotenv.config();
+
 const app = express();
 
 // Middleware Ordering:
 // Ensure correct middleware ordering
-app.use(cors()); // Allow requests from all origins
+const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS.split(",");
+app.use(cors({ credentials: true, origin: allowedOrigins })); // Allow requests from specified origins
+app.options("*", cors()); // Handle preflight requests
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
 app.use(bodyParser.urlencoded({ extended: false })); // Parse URL-encoded bodies
