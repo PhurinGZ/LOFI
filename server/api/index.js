@@ -15,8 +15,7 @@ const app = express();
 
 // Middleware Ordering:
 // Ensure correct middleware ordering
-app.use(cors({ credentials: true, origin: "*" })); // Allow requests from all origins
-app.options("*", cors()); // Handle preflight requests
+app.use(cors()); // Allow requests from all origins
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
 app.use(bodyParser.urlencoded({ extended: false })); // Parse URL-encoded bodies
