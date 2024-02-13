@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [path, setPath] = useState("");
 
-  const BASE_URL = "https://lofi-server.vercel.app/api"; //"http://localhost:8000"
+  const BASE_URL = "https://lofi-server.vercel.app"; //"http://localhost:8000"
 
   const login = (userData) => {
     setUser(userData);
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
     if (token) {
       axios
-        .get(`${BASE_URL}/`)
+        .get(`${BASE_URL}/api`)
         .then((response) => {
           console.log(response.data);
           getUser(response.data.data._id);
