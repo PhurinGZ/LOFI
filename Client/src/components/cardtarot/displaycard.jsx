@@ -3,7 +3,7 @@ import axios from "axios";
 import "./styles.scss";
 import CloseIcon from "@mui/icons-material/Close";
 
-const TAROT_URL = "https://lofi-tarot.vercel.app/api/v1/cards"; //http://localhost:9000
+const TAROT_URL = "https://lofi-tarot.vercel.app"; //http://localhost:9000
 
 function Displaycard({ showModaltarot, setShowModaltarot }) {
   const [datatarot, setDatatarot] = useState(null);
@@ -18,7 +18,7 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
 
   useEffect(() => {
     axios
-      .get(TAROT_URL, {
+      .get(`${TAROT_URL}/api/v1/cards`, {
         withCredentials: false,
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +39,7 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
   const getRandomCards = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:9000/api/v1/cards/random?n=1"
+        `${TAROT_URL}/api/v1/cards/random?n=1`
       );
       setRandomCards(response.data.cards);
       console.log("RandomCards", response);
