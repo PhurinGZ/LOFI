@@ -34,6 +34,17 @@ router.use((_req, res, next) => {
   return next();
 });
 
+router.use((_req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json"
+  );
+  return next();
+});
+
 router.use(cors());  
 
 router.get("/", (_req, res) => {
@@ -90,7 +101,7 @@ router.get("/cards/random", (req, res) => {
     returnCards.push(card);
     remove(cardPool, (c) => c.name_short === card.name_short);
   }
-  return res.json({ nhits: returnCards.length, cards: returnCards });
+  return res.json({ nhits: returnCards.length, cards: returnCards }).status(200);
 });
 
 router.get("/cards/:id", (req, res, next) => {
