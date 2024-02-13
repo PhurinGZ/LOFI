@@ -3,7 +3,7 @@ import axios from "axios";
 import "./styles.scss";
 import CloseIcon from "@mui/icons-material/Close";
 
-const TAROT_URL = "http://localhost:9000/api/v1/cards";
+const TAROT_URL = "https://lofi-tarot.vercel.app/api/v1/cards"; //http://localhost:9000
 
 function Displaycard({ showModaltarot, setShowModaltarot }) {
   const [datatarot, setDatatarot] = useState(null);
