@@ -24,18 +24,12 @@ app.use(bodyParser.urlencoded({ extended: false })); // Parse URL-encoded bodies
 // Database connection
 connection();
 
-app.use(function (req, res, next) {
-  //Enabling CORS
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization")
-    next()
-  });
-
 // Default route
 app.get("/", auth, (req, res) => {
   res.json({ data: req.user });
 });
+
+// API routes
 app.use("/api/editor", editor);
 app.use("/api/users", userRoutes);
 app.use("/api/login", authRoutes);
