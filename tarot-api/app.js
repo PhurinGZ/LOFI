@@ -34,7 +34,7 @@ router.use((_req, res, next) => {
   return next();
 });
 
-router.use(cors({origin: 'https://lofi-btb.vercel.app'}));  
+// router.use(cors({origin: 'https://lofi-btb.vercel.app'}));  
 
 router.get("/", (_req, res) => {
   return res.redirect("/api/v1/cards");
