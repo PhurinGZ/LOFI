@@ -14,7 +14,7 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json,XMLHttpRequest"
+          "value": "Origin,X-Requested-With,Content-Type,content-type,application/json,XMLHttpRequest,Accept, Accept-Language, Content-Language, Content-Type"
         }
       ]
     }
