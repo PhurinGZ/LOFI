@@ -150,10 +150,10 @@ router.use((_req, _res, next) => {
   next(err);
 });
 
-router.use((err, _req, res) => {
-  res.status(err.status || 500);
-  res.json({ error: { status: err.status, message: err.message } });
-});
+// router.use((err, _req, res) => {
+//   res.status(err.status || 500);
+//   res.json({ error: { status: err.status, message: err.message } });
+// });
 
 const port = process.env.PORT || 9000;
 
