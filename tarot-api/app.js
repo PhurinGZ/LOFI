@@ -24,6 +24,10 @@ app.get("/", (_req, res) => {
 
 app.use("/api/v1/", router);
 app.use('/api/v1/', cors());
+// Handle preflight requests
+app.options('/api/v1/*', (req, res) => {
+  res.status(200).end();
+});
 
 router.get("/docs", (_req, res) => {
   return res.sendFile("static/ekswagger-tarot-api-1.3-resolved.json", { root });
