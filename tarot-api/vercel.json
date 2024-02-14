@@ -1,9 +1,8 @@
 
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "./app.js" }],
   "headers": [
     {
-      "source": "/api/v1/(.*)",
+      "source": "/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
