@@ -9,7 +9,7 @@
         { "key": "Access-Control-Allow-Methods", "value": "GET,PUT,POST,DELETE,OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "*" }
       ],
-      "destination": "/app.js"
+      "rewrites": [{"destination": "/app.js"}]
     }
   ]
 }
