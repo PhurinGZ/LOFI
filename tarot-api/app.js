@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const cloneDeep = require("lodash.clonedeep");
 const remove = require("lodash.remove");
-const cors = require("cors");  // เพิ่มบรรทัดนี้
+const cors = require("cors"); // เพิ่มบรรทัดนี้
 
 const app = express();
 const router = express.Router();
@@ -23,11 +23,6 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/v1/", router);
-app.use('/api/v1/', cors());
-// Handle preflight requests
-app.options('/api/v1/*', (req, res) => {
-  res.status(200).end();
-});
 
 router.get("/docs", (_req, res) => {
   return res.sendFile("static/ekswagger-tarot-api-1.3-resolved.json", { root });
@@ -51,7 +46,7 @@ router.use((_req, res, next) => {
   return next();
 });
 
-router.use(cors());  
+// router.use(cors());
 
 router.get("/", (_req, res) => {
   return res.redirect("/api/v1/cards");
@@ -107,7 +102,9 @@ router.get("/cards/random", (req, res) => {
     returnCards.push(card);
     remove(cardPool, (c) => c.name_short === card.name_short);
   }
-  return res.json({ nhits: returnCards.length, cards: returnCards }).status(200);
+  return res
+    .json({ nhits: returnCards.length, cards: returnCards })
+    .status(200);
 });
 
 router.get("/cards/:id", (req, res, next) => {
