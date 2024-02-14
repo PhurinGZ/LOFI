@@ -2,18 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "/app.js",
+      "src": "app.js",
       "use": "@now/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/v1/(.*)",
+      "src": "^/api/v1/(.*)$",
       "dest": "/api/v1/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/"
+      "src": ".*",
+      "dest": "/app.js"
     }
   ],
   "env": {
