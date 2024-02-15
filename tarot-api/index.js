@@ -15,10 +15,11 @@ const root =
     ? path.join(__dirname, "..")
     : __dirname;
 
-    const filePath = path.join(__dirname, 'static', 'card_data.json');
 
 app.use(bodyParser.json());
 app.use("/static", express.static(path.join(root, "static")));
+
+console.log(root)
 
 app.get("/", (_req, res) => {
   return res.sendFile("static/index.html", { root });
@@ -31,12 +32,9 @@ router.get("/docs", (_req, res) => {
 });
 
 router.use((_req, res, next) => {
-  res.locals.rawData = JSON.parse(
-    fs.readFileSync(filePath, "utf8")
-  );
+  res.locals.rawData = JSON.parse(fs.readFileSync("static/card_data.json", "utf8"));
   return next();
 });
-
 
 router.use(cors());
 
