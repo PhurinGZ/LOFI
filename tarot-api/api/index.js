@@ -30,11 +30,11 @@ router.get("/docs", (_req, res) => {
 
 router.use((_req, res, next) => {
   res.locals.rawData = JSON.parse(
-    fs.readFileSync(path.join(__dirname, "static/card_data.json"), "utf8")
+    fs.readFileSync("../static/card_data.json", "utf8")
   );
-
   return next();
 });
+
 
 router.use(cors());
 
