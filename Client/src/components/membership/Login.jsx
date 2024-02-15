@@ -182,7 +182,7 @@ const Login = ({ isModalOpen }) => {
               </Link>
               <br />
               <img
-                src="public/assets/icons/LOGO.svg"
+                src="./assets/icons/LOGO.svg"
                 alt="Logo"
                 style={{ marginTop: 10, maxWidth: "100%" }}
               />
