@@ -4,9 +4,7 @@
   "description": "Simple REST API for the tarot cards of the Rider-Waite-Smith deck.",
   "main": "app.js",
   "scripts": {
-
-    "start": "NODE_ENV=production node ./api/index.js"
-
+    "start": "nodemon ./api/index.js"
   },
   "author": "ekelen",
   "license": "ISC",
