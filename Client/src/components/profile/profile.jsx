@@ -191,7 +191,7 @@ const Profile = ({ handleLogout }) => {
         <div className="modalOverlay">
           <div className="modalHeader">
             <img
-              src="/public/assets/icons/LOGO.svg"
+              src="./assets/icons/LOGO.svg"
               className="logo"
               alt="Logo"
             />
