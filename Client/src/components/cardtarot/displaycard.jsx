@@ -26,7 +26,7 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
       })
       .then((response) => {
         setDatatarot(response.data);
-        console.log(response);
+        // console.log(response);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -42,7 +42,7 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
         `${TAROT_URL}/api/v1/cards/random?n=1`
       );
       setRandomCards(response.data.cards);
-      console.log("RandomCards", response);
+      // console.log("RandomCards", response);
     } catch (error) {
       console.error("Error fetching random cards:", error);
     }

@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
       axios
         .get(`${BASE_URL}/api`)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           getUser(response.data.data._id);
         })
         .catch((error) => {
