@@ -17,11 +17,8 @@ const root =
 
 console.log(root);
 
-
-
 app.use(bodyParser.json());
 app.use("/static", express.static(path.join(root, "static")));
-
 
 app.get("/", (_req, res) => {
   return res.sendFile("static/index.html", { root });
@@ -34,7 +31,10 @@ router.get("/docs", (_req, res) => {
 });
 
 router.use((_req, res, next) => {
-  res.locals.rawData = JSON.parse(fs.readFileSync("static/card_data.json", "utf8"));
+  res.locals.rawData = JSON.parse(
+    fs.readFileSync("static/card_data.json", "utf8"),
+    { root }
+  );
   return next();
 });
 
