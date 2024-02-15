@@ -12,14 +12,16 @@ const router = express.Router();
 
 const root =
   process.env.NODE_ENV === "production"
-    ? path.join(__dirname, "..")
-    : __dirname;
+    ? path.join(__dirname, "..", "api")
+    : path.join(__dirname, "..");
+
+console.log(root);
+
 
 
 app.use(bodyParser.json());
 app.use("/static", express.static(path.join(root, "static")));
 
-console.log(root)
 
 app.get("/", (_req, res) => {
   return res.sendFile("static/index.html", { root });
