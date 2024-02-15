@@ -32,11 +32,14 @@ router.get("/docs", (_req, res) => {
 
 router.use((_req, res, next) => {
   res.locals.rawData = JSON.parse(
-    fs.readFileSync("static/card_data.json", "utf8"),
-    { root }
+    fs.readFileSync("static/card_data.json", "utf8")
   );
+
+  
   return next();
 });
+
+
 
 router.use(cors());
 
@@ -46,6 +49,7 @@ router.get("/", (_req, res) => {
 
 router.get("/cards", (_req, res) => {
   const { cards } = res.locals.rawData;
+  console.log(res.locals.rawData)
   return res.json({ nhits: cards.length, cards }).status(200);
 });
 

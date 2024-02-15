@@ -6,8 +6,7 @@
   "scripts": {
     "start-dev": "npx nodemon exec babel-node ./api/index.js",
     "dev": "npm run start-dev",
-    "start": "NODE_ENV=production node ./dist/index.js",
-    "build": "rm -rf ./dist && NODE_ENV=production ./node_modules/@babel/cli/bin/babel.js ./api/index.js -d ./dist"
+    "start": "NODE_ENV=production node ./dist/index.js"
   },
   "author": "ekelen",
   "license": "ISC",
