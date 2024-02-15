@@ -25,12 +25,12 @@ app.get("/", (_req, res) => {
 app.use("/api/v1/", router);
 
 router.get("/docs", (_req, res) => {
-  return res.sendFile("../static/ekswagger-tarot-api-1.3-resolved.json", { root });
+  return res.sendFile("static/ekswagger-tarot-api-1.3-resolved.json", { root });
 });
 
 router.use((_req, res, next) => {
   res.locals.rawData = JSON.parse(
-    fs.readFileSync("../static/card_data.json", "utf8")
+    fs.readFileSync("static/card_data.json", "utf8")
   );
   return next();
 });
