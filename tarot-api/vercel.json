@@ -11,5 +11,8 @@
         { "key": "Access-Control-Allow-Headers", "value": "*" }
       ]
     }
-  ]
+  ],
+  "github": {
+    "enabled": false
+  }
 }
