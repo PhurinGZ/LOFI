@@ -13,6 +13,7 @@ import MyEditor from "./components/note/note";
 import ListNote from "./components/note/listNote";
 import { NoteProvider } from "./context/noteContext";
 import Fifteen from "./components/mini-game/fifteen";
+// import TestPage from "./components/testPage/test";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
               <Route path="/note" element={<MyEditor />} />
               <Route path="/list-note" element={<ListNote />} />
               <Route path="/fifteen" element={<Fifteen />} />
+              {/* <Route path="/test" element={<TestPage />} /> */}
             </Routes>
           </NoteProvider>
         </AtmosphereProvider>
