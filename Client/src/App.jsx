@@ -24,9 +24,9 @@ function App() {
           <NoteProvider>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/demo" element={<Demo />} />
+              {/* <Route path="/demo" element={<Demo />} />
               <Route path="/category" element={<Cat />} />
-              <Route path="/sidebar" element={<Sidebar />} />
+              <Route path="/sidebar" element={<Sidebar />} /> */}
               <Route
                 path="/verify-email/:emailToken"
                 element={<VerifyEmail />}
@@ -37,9 +37,9 @@ function App() {
               ></Route>
               {/* <Route path="/:auth" element={<Register />} />
           <Route path="/:auth" element={<Login />} /> */}
-              <Route path="/note" element={<MyEditor />} />
+              {/* <Route path="/note" element={<MyEditor />} />
               <Route path="/list-note" element={<ListNote />} />
-              <Route path="/fifteen" element={<Fifteen />} />
+              <Route path="/fifteen" element={<Fifteen />} /> */}
               {/* <Route path="/test" element={<TestPage />} /> */}
             </Routes>
           </NoteProvider>
