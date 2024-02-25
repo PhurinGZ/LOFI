@@ -7,6 +7,7 @@ import CustomSlider from "./CustomSlider";
 import CloseIcon from "@mui/icons-material/Close";
 import "./styles.scss";
 import { useMode } from "../../context/modeContext";
+import { useMediaQuery } from '@mui/material';
 
 function Atmospherebtn() {
   const { volumes, handleSliderChange, isPlaying, setIsPlaying } =
@@ -15,7 +16,8 @@ function Atmospherebtn() {
   const { setAtmosphere, changedImage } = useMode();
   const [prevChangeImage, setPrevChangeImage] = useState("");
   const audioRefs = sound.map(() => useRef(null));
-
+  const [isDraggable, setIsDraggable] = useState(true);
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
 
   // console.log("prevChangeImage : ", prevChangeImage);
   // console.log("currentChangeImage : ", changedImage.name);
@@ -27,18 +29,20 @@ function Atmospherebtn() {
   const handleBtnCloseClick = () => {
     setIsAtmospheresetting(false);
   };
-
   useEffect(() => {
+    // Update isDraggable state based on screen size
+    setIsDraggable(!isSmallScreen);
+
+    // Update audio elements based on context and state changes
     audioRefs.forEach((audioRef, index) => {
       const audioElement = audioRef.current;
 
       if (prevChangeImage !== changedImage.name && audioElement) {
         // Pause and reset the audio when changedImage is updated
         audioElement.pause();
-        audioElement.currentTime = 0; // Reset the audio to the beginning
+        audioElement.currentTime = 0;
         audioElement.volume = 0;
 
-        // Update the context with the new volumes
         setIsPlaying((prevIsPlaying) => {
           const newIsPlaying = [...prevIsPlaying];
           newIsPlaying[index] = false;
@@ -59,16 +63,19 @@ function Atmospherebtn() {
         // Pause and reset the audio when isPlaying is false
         if (audioElement) {
           audioElement.pause();
-          audioElement.currentTime = 0; // Reset the audio to the beginning
+          audioElement.currentTime = 0;
           audioElement.volume = 0;
         }
       }
-
-      // Other logic for handling volume changes and updates
-
-      // console.log(audioElement.volume);
     });
-  }, [isPlaying, volumes, audioRefs, changedImage, prevChangeImage]);
+  }, [
+    isSmallScreen,
+    isPlaying,
+    volumes,
+    audioRefs,
+    changedImage,
+    prevChangeImage,
+  ]);
 
   const handleSliderChangeWithCheck = (id, newValue, name) => {
     if (name === "rain") {
@@ -88,7 +95,6 @@ function Atmospherebtn() {
     handleSliderChange(id, volumes[id], name);
   };
 
-
   return (
     <div>
       <div className="btn-atmosphere">
@@ -97,7 +103,7 @@ function Atmospherebtn() {
         </button>
       </div>
 
-      <Draggable handle=".header-atmos">
+      <Draggable disabled={!isDraggable} handle=".header-atmos">
         <div
           className={`bg-atmos ${isAtmospheresetting ? "display-block" : ""}`}
         >

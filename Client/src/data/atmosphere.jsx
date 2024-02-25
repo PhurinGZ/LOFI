@@ -55,5 +55,12 @@ const sound = [
         pathSound:"./assets/soundatmosphere/waves.mp3",
         Type:"nature"
     },
+    {
+        id:8,
+        pathImg:"./assets/icons/airplane.png",
+        name:"plane",
+        pathSound:"./assets/soundatmosphere/plane.mp3",
+        Type:"city"
+    },
 ]
 export {sound}

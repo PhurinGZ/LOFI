@@ -62,15 +62,6 @@ function Sidebar() {
                 </Tooltip>
               </span>
             </li>
-
-            <li className="S-li">
-              <span href="#">
-                <Tooltip title="Youtube" placement="right-start">
-                  <LinkYoutube />
-                </Tooltip>
-              </span>
-            </li>
-
             <li className="S-li">
               <span href="#">
                 <Tooltip title="#" placement="right-start">
@@ -79,14 +70,14 @@ function Sidebar() {
               </span>
             </li>
 
-            <li className="S-li" style={{ marginTop: "100px" }}>
+            {/* <li className="S-li" style={{ marginTop: "100px" }}>
               <span href="#">
                 <Tooltip title="Settings" placement="right-start">
                   <img src="/assets/icons/setting.png" alt="" />
                 </Tooltip>
               </span>
-            </li>
-            <li className="S-li">
+            </li> */}
+            <li className="S-li" style={{ marginTop: "100px" }}>
               <span href="#">
                 <Tooltip title="Login" placement="right-start">
                   <Link to={path}>

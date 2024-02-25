@@ -5,23 +5,29 @@ import CloseIcon from "@mui/icons-material/Close";
 import Draggable from "react-draggable";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import Tooltip from "@mui/material/Tooltip";
+import { useMediaQuery } from "@mui/material";
 
 function Fifteen() {
   const [opengame, setOpenGame] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const [isDraggable, setIsDraggable] = useState(!isSmallScreen);
 
   const clickOpenGane = () => {
     setOpenGame(true);
   };
   return (
-    <div style={{color:"#fff"}}>
+    <div style={{ color: "#fff" }}>
       {" "}
       <Tooltip title="15 puzzle" placement="right-start">
         <button onClick={clickOpenGane} className="img-icon-category">
-          <SportsEsportsIcon sx={{color:"#fff", fontSize:"35px"}}/>
+          <SportsEsportsIcon sx={{ color: "#fff", fontSize: "35px" }} />
         </button>
       </Tooltip>
       {opengame && (
-        <Draggable handle=".headergame">
+        <Draggable
+          disabled={isSmallScreen || !isDraggable}
+          handle=".headergame"
+        >
           <div className="fifteen">
             <div
               className="headergame"
