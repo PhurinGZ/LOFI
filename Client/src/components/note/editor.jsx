@@ -11,6 +11,7 @@ import Draggable from "react-draggable";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import * as noteActions from "../../actions/user"; // Updated import
+import { useMediaQuery } from "@mui/material";
 
 import "./styles.scss";
 
@@ -20,6 +21,8 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
   const [editorHtml, setEditorHtml] = useState("");
   const [title, setTitle] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const [isDraggable, setIsDraggable] = useState(!isSmallScreen);
 
   const dispatch = useDispatch(); // Use useDispatch to get the dispatch function
 
@@ -72,9 +75,12 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
       console.log("Server response:", response);
 
       if (response.success) {
+        alert("Save successful.");
         setEditorHtml("");
         setTitle("");
         handleClose(); // Close the modal
+      } else {
+        alert("Save unsuccessful!!. Please try again.");
       }
     } catch (error) {
       console.error("Error saving content:", error);
@@ -91,9 +97,12 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
       console.log("Server response:", response);
 
       if (response.success) {
+        alert("Update successful.");
         setEditorHtml("");
         setTitle("");
         handleClose(); // Close the modal
+      } else {
+        alert("Update unsuccessful!!. Please try again.");
       }
     } catch (error) {
       console.error("Error updating content:", error);
@@ -128,25 +137,28 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
   };
 
   const modalStyle = {
+    padding: "15px",
     position: "absolute",
-    width: "400px",
-    height: "500px",
+    maxWidth: "1246px",
+    maxHeight: "710px",
+    minWidth: "500px",
+    minHeight: "500px",
+    resize: "both",
+    overflow: "hidden",
     display: isModalOpen ? "flex" : "none",
   };
 
   const contentStyle = {
-    background: "#fff",
-    padding: "20px",
     borderRadius: "8px",
-    boxShadow: "0 2px 20px rgba(0, 0, 0, 0.2)",
-    maxWidth: "600px",
     width: "100%",
-    height: "550px",
+    minHeight: "fit-content",
+    display: "flex",
+    flexDirection: "column",
   };
 
   const headerStyle = {
+    marginTop: "0px",
     textAlign: "start",
-    marginBottom: "15px",
     fontSize: "1.5em",
     color: "#333",
     // marginTop: "5%",
@@ -186,8 +198,8 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
     borderRadius: "10px",
     background: "#BB98FF",
     boxShadow: "3px 1px 3.7px 0px rgba(0, 0, 0, 0.25)",
-    position: "absolute",
-    bottom: "-20px",
+
+    bottom: "0",
   };
 
   const responseStyle = {
@@ -201,6 +213,14 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
     position: "absolute",
     left: "1%",
   };
+
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    modalStyle.minWidth = "280px";
+    modalStyle.maxWidth = "280px";
+    contentStyle.maxWidth = "100%";
+    modalStyle.maxHeight = "500px";
+    modalStyle.minHeight = "500px";
+  }
 
   const modules = {
     toolbar: [
@@ -261,7 +281,7 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
   // console.log(editorId)
 
   return (
-    <Draggable handle=".header">
+    <Draggable disabled={isSmallScreen || !isDraggable} handle=".header">
       <div style={modalStyle} className="contentEditor">
         <div style={contentStyle}>
           <div style={headerStyle} className="header">
@@ -279,6 +299,7 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
           </div>
           <div
             style={{
+              marginTop: "30px",
               display: "flex",
               alignItems: "center",
             }}
@@ -302,13 +323,16 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
             modules={modules}
             formats={formats}
             placeholder="Write something..."
-            styles={quillStyle}
+            style={quillStyle}
+            className="custom-quill-editor"
           />
+
           <div
             style={{
-              marginTop: "25%",
+              marginTop: "10px",
               justifyContent: "flex-end",
               display: "flex",
+              height: "fit-content",
             }}
           >
             {editorId ? (
@@ -332,9 +356,9 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
             )}
           </div>
 
-          {/* {responseMessage && (
+          {responseMessage && (
             <div style={responseStyle}>{responseMessage}</div>
-          )} */}
+          )}
         </div>
       </div>
     </Draggable>

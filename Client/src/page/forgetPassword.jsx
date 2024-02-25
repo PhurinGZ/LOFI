@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import * as api from '../api/axios';
+import * as api from "../api/axios";
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -33,7 +33,7 @@ const ResetPassword = () => {
         return;
       }
 
-      const response = await api.resetPassword(newPassword, token)
+      const response = await api.resetPassword(newPassword, token);
 
       if (response.status === 200) {
         setSuccess(true);
@@ -136,9 +136,19 @@ const ResetPassword = () => {
   return (
     <form onSubmit={handleResetPassword}>
       {success ? (
-        <div className="container">
-          <h1>Password Reset Successful</h1>
-          <p>
+        <div
+          className="container"
+          style={{
+            position: "absolute",
+            left: "35%",
+            top: "40%",
+            border: "1px solid #fff",
+            padding: "30px",
+            borderRadius:"10px",
+          }}
+        >
+          <h1 style={{ color: "#fff" }}>Password Reset Successful</h1>
+          <p style={{ color: "#fff" }}>
             Your password has been reset successfully. You can now proceed to
             login.
           </p>

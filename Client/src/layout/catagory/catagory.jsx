@@ -13,10 +13,13 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { typeLofi } from "../../data/chooseVideo";
 import { cate } from "../../data/musicMode";
+import { useMediaQuery } from "@mui/material";
 
 function Catagory() {
   const [open, setOpen] = useState(false);
   const { setChangedImage, toggleMode } = useMode();
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const [isDraggable, setIsDraggable] = useState(!isSmallScreen);
 
   const [isSliderSecondVisiblechang, setIsSliderSecondVisiblechang] =
     useState(true);
@@ -114,7 +117,10 @@ function Catagory() {
       </button>
 
       {open && (
-        <Draggable handle=".category-modal-title">
+        <Draggable
+          disabled={isSmallScreen || !isDraggable}
+          handle=".category-modal-title"
+        >
           <div className="category-modal-container">
             <div className="category-modal-title">
               <div id="modal-modal-title" className="category-title">
@@ -232,7 +238,7 @@ function Catagory() {
                             style={{
                               color: "#fff",
                               fontFamily: "Roboto, sans-serif",
-                              textShadow:"1px 1px 2px #fff",
+                              textShadow: "1px 1px 2px #fff",
                             }}
                           >
                             {type.nameType}

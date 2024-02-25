@@ -35,3 +35,17 @@ body {
   padding: 0;
   cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+  .fifteen  {
+    width: 280px;
+    position: absolute;
+    top: -20%;
+    left: 50%;
+  }
+  :root {
+    --size: 70px;
+    --tile: #342956;
+    --correct: #6e50b4;
+  }
+}

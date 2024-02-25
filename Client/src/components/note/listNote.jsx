@@ -11,6 +11,7 @@ import MyEditor from "./editor";
 import NoteUnverifyEmail from "./noteUnverifyEmail";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNotes, deleteNote } from "../../actions/user";
+import { useMediaQuery } from "@mui/material";
 
 const ListNote = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ const ListNote = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [id, setId] = useState(null);
   const [dateTime, setDateTime] = useState(null);
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const [isDraggable, setIsDraggable] = useState(!isSmallScreen);
 
   const notes = useSelector((state) => state.note.notes);
 
@@ -114,7 +117,7 @@ const ListNote = () => {
       </Tooltip>
       {openModal && (
         <div className="main">
-          <Draggable handle=".title">
+          <Draggable disabled={isSmallScreen || !isDraggable} handle=".title">
             <div className="custom-dialog">
               <div className="title">
                 <h1>List of Notes </h1>

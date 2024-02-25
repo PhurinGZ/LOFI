@@ -32,7 +32,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "90%", // เปลี่ยน width เป็นค่าที่ใช้สำหรับหน้าจอเล็ก
+  maxWidth: 400, // หรือกำหนด maxWidth ไว้สำหรับหน้าจอขนาดใหญ่
   backgroundColor: "#E3F2FD",
   padding: "2%",
   color: "black",
@@ -255,7 +256,8 @@ const Register = ({ isModalOpen }) => {
                     borderRadius: 20,
                     background: "#BB98FF",
                     boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-                    width: 400,
+                    width: "100%", // เปลี่ยน width เป็นค่าที่ใช้สำหรับหน้าจอเล็ก
+                    maxWidth: 400, // หรือกำหนด maxWidth ไว้สำหรับหน้าจอขนาดใหญ่
                     height: 56,
                     flexShrink: 0,
                   }}

@@ -14,14 +14,14 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ForgetPassword from "./forgetPassword";
 import * as api from "../../api/axios";
 import "./styles.scss";
-
 // Move styles to a separate CSS file or use Styled Components
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "90%", // เปลี่ยน width เป็นค่าที่ใช้สำหรับหน้าจอเล็ก
+  maxWidth: 400, // หรือกำหนด maxWidth ไว้สำหรับหน้าจอขนาดใหญ่
   backgroundColor: "#E3F2FD",
   padding: "2%",
   color: "black",
@@ -40,6 +40,7 @@ const backdropStyle = {
   zIndex: 100,
 };
 
+
 const CustomTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     borderRadius: 20,
@@ -55,11 +56,13 @@ const CustomTextField = styled(TextField)({
   },
 });
 
+
 const Login = ({ isModalOpen }) => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState("");
+
 
   const [shakeInputs, setShakeInputs] = useState(false);
   const { setPath } = useAuth();
@@ -231,6 +234,7 @@ const Login = ({ isModalOpen }) => {
               />
               {formError && <p className="error-message">{formError}</p>}
               <Button
+               className="login-button"
                 variant="contained"
                 color="primary"
                 fullWidth
@@ -241,7 +245,8 @@ const Login = ({ isModalOpen }) => {
                   borderRadius: 20,
                   background: "#BB98FF",
                   boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-                  width: 400,
+                  width: "100%", // เปลี่ยน width เป็นค่าที่ใช้สำหรับหน้าจอเล็ก
+                  maxWidth: 400, // หรือกำหนด maxWidth ไว้สำหรับหน้าจอขนาดใหญ่
                   height: 56,
                   flexShrink: 0,
                 }}

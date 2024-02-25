@@ -10,7 +10,9 @@
   top: 20%;
   left: 50%;
   display: none;
-  
+  .draggable-hidden {
+    pointer-events: none;
+  }
   
   .header-atmos {
     width: 340px;
@@ -115,4 +117,93 @@
 
 .display-block {
   display: block;
+}
+
+@media screen and (max-width: 1024px) {
+  .bg-atmos {
+    width: 300px;
+    height: 400px;
+    position: absolute;
+    top: -40%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+
+    .header-atmos {
+      width: 300px;
+      height: 40px;
+      border-radius: 10px 10px 10px 50px;
+      background: #bb98ff;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: move; z-index: 10;
+      
+      
+      span {
+        margin-left: 20px;
+      }
+    }
+    .scoll-mouns {
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 330px;
+    
+      /* ซ่อน scrollbar ด้านข้าง */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+    .city-atmos {
+      // border: 1px solid yellow;
+      margin-top: 40px;
+      p {
+        color: #9747ff;
+        text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
+        font-family: Inter;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 48px */
+        letter-spacing: -0.352px;
+        margin-left: 20px;
+      }
+      .content-city{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        h4{
+          margin: 0px 20px 0px 0px;
+          font-size: 1rem;
+          color: #808080;
+        }
+      }
+    }
+    .nature-atmos {
+      margin-top: 20px;
+  
+      p {
+          color: #9747ff;
+          text-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
+          font-family: Inter;
+          font-size: 25px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 150%; /* 48px */
+          letter-spacing: -0.352px;
+          margin-left: 20px;
+          
+        }
+        .content-city{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          h4{
+            margin: 0px 20px 0px 0px;
+            font-size: 1rem;
+            color: #808080;
+          }
+        }
+    }
+  } 
 }
