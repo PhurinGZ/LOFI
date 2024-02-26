@@ -219,6 +219,43 @@ const Home = () => {
               )}
             </div>
           ))}
+
+        {showInteractButton && (
+          <div>
+            <button onClick={handleopentarot} className="btn-interact"></button>
+            <div className="container-text">
+              {isVisibletext && (
+                <div className="text-massage">
+                  <div className="text-mass">
+                    <h3
+                      style={{
+                        padding: "10px 0px 0px 10px",
+                        fontSize: "1.5rem",
+                      }}
+                    >
+                      สวัสดีค่ะ👋👋👋{" "}
+                    </h3>
+                    <p
+                      style={{
+                        padding: "0px 0px 0px 25px",
+                        fontSize: "1.2rem",
+                      }}
+                    >
+                      ฉันสามารถดูดวงได้นะคะ <br /> ลองคลิ๊กที่ลูกแก้วดูสิคะ
+                    </p>
+                  </div>
+                  <div className="dot1"></div>
+                  <div className="dot2"></div>
+                  <div className="dot3"></div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        <Displaycard
+          showModaltarot={showModaltarot}
+          setShowModaltarot={setShowModaltarot}
+        />
       </div>
 
       {token && queryUrl === "profile" && (
@@ -234,38 +271,6 @@ const Home = () => {
           )}
         </div>
       )}
-
-      {showInteractButton && (
-        <div>
-          <button onClick={handleopentarot} className="btn-interact"></button>
-          <div className="container-text">
-            {isVisibletext && (
-              <div className="text-massage">
-                <div className="text-mass">
-                  <h3
-                    style={{ padding: "10px 0px 0px 10px", fontSize: "1.5rem" }}
-                  >
-                    สวัสดีค่ะ👋👋👋{" "}
-                  </h3>
-                  <p
-                    style={{ padding: "0px 0px 0px 25px", fontSize: "1.2rem" }}
-                  >
-                    ฉันสามารถดูดวงได้นะคะ <br /> ลองคลิ๊กที่ลูกแก้วดูสิคะ
-                  </p>
-                </div>
-                <div className="dot1"></div>
-                <div className="dot2"></div>
-                <div className="dot3"></div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-      <Displaycard
-        showModaltarot={showModaltarot}
-        setShowModaltarot={setShowModaltarot}
-      />
-
       <span className="audioplayer">
         <Demo mode={selectedMode} />
       </span>
