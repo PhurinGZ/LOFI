@@ -208,6 +208,50 @@ const Profile = ({ handleLogout }) => {
                 <Link to="/" className="closeButton">
                   <CloseIcon />
                 </Link>
+          </div>
+          <div className="content">
+            <div className="myInfo">
+              <div className="myinfo-head">
+                <h1>My information</h1>
+              </div>
+              <div className="myinfo-content">
+                <span>
+                  <p>User Name: </p>{" "}
+                  <span className="text">
+                    <p>{userProfile?.data?.username || "Loading..."}</p>
+                  </span>
+                </span>
+                <span style={{ marginTop: "10px" }}>
+                  {" "}
+                  <p>Email:</p>
+                  <span className="text">
+                    <div
+                      className={`user-profile ${
+                        userProfile?.data?.isVerified
+                          ? "verified"
+                          : "unverified"
+                      }`}
+                    >
+                      <p>{userProfile?.data?.email || "Loading..."}</p>
+                      {!userProfile?.data?.isVerified && (
+                        <button onClick={handleVerify}>Verify</button>
+                      )}
+                    </div>
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            <div className="managemember">
+              <div className="head-managemenber">
+                <h1>Manage member</h1>
+              </div>
+              <p>Member: {userProfile?.data?.role || "Loading..."}</p>
+            </div>
+            <div className="changepassword">
+              <div className="head-changepassword">
+                <h1>Change Password</h1>
+
               </div>
               <div className="content">
                 <div className="myInfo">

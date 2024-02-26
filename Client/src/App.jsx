@@ -12,8 +12,8 @@ import ResetPassword from "./page/forgetPassword";
 import MyEditor from "./components/note/note";
 import ListNote from "./components/note/listNote";
 import { NoteProvider } from "./context/noteContext";
-import Fifteen from "./components/mini-game/fifteen";
-import Loader from "./components/loader/Loader";
+import Fifteen from "./components/mini-game/fifteen"
+// import TestPage from "./components/testPage/test";
 
 function App() {
   return (
@@ -24,10 +24,13 @@ function App() {
           <NoteProvider>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/demo" element={<Demo />} />
+              {/* <Route path="/demo" element={<Demo />} />
               <Route path="/category" element={<Cat />} />
+
               <Route path="/sidebar" element={<Sidebar />} />
               <Route path="/loading" element={<Loader />} />
+
+              <Route path="/sidebar" element={<Sidebar />} /> */}
               <Route
                 path="/verify-email/:emailToken"
                 element={<VerifyEmail />}
@@ -38,9 +41,10 @@ function App() {
               ></Route>
               {/* <Route path="/:auth" element={<Register />} />
           <Route path="/:auth" element={<Login />} /> */}
-              <Route path="/note" element={<MyEditor />} />
+              {/* <Route path="/note" element={<MyEditor />} />
               <Route path="/list-note" element={<ListNote />} />
-              <Route path="/fifteen" element={<Fifteen />} />
+              <Route path="/fifteen" element={<Fifteen />} /> */}
+              {/* <Route path="/test" element={<TestPage />} /> */}
             </Routes>
           </NoteProvider>
         </AtmosphereProvider>

@@ -11,23 +11,25 @@ const editor = require("../routes/editor");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 
+
 const app = express();
 
 // Middleware Ordering:
 // Ensure correct middleware ordering
-app.use(cors({ credentials: true })); // Apply CORS before parsing JSON
+app.use(cors()); // Allow requests from all origins
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
 app.use(bodyParser.urlencoded({ extended: false })); // Parse URL-encoded bodies
-
 
 // Database connection
 connection();
 
 // Default route
-app.get("/", auth, (req, res) => {
+app.get("/api", auth, (req, res) => {
   res.json({ data: req.user });
 });
+
+// API routes
 app.use("/api/editor", editor);
 app.use("/api/users", userRoutes);
 app.use("/api/login", authRoutes);
