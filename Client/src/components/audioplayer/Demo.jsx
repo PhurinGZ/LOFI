@@ -19,7 +19,7 @@ import "./player.scss";
 // #endregion ---------------------------------------------------------------
 
 const Demo = ({ mode }) => {
-  const audioPlayer = useRef(new Audio());
+  const audioPlayer = useRef();
 
   const [index, setIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -38,8 +38,6 @@ const Demo = ({ mode }) => {
   useEffect(() => {
     if (audioPlayer.current) {
       audioPlayer.current.src = Playlist[index].src;
-      audioPlayer.current.load();
-  
       if (isPlaying) {
         audioPlayer.current.play();
       } else {
@@ -47,7 +45,6 @@ const Demo = ({ mode }) => {
       }
     }
   }, [index, isPlaying, mode]);
-  
 
   useEffect(() => {
     if (audioPlayer.current) {
@@ -151,7 +148,7 @@ const Demo = ({ mode }) => {
     <div className="audio-main">
       <div className="borderBG-audio">
         <div>
-          {/* <audio src={Playlist[index].src} ref={audioPlayer}  /> */}
+          <audio src={Playlist[index].src} ref={audioPlayer} />
         </div>
         {/* เวลา -----------------------------------------------------------------------------------------------------เวลา */}
         <div className="time">
