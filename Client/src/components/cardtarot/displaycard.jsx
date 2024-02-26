@@ -96,7 +96,7 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
       )}
 
       <div className={`main ${selectedCard ? "card-hovered" : ""}`}>
-        <button onClick={handleOpenButtonClick}>เปิด</button>
+        {/* <button onClick={handleOpenButtonClick}>เปิด</button> */}
         {showModaltarot && (
           <div className="back-caard">
             <div className="title">
@@ -202,34 +202,27 @@ function Displaycard({ showModaltarot, setShowModaltarot }) {
                   />
                 </div>
               ))}
-              <strong
-                style={{
-                  position: "absolute",
-                  bottom: "30%",
-                  left: "8%",
-                  color: "#2c2828",
-                  fontSize: "1.5rem",
-                }}
-              >
+              <div className="cardName">
                 {" "}
                 {randomCards[0]?.name}
                <br />(  {randomCards[0].name_thai})
-              </strong>
+              </div>
             </div>
 
-            <span
-              style={{
-                fontSize: "1rem",
-                position: "absolute",
-                top: "30%",
-                left: "30%",
-                width: "60%",
-                color: "#2c2828",
-              }}
+            <div
+            className="textContent"
+              // style={{
+              //   fontSize: "1rem",
+              //   position: "absolute",
+              //   top: "30%",
+              //   left: "30%",
+              //   width: "60%",
+              //   color: "#2c2828",
+              // }}
             >
               
               {randomCards[0]?.meaning_up}
-            </span>
+            </div>
             <button
               className="bin-summit"
               onClick={() => {
