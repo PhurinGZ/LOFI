@@ -1,4 +1,3 @@
-// Login.jsx
 import React, { useState } from "react";
 import { styled } from "@mui/system";
 import TextField from "@mui/material/TextField";
@@ -13,15 +12,16 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ForgetPassword from "./forgetPassword";
 import * as api from "../../api/axios";
+import Loader from "../loader/Loader";
 import "./styles.scss";
-// Move styles to a separate CSS file or use Styled Components
+
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "90%", // เปลี่ยน width เป็นค่าที่ใช้สำหรับหน้าจอเล็ก
-  maxWidth: 400, // หรือกำหนด maxWidth ไว้สำหรับหน้าจอขนาดใหญ่
+  width: "90%",
+  maxWidth: 400,
   backgroundColor: "#E3F2FD",
   padding: "2%",
   color: "black",
@@ -40,7 +40,6 @@ const backdropStyle = {
   zIndex: 100,
 };
 
-
 const CustomTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     borderRadius: 20,
@@ -56,13 +55,12 @@ const CustomTextField = styled(TextField)({
   },
 });
 
-
 const Login = ({ isModalOpen }) => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState("");
-
+  const [loading, setLoading] = useState(false); // New state for loading
 
   const [shakeInputs, setShakeInputs] = useState(false);
   const { setPath } = useAuth();
@@ -124,6 +122,8 @@ const Login = ({ isModalOpen }) => {
         return;
       }
 
+      setLoading(true); // Set loading to true when login starts
+
       const response = await api.login(formData);
 
       console.log(response);
@@ -144,9 +144,10 @@ const Login = ({ isModalOpen }) => {
       setFormError(error.response.data.message);
       console.error("Error during login:", error);
       console.error("Error details:", error.response.data.message || error.data.message || error);
+    } finally {
+      setLoading(false); // Set loading to false after login completes (success or failure)
     }
   };
-
   const handleClose = () => {
     setPath("/?auth=login");
   };
@@ -240,18 +241,19 @@ const Login = ({ isModalOpen }) => {
                 fullWidth
                 margin="normal"
                 onClick={handleLogin}
+                disabled={loading} // Disable button when loading
                 sx={{
                   marginTop: "10px",
                   borderRadius: 20,
                   background: "#BB98FF",
                   boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-                  width: "100%", // เปลี่ยน width เป็นค่าที่ใช้สำหรับหน้าจอเล็ก
-                  maxWidth: 400, // หรือกำหนด maxWidth ไว้สำหรับหน้าจอขนาดใหญ่
+                  width: "100%",
+                  maxWidth: 400,
                   height: 56,
                   flexShrink: 0,
                 }}
               >
-                Login
+                {loading ? <Loader /> : 'Login'} {/* Change button text based on loading state */}
               </Button>
             </form>
 

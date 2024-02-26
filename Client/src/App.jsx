@@ -12,7 +12,7 @@ import ResetPassword from "./page/forgetPassword";
 import MyEditor from "./components/note/note";
 import ListNote from "./components/note/listNote";
 import { NoteProvider } from "./context/noteContext";
-import Fifteen from "./components/mini-game/fifteen";
+import Fifteen from "./components/mini-game/fifteen"
 // import TestPage from "./components/testPage/test";
 
 function App() {
@@ -26,6 +26,10 @@ function App() {
               <Route path="/" element={<Home />} />
               {/* <Route path="/demo" element={<Demo />} />
               <Route path="/category" element={<Cat />} />
+
+              <Route path="/sidebar" element={<Sidebar />} />
+              <Route path="/loading" element={<Loader />} />
+
               <Route path="/sidebar" element={<Sidebar />} /> */}
               <Route
                 path="/verify-email/:emailToken"
