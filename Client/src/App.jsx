@@ -13,6 +13,7 @@ import MyEditor from "./components/note/note";
 import ListNote from "./components/note/listNote";
 import { NoteProvider } from "./context/noteContext";
 import Fifteen from "./components/mini-game/fifteen";
+import Loader from "./components/loader/Loader";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/demo" element={<Demo />} />
               <Route path="/category" element={<Cat />} />
               <Route path="/sidebar" element={<Sidebar />} />
+              <Route path="/loading" element={<Loader />} />
               <Route
                 path="/verify-email/:emailToken"
                 element={<VerifyEmail />}

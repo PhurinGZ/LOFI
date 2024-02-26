@@ -1,7 +1,7 @@
 import Demo from "../audioplayer/Demo";
 import "./Home.scss";
 import Header from "../../layout/header/head";
-import { Romantic, chil, Sad, happy, sexy } from "../../data/songData";
+import { chil,Study,Cafe,Guitar,Piano,Jazz,Vaporwave,Reggae,RockRoll,sleep } from "../../data/songData";
 import Sidebar from "../../layout/sideBar/sidebar";
 import { useState, useEffect, useMemo } from "react";
 import { useMode } from "../../context/modeContext";
@@ -142,7 +142,7 @@ const Home = () => {
   }, [changedImage.name, prevChangeImage]);
 
   useEffect(() => {
-    const modesMap = { chill: chil, romantic: Romantic, sad: Sad, sexy, happy };
+    const modesMap = {  chil,  Study,  Cafe, Guitar,Piano,Jazz,Vaporwave,Reggae,RockRoll,sleep };
     setSelectedMode(modesMap[mode] || chil);
   }, [mode]);
 
