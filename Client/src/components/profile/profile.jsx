@@ -20,6 +20,7 @@ const Profile = ({ handleLogout }) => {
   const token = localStorage.getItem("token");
   const [userProfile, setUserProfile] = useState();
   const [loading, setLoading] = useState(true);
+  const [loadingverify, setLoadingVerify] = useState(false);
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
     newPassword: "",
@@ -163,8 +164,10 @@ const Profile = ({ handleLogout }) => {
 
   const handleResendVerification = async () => {
     try {
+      setLoadingVerify(true);
       const email = userProfile?.data?.email;
       const response = await api.resendVerificationEmail(email);
+      setLoadingVerify(false);
       window.location.reload();
       alert("Sent to your email successfully");
     } catch (error) {
@@ -196,8 +199,7 @@ const Profile = ({ handleLogout }) => {
           <Loader />
         </div>
       ) : (
-        <div className="modalBackdrop">
-          <div className="modalOverlay">
+        <div className="modalOverlay">
             <div className="modalHeader">
               <img
                 src="./assets/icons/LOGO.svg"
@@ -247,112 +249,152 @@ const Profile = ({ handleLogout }) => {
                 </div>
                 <p>Member: {userProfile?.data?.role || "Loading..."}</p>
               </div>
+            <div className="changepassword">
+              <div className="head-changepassword">
+                <h1>Change Password</h1>
 
-              <div className="changepassword">
-                <div className="head-changepassword">
-                  <h1>Change Password</h1>
+              </div>
+              <div className="content">
+                <div className="myInfo">
+                  <div className="myinfo-head">
+                    <h1>My information</h1>
+                  </div>
+                  <div className="myinfo-content">
+                    <span>
+                      <p>User Name: </p>{" "}
+                      <span className="text">
+                        <p>{userProfile?.data?.username || "Loading..."}</p>
+                      </span>
+                    </span>
+                    <span style={{ marginTop: "10px" }}>
+                      {" "}
+                      <p>Email:</p>
+                      <span className="text">
+                        <div
+                          className={`user-profile ${
+                            userProfile?.data?.isVerified
+                              ? "verified"
+                              : "unverified"
+                          }`}
+                        >
+                          <p>{userProfile?.data?.email || "Loading..."}</p>
+                          {!userProfile?.data?.isVerified && (
+                            <button onClick={handleVerify}>Verify</button>
+                          )}
+                        </div>
+                      </span>
+                    </span>
+                  </div>
                 </div>
-                <form onSubmit={handleSubmit}>
-                  {/* Current Password */}
-                  <div className="form-group">
-                    <label htmlFor="currentPassword">Current Password:</label>
-                    <input
-                      type={showPasswordcurrentPassword ? "text" : "password"}
-                      id="currentPassword"
-                      name="currentPassword"
-                      value={passwordForm.currentPassword}
-                      onChange={handleChange}
-                      placeholder="********"
-                      required
-                    />
-                    <IconButton
-                      onClick={() =>
-                        setShowPasswordcurrentPassword(
-                          !showPasswordcurrentPassword
-                        )
-                      }
-                      edge="end"
-                    >
-                      {showPasswordcurrentPassword ? (
-                        <Visibility />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                    <div className="error">
-                      {formError.currentPassword && (
-                        <p className="error-message">
-                          {formError.currentPassword}
-                        </p>
-                      )}
-                    </div>
-                  </div>
 
-                  {/* New Password */}
-                  <div className="form-group">
-                    <label htmlFor="newPassword">New Password:</label>
-                    <input
-                      type={showPasswordnewPassword ? "text" : "password"}
-                      id="newPassword"
-                      name="newPassword"
-                      placeholder="********"
-                      value={passwordForm.newPassword}
-                      onChange={handleChange}
-                      required
-                    />
-                    <IconButton
-                      onClick={() =>
-                        setShowPasswordnewPassword(!showPasswordnewPassword)
-                      }
-                      edge="end"
-                    >
-                      {showPasswordnewPassword ? (
-                        <Visibility />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                    <div className="error">
-                      {formError.newPassword && (
-                        <p className="error-message">{formError.newPassword}</p>
-                      )}
-                    </div>
+                <div className="managemember">
+                  <div className="head-managemenber">
+                    <h1>Manage member</h1>
                   </div>
-
-                  {/* Confirm Password */}
-                  <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirm Password:</label>
-                    <input
-                      type={showPasswordconfirmPassword ? "text" : "password"}
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      placeholder="********"
-                      value={passwordForm.confirmPassword}
-                      onChange={handleChange}
-                      required
-                    />
-                    <IconButton
-                      onClick={() =>
-                        setShowPasswordconfirmPassword(
-                          !showPasswordconfirmPassword
-                        )
-                      }
-                      edge="end"
-                    >
-                      {showPasswordconfirmPassword ? (
-                        <Visibility />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                    <div className="error">
-                      {formError.confirmPassword && (
-                        <p className="error-message">
-                          {formError.confirmPassword}
-                        </p>
-                      )}
-                    </div>
+                  <p>Member: {userProfile?.data?.role || "Loading..."}</p>
+                </div>
+                <div className="changepassword">
+                  <div className="head-changepassword">
+                    <h1>Change Password</h1>
                   </div>
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                      <label htmlFor="currentPassword">Current Password:</label>
+                      <input
+                        type={showPasswordcurrentPassword ? "text" : "password"}
+                        id="currentPassword"
+                        name="currentPassword"
+                        value={passwordForm.currentPassword}
+                        onChange={handleChange}
+                        placeholder="********"
+                        required
+                      />
+                      <IconButton
+                        onClick={() =>
+                          setShowPasswordcurrentPassword(
+                            !showPasswordcurrentPassword
+                          )
+                        }
+                        edge="end"
+                      >
+                        {showPasswordcurrentPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                      <div className="error">
+                        {formError.currentPassword && (
+                          <p className="error-message">
+                            {formError.currentPassword}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="newPassword">New Password:</label>
+                      <input
+                        type={showPasswordnewPassword ? "text" : "password"}
+                        id="newPassword"
+                        name="newPassword"
+                        placeholder="********"
+                        value={passwordForm.newPassword}
+                        onChange={handleChange}
+                        required
+                      />
+                      <IconButton
+                        onClick={() =>
+                          setShowPasswordnewPassword(!showPasswordnewPassword)
+                        }
+                        edge="end"
+                      >
+                        {showPasswordnewPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                      <div className="error">
+                        {formError.newPassword && (
+                          <p className="error-message">
+                            {formError.newPassword}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="confirmPassword">Confirm Password:</label>
+                      <input
+                        type={showPasswordconfirmPassword ? "text" : "password"}
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="********"
+                        value={passwordForm.confirmPassword}
+                        onChange={handleChange}
+                        required
+                      />
+                      <IconButton
+                        onClick={() =>
+                          setShowPasswordconfirmPassword(
+                            !showPasswordconfirmPassword
+                          )
+                        }
+                        edge="end"
+                      >
+                        {showPasswordconfirmPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                      <div className="error">
+                        {formError.confirmPassword && (
+                          <p className="error-message">
+                            {formError.confirmPassword}
+                          </p>
+                        )}
+                      </div>
+                    </div>
 
                   {/* Error Message */}
                   {ErrorTotal && <p style={{ color: "red" }}>{ErrorTotal}</p>}
