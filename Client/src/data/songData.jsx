@@ -30,13 +30,6 @@ const chil = [
     src: "./assets/lofi/chill/empty-mind-Lofi_hour.mp3",
   },
   {
-    id: 4,
-    name: "good-night",
-    music_by: "FASSounds",
-    mode: "Chil",
-    src: "./assets/lofi/chil/good-night-FASSounds.mp3",
-  },
-  {
     id: 5,
     name: "harmonious-resonance",
     music_by: "LofCosmos",

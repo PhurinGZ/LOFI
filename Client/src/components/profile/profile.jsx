@@ -20,6 +20,7 @@ const Profile = ({ handleLogout }) => {
   const token = localStorage.getItem("token");
   const [userProfile, setUserProfile] = useState();
   const [loading, setLoading] = useState(true);
+  const [loadingverify, setLoadingVerify] = useState(false);
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
     newPassword: "",
@@ -163,8 +164,10 @@ const Profile = ({ handleLogout }) => {
 
   const handleResendVerification = async () => {
     try {
+      setLoadingVerify(true);
       const email = userProfile?.data?.email;
       const response = await api.resendVerificationEmail(email);
+      setLoadingVerify(false);
       window.location.reload();
       alert("Sent to your email successfully");
     } catch (error) {
@@ -234,7 +237,7 @@ const Profile = ({ handleLogout }) => {
                         >
                           <p>{userProfile?.data?.email || "Loading..."}</p>
                           {!userProfile?.data?.isVerified && (
-                            <button onClick={handleVerify}>Verify</button>
+                            <button onClick={handleVerify} disabled={loadingverify}>{loadingverify ? 'Lading...':'Verify'}</button>
                           )}
                         </div>
                       </span>
