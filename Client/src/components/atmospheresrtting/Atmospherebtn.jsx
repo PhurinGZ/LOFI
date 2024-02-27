@@ -107,7 +107,7 @@ function Atmospherebtn() {
         <div
           className={`bg-atmos ${isAtmospheresetting ? "display-block" : ""}`}
         >
-          {console.log(isAtmospheresetting)}
+          {/* {console.log(isAtmospheresetting)} */}
           <div className="header-atmos">
             <span> Atmosphere setting </span>
             <CloseIcon

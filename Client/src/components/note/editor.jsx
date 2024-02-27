@@ -72,7 +72,7 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
         noteActions.saveContent(editorHtml, title, user.data._id)
       ); // Dispatch saveContent action
       setResponseMessage(response.message);
-      console.log("Server response:", response);
+      // console.log("Server response:", response);
 
       if (response.success) {
         alert("Save successful.");
@@ -94,7 +94,7 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
         noteActions.updateContent(editorHtml, title, user.data._id, editorId)
       ); // Dispatch updateContent action
       setResponseMessage(response.message);
-      console.log("Server response:", response);
+      // console.log("Server response:", response);
 
       if (response.success) {
         alert("Update successful.");
@@ -261,9 +261,9 @@ const MyEditor = ({ isModalOpen, handleClose, editorId, dateTime }) => {
   // const dateTime = new Date().toISOString();
   // console.log("Original Date:", dateTime);
 
-  if (!dateTime) {
-    console.error("DateTime is null or undefined");
-  }
+  // if (!dateTime) {
+  //   console.error("DateTime is null or undefined");
+  // }
 
   const formattedDateTime = dateTime
     ? new Date(dateTime).toLocaleString("en-GB", {

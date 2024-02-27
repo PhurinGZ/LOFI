@@ -16,6 +16,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [path, setPath] = useState("");
 
+  const BASE_URL = "https://lofi-server.vercel.app"; //"http://localhost:8000"
+
   const login = (userData) => {
     setUser(userData);
     // getUser(userData._id); // Skip fetching user data on login if it was already fetched
@@ -23,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   const getUser = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/users/${userId}`);
+      const response = await axios.get(`${BASE_URL}/api/users/${userId}`);
       setUser(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -35,8 +37,9 @@ export const AuthProvider = ({ children }) => {
 
     if (token) {
       axios
-        .get("http://localhost:8000/")
+        .get(`${BASE_URL}/api`)
         .then((response) => {
+          // console.log(response.data);
           getUser(response.data.data._id);
         })
         .catch((error) => {

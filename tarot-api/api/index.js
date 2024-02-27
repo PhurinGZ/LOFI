@@ -1,18 +1,21 @@
+// app.js
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
 const cloneDeep = require("lodash.clonedeep");
 const remove = require("lodash.remove");
-const cors = require("cors");  // เพิ่มบรรทัดนี้
+const cors = require("cors"); // เพิ่มบรรทัดนี้
 
 const app = express();
 const router = express.Router();
 
 const root =
   process.env.NODE_ENV === "production"
-    ? path.join(__dirname, "..")
-    : __dirname;
+    ? path.join(__dirname)
+    : path.join(__dirname);
+
+console.log(root);
 
 app.use(bodyParser.json());
 app.use("/static", express.static(path.join(root, "static")));
@@ -28,13 +31,24 @@ router.get("/docs", (_req, res) => {
 });
 
 router.use((_req, res, next) => {
-  res.locals.rawData = JSON.parse(
-    fs.readFileSync("static/card_data.json", "utf8")
-  );
+  const filePath = path.join(root, "static", "card_data.json");
+
+  // Check if the file exists
+  if (!fs.existsSync(filePath)) {
+    const error = new Error("Card data file not found");
+    error.status = 500; // Internal Server Error
+    return next(error);
+  }
+
+  res.locals.rawData = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
   return next();
 });
 
-router.use(cors());  
+
+
+
+router.use(cors());
 
 router.get("/", (_req, res) => {
   return res.redirect("/api/v1/cards");
@@ -90,7 +104,9 @@ router.get("/cards/random", (req, res) => {
     returnCards.push(card);
     remove(cardPool, (c) => c.name_short === card.name_short);
   }
-  return res.json({ nhits: returnCards.length, cards: returnCards });
+  return res
+    .json({ nhits: returnCards.length, cards: returnCards })
+    .status(200);
 });
 
 router.get("/cards/:id", (req, res, next) => {
